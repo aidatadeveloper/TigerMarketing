@@ -1,0 +1,192 @@
+{% extends "base.html" %}
+{% block title %}{{ contact.FIRST_NAME }} {{ contact.LAST_NAME }} - Tiger Marketing CRM{% endblock %}
+{% block page_title %}{{ contact.FIRST_NAME }} {{ contact.LAST_NAME }}{% endblock %}
+{% block page_subtitle %}{{ contact.COMPANY or '' }} {{ '| ' + contact.CONTACT_TYPE if contact.CONTACT_TYPE else '' }}{% endblock %}
+
+{% block header_actions %}
+<a href="{{ url_for('contact_edit', contact_id=contact.CONTACT_ID) }}" class="btn btn-primary">Edit</a>
+<a href="{{ url_for('contacts_list') }}" class="btn btn-secondary">← Back</a>
+{% endblock %}
+
+{% block content %}
+<!-- Contact Info -->
+<div class="card">
+    <div class="card-header">
+        <h3>Contact Information</h3>
+        <div>
+            {% if contact.LEAD_STATUS %}
+            <span class="badge badge-{{ contact.LEAD_STATUS|lower|replace(' ', '') }}">{{ contact.LEAD_STATUS }}</span>
+            {% endif %}
+            {% if contact.CONTACT_TYPE %}
+            <span class="badge badge-{{ contact.CONTACT_TYPE|lower }}">{{ contact.CONTACT_TYPE }}</span>
+            {% endif %}
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="detail-info-grid">
+            <div class="detail-field">
+                <div class="label">Phone</div>
+                <div class="value">{{ contact.PHONE or '-' }}</div>
+            </div>
+            <div class="detail-field">
+                <div class="label">Email</div>
+                <div class="value">{{ contact.EMAIL or '-' }}</div>
+            </div>
+            <div class="detail-field">
+                <div class="label">Address</div>
+                <div class="value">{{ contact.ADDRESS or '-' }}{% if contact.CITY %}, {{ contact.CITY }}{% endif %} {{ contact.STATE or '' }} {{ contact.ZIP or '' }}</div>
+            </div>
+            <div class="detail-field">
+                <div class="label">Neighborhood</div>
+                <div class="value">{{ contact.NEIGHBORHOOD or '-' }}</div>
+            </div>
+            <div class="detail-field">
+                <div class="label">Lead Source</div>
+                <div class="value">{{ contact.LEAD_SOURCE or '-' }}</div>
+            </div>
+            <div class="detail-field">
+                <div class="label">Interest Services</div>
+                <div class="value">{{ contact.INTEREST_SERVICES or '-' }}</div>
+            </div>
+            <div class="detail-field">
+                <div class="label">Property Type</div>
+                <div class="value">{{ contact.PROPERTY_TYPE or '-' }}</div>
+            </div>
+            <div class="detail-field">
+                <div class="label">Estimated Value</div>
+                <div class="value">${{ "{:,.0f}".format(contact.ESTIMATED_VALUE) if contact.ESTIMATED_VALUE else '-' }}</div>
+            </div>
+            <div class="detail-field">
+                <div class="label">Rating</div>
+                <div class="value">{{ '⭐' * (contact.RATING or 0) or '-' }}</div>
+            </div>
+            <div class="detail-field">
+                <div class="label">Assigned To</div>
+                <div class="value">{{ contact.ASSIGNED_TO or '-' }}</div>
+            </div>
+            {% if contact.DO_NOT_CONTACT %}
+            <div class="detail-field">
+                <div class="label">Status</div>
+                <div class="value text-red">⚠ Do Not Contact</div>
+            </div>
+            {% endif %}
+        </div>
+        {% if contact.NOTES %}
+        <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border);">
+            <div class="label mb-2" style="font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:0.5px; color:var(--text-muted);">Notes</div>
+            <div style="white-space: pre-wrap; color: var(--text-secondary); font-size: 14px;">{{ contact.NOTES }}</div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Quick Actions -->
+<div style="display: flex; gap: 10px; margin-bottom: 20px;">
+    <a href="{{ url_for('interaction_new', contact_id=contact.CONTACT_ID) }}" class="btn btn-primary">+ Log Interaction</a>
+    <a href="{{ url_for('deal_new') }}?contact_id={{ contact.CONTACT_ID }}" class="btn btn-success">+ New Deal</a>
+    <a href="{{ url_for('task_new', contact_id=contact.CONTACT_ID) }}" class="btn btn-secondary">+ New Task</a>
+</div>
+
+<div class="two-col">
+    <!-- Deals -->
+    <div class="card">
+        <div class="card-header">
+            <h3>Deals ({{ deals|length }})</h3>
+        </div>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Deal</th>
+                        <th>Stage</th>
+                        <th>Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for d in deals %}
+                    <tr>
+                        <td>{{ d.DEAL_NAME }}<br><span class="text-muted" style="font-size:12px">{{ d.SERVICE_TYPE or '' }}</span></td>
+                        <td><span class="badge badge-{{ d.STAGE|lower|replace(' ', '') }}">{{ d.STAGE }}</span></td>
+                        <td style="font-weight:700">${{ "{:,.0f}".format(d.AMOUNT or 0) }}</td>
+                    </tr>
+                    {% else %}
+                    <tr><td colspan="3" class="text-center text-muted" style="padding:20px">No deals yet</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Tasks -->
+    <div class="card">
+        <div class="card-header">
+            <h3>Tasks ({{ tasks|length }})</h3>
+        </div>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Task</th>
+                        <th>Due</th>
+                        <th>Status</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for t in tasks %}
+                    <tr>
+                        <td>{{ t.DESCRIPTION|truncate(40) }}</td>
+                        <td>{{ t.DUE_DATE or '-' }}</td>
+                        <td><span class="badge badge-{{ t.STATUS|lower }}">{{ t.STATUS }}</span></td>
+                        <td>
+                            {% if t.STATUS != 'Completed' %}
+                            <form method="POST" action="{{ url_for('task_complete', task_id=t.TASK_ID) }}" style="display:inline">
+                                <button type="submit" class="btn btn-sm btn-success">✓</button>
+                            </form>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr><td colspan="4" class="text-center text-muted" style="padding:20px">No tasks</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Interactions -->
+<div class="card mt-4">
+    <div class="card-header">
+        <h3>Interaction History ({{ interactions|length }})</h3>
+    </div>
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Type</th>
+                    <th>Direction</th>
+                    <th>Subject</th>
+                    <th>Outcome</th>
+                    <th>Follow-Up</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in interactions %}
+                <tr>
+                    <td class="text-muted">{{ i.CREATED_DATE[:10] if i.CREATED_DATE else '-' }}</td>
+                    <td>{{ i.INTERACTION_TYPE or '-' }}</td>
+                    <td>{{ i.DIRECTION or '-' }}</td>
+                    <td>{{ i.SUBJECT or '-' }}</td>
+                    <td>{{ i.OUTCOME or '-' }}</td>
+                    <td>{{ i.FOLLOW_UP_DATE or '-' }}</td>
+                </tr>
+                {% else %}
+                <tr><td colspan="6" class="text-center text-muted" style="padding:20px">No interactions logged</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

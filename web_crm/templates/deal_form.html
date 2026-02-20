@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Edit' if mode == 'edit' else 'New' }} Deal - Tiger Marketing CRM{% endblock %}
+{% block page_title %}{{ 'Edit Deal' if mode == 'edit' else 'New Deal' }}{% endblock %}
+
+{% block header_actions %}
+<a href="{{ url_for('deals_list') }}" class="btn btn-secondary">← Back</a>
+{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-body">
+        <form method="POST" action="{{ url_for('deal_edit', deal_id=deal.DEAL_ID) if mode == 'edit' else url_for('deal_new') }}">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Deal Name *</label>
+                    <input type="text" name="deal_name" class="form-control" value="{{ deal.DEAL_NAME if deal else '' }}" required
+                           placeholder="e.g. Smith Residence Window Wash">
+                </div>
+                <div class="form-group">
+                    <label>Contact</label>
+                    <select name="contact_id" class="form-control">
+                        <option value="">-- Select Contact --</option>
+                        {% for c in contacts %}
+                        <option value="{{ c.CONTACT_ID }}" {% if (deal and deal.CONTACT_ID == c.CONTACT_ID) or (request.args.get('contact_id') == c.CONTACT_ID|string) %}selected{% endif %}>{{ c.NAME }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Service Type</label>
+                    <select name="service_type" class="form-control">
+                        <option value="">-- Select --</option>
+                        {% for s in ['Window Washing', 'Power Washing', 'Gutter Cleaning', 'Roof Cleaning', 'Deck Cleaning', 'Driveway Cleaning', 'Bundle Package', 'Other'] %}
+                        <option value="{{ s }}" {% if deal and deal.SERVICE_TYPE == s %}selected{% endif %}>{{ s }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Stage</label>
+                    <select name="stage" class="form-control">
+                        {% for s in ['Prospect', 'Quoted', 'Negotiation', 'Scheduled', 'Won', 'Lost'] %}
+                        <option value="{{ s }}" {% if deal and deal.STAGE == s %}selected{% endif %}>{{ s }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Amount ($)</label>
+                    <input type="number" name="amount" class="form-control" step="0.01"
+                           value="{{ deal.AMOUNT if deal and deal.AMOUNT else '' }}">
+                </div>
+                <div class="form-group">
+                    <label>Probability (%)</label>
+                    <input type="number" name="probability" class="form-control" min="0" max="100"
+                           value="{{ deal.PROBABILITY if deal and deal.PROBABILITY else '' }}">
+                </div>
+                <div class="form-group">
+                    <label>Expected Close Date</label>
+                    <input type="date" name="close_date" class="form-control"
+                           value="{{ deal.CLOSE_DATE if deal and deal.CLOSE_DATE else '' }}">
+                </div>
+                <div class="form-group">
+                    <label>Recurring Frequency</label>
+                    <select name="recurring_frequency" class="form-control">
+                        <option value="">Not Recurring</option>
+                        {% for f in ['Monthly', 'Quarterly', 'Semi-Annual', 'Annual'] %}
+                        <option value="{{ f }}" {% if deal and deal.RECURRING_FREQUENCY == f %}selected{% endif %}>{{ f }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" name="recurring" id="recurring"
+                           {% if deal and deal.RECURRING %}checked{% endif %}>
+                    <label for="recurring" style="text-transform: none; font-size: 14px; color: var(--text-primary);">Recurring Revenue</label>
+                </div>
+                {% if mode == 'edit' %}
+                <div class="form-group">
+                    <label>Won Date</label>
+                    <input type="date" name="won_date" class="form-control"
+                           value="{{ deal.WON_DATE if deal and deal.WON_DATE else '' }}">
+                </div>
+                <div class="form-group full-width">
+                    <label>Lost Reason</label>
+                    <input type="text" name="lost_reason" class="form-control"
+                           value="{{ deal.LOST_REASON if deal and deal.LOST_REASON else '' }}"
+                           placeholder="If lost, why?">
+                </div>
+                {% endif %}
+                <div class="form-group full-width">
+                    <label>Notes</label>
+                    <textarea name="notes" class="form-control" rows="3">{{ deal.NOTES if deal else '' }}</textarea>
+                </div>
+            </div>
+            <div style="margin-top: 20px; display: flex; gap: 10px;">
+                <button type="submit" class="btn btn-primary">{{ 'Update Deal' if mode == 'edit' else 'Create Deal' }}</button>
+                <a href="{{ url_for('deals_list') }}" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

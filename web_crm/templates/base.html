@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Tiger Marketing CRM{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="app-layout">
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <div class="sidebar-brand">
+                <span class="logo">🐅</span>
+                <div>
+                    <h1>Tiger Marketing</h1>
+                    <div class="sub">CRM Dashboard</div>
+                </div>
+            </div>
+            <div class="sidebar-nav">
+                <div class="nav-section">Main</div>
+                <a href="{{ url_for('dashboard') }}" class="nav-item {% if request.endpoint == 'dashboard' %}active{% endif %}">
+                    <span class="icon">📊</span> Dashboard
+                </a>
+
+                <div class="nav-section">Sales</div>
+                <a href="{{ url_for('contacts_list') }}" class="nav-item {% if 'contact' in request.endpoint %}active{% endif %}">
+                    <span class="icon">👥</span> Contacts
+                </a>
+                <a href="{{ url_for('deals_list') }}" class="nav-item {% if 'deal' in request.endpoint %}active{% endif %}">
+                    <span class="icon">💰</span> Deals
+                </a>
+                <a href="{{ url_for('interactions_list') }}" class="nav-item {% if 'interaction' in request.endpoint %}active{% endif %}">
+                    <span class="icon">📞</span> Interactions
+                </a>
+
+                <div class="nav-section">Operations</div>
+                <a href="{{ url_for('tasks_list') }}" class="nav-item {% if 'task' in request.endpoint %}active{% endif %}">
+                    <span class="icon">✅</span> Tasks
+                </a>
+                <a href="{{ url_for('campaigns_list') }}" class="nav-item {% if 'campaign' in request.endpoint %}active{% endif %}">
+                    <span class="icon">📣</span> Campaigns
+                </a>
+
+                <div class="nav-section">Intel</div>
+                <a href="{{ url_for('competitors_list') }}" class="nav-item {% if 'competitor' in request.endpoint %}active{% endif %}">
+                    <span class="icon">🔍</span> Competitors
+                </a>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="page-header">
+                <div>
+                    <button class="mobile-toggle" onclick="toggleSidebar()">☰</button>
+                    <h2>{% block page_title %}Dashboard{% endblock %}</h2>
+                    <div class="subtitle">{% block page_subtitle %}{% endblock %}</div>
+                </div>
+                <div class="header-actions">
+                    {% block header_actions %}{% endblock %}
+                </div>
+            </div>
+
+            <div class="content">
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                    <div class="flash {{ category }}">
+                        {% if category == 'success' %}✓{% else %}⚠{% endif %}
+                        {{ message }}
+                    </div>
+                    {% endfor %}
+                {% endif %}
+                {% endwith %}
+
+                {% block content %}{% endblock %}
+            </div>
+        </main>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

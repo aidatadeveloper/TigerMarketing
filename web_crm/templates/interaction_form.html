@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% block title %}Log Interaction - Tiger Marketing CRM{% endblock %}
+{% block page_title %}Log Interaction{% endblock %}
+
+{% block header_actions %}
+<a href="{{ url_for('interactions_list') }}" class="btn btn-secondary">← Back</a>
+{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-body">
+        <form method="POST" action="{{ url_for('interaction_new') }}">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Contact *</label>
+                    <select name="contact_id" class="form-control" required>
+                        <option value="">-- Select Contact --</option>
+                        {% for c in contacts %}
+                        <option value="{{ c.CONTACT_ID }}" {% if preselect_contact == c.CONTACT_ID|string %}selected{% endif %}>{{ c.NAME }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Type</label>
+                    <select name="interaction_type" class="form-control">
+                        {% for t in ['Phone Call', 'Email', 'In Person', 'Door Knock', 'Text Message', 'Estimate Visit', 'Social Media', 'Other'] %}
+                        <option value="{{ t }}">{{ t }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Direction</label>
+                    <select name="direction" class="form-control">
+                        <option value="Outbound">Outbound</option>
+                        <option value="Inbound">Inbound</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Outcome</label>
+                    <select name="outcome" class="form-control">
+                        <option value="">-- Select --</option>
+                        {% for o in ['Interested', 'Scheduled Estimate', 'Not Interested', 'No Answer', 'Left Message', 'Needs Follow-Up', 'Closed Deal', 'Other'] %}
+                        <option value="{{ o }}">{{ o }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group full-width">
+                    <label>Subject</label>
+                    <input type="text" name="subject" class="form-control" placeholder="Brief description of interaction">
+                </div>
+                <div class="form-group">
+                    <label>Follow-Up Date</label>
+                    <input type="date" name="follow_up_date" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label>Logged By</label>
+                    <input type="text" name="created_by" class="form-control" value="Jason">
+                </div>
+                <div class="form-group full-width">
+                    <label>Notes</label>
+                    <textarea name="notes" class="form-control" rows="4" placeholder="Details of the conversation..."></textarea>
+                </div>
+            </div>
+            <div style="margin-top: 20px; display: flex; gap: 10px;">
+                <button type="submit" class="btn btn-primary">Log Interaction</button>
+                <a href="{{ url_for('interactions_list') }}" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

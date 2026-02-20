@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% block title %}Contacts - Tiger Marketing CRM{% endblock %}
+{% block page_title %}Contacts{% endblock %}
+{% block page_subtitle %}{{ contacts|length }} total{% endblock %}
+
+{% block header_actions %}
+<a href="{{ url_for('contact_new') }}" class="btn btn-primary">+ New Contact</a>
+{% endblock %}
+
+{% block content %}
+<!-- Filter Bar -->
+<form id="filterForm" class="filter-bar" method="GET">
+    <div class="search-wrap">
+        <input type="text" name="search" class="search-input form-control" placeholder="Search contacts..."
+               value="{{ search }}" oninput="debounceSearch(this, 'filterForm')">
+    </div>
+    <select name="status" class="form-control" style="width: auto; min-width: 140px;" onchange="filterChange(this)">
+        <option value="">All Statuses</option>
+        {% for s in statuses %}
+        <option value="{{ s }}" {% if s == status_filter %}selected{% endif %}>{{ s }}</option>
+        {% endfor %}
+    </select>
+    <select name="type" class="form-control" style="width: auto; min-width: 140px;" onchange="filterChange(this)">
+        <option value="">All Types</option>
+        {% for t in types %}
+        <option value="{{ t }}" {% if t == type_filter %}selected{% endif %}>{{ t }}</option>
+        {% endfor %}
+    </select>
+</form>
+
+{% if error %}
+<div class="flash error">{{ error }}</div>
+{% endif %}
+
+<!-- Contacts Table -->
+<div class="card">
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Company</th>
+                    <th>Phone</th>
+                    <th>Email</th>
+                    <th>Status</th>
+                    <th>Type</th>
+                    <th>Source</th>
+                    <th>Services</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for c in contacts %}
+                <tr>
+                    <td><a href="{{ url_for('contact_detail', contact_id=c.CONTACT_ID) }}"><strong>{{ c.FIRST_NAME }} {{ c.LAST_NAME }}</strong></a></td>
+                    <td class="text-muted">{{ c.COMPANY or '-' }}</td>
+                    <td>{{ c.PHONE or '-' }}</td>
+                    <td class="truncate">{{ c.EMAIL or '-' }}</td>
+                    <td>
+                        {% if c.LEAD_STATUS %}
+                        <span class="badge badge-{{ c.LEAD_STATUS|lower|replace(' ', '') }}">{{ c.LEAD_STATUS }}</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if c.CONTACT_TYPE %}
+                        <span class="badge badge-{{ c.CONTACT_TYPE|lower }}">{{ c.CONTACT_TYPE }}</span>
+                        {% endif %}
+                    </td>
+                    <td class="text-muted">{{ c.LEAD_SOURCE or '-' }}</td>
+                    <td class="text-muted truncate">{{ c.INTEREST_SERVICES or '-' }}</td>
+                    <td>
+                        <div class="action-links">
+                            <a href="{{ url_for('contact_edit', contact_id=c.CONTACT_ID) }}" class="btn btn-sm btn-secondary">Edit</a>
+                            <button class="btn btn-sm btn-danger delete-trigger" onclick="confirmDelete(this)">Del</button>
+                            <div class="confirm-delete">
+                                <form method="POST" action="{{ url_for('contact_delete', contact_id=c.CONTACT_ID) }}" style="display:inline">
+                                    <button type="submit" class="btn btn-sm btn-danger">Confirm</button>
+                                </form>
+                                <button class="btn btn-sm btn-secondary" onclick="cancelDelete(this)">Cancel</button>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="9">
+                        <div class="empty-state">
+                            <div class="icon">👥</div>
+                            <p>No contacts found</p>
+                            <a href="{{ url_for('contact_new') }}" class="btn btn-primary">+ Add First Contact</a>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

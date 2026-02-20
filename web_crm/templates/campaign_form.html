@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Edit' if mode == 'edit' else 'New' }} Campaign - Tiger Marketing CRM{% endblock %}
+{% block page_title %}{{ 'Edit Campaign' if mode == 'edit' else 'New Campaign' }}{% endblock %}
+
+{% block header_actions %}
+<a href="{{ url_for('campaigns_list') }}" class="btn btn-secondary">← Back</a>
+{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-body">
+        <form method="POST" action="{{ url_for('campaign_edit', campaign_id=campaign.CAMPAIGN_ID) if mode == 'edit' else url_for('campaign_new') }}">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Campaign Name *</label>
+                    <input type="text" name="campaign_name" class="form-control" required
+                           value="{{ campaign.CAMPAIGN_NAME if campaign else '' }}"
+                           placeholder="e.g. Spring Door Knocking - Moores Mill">
+                </div>
+                <div class="form-group">
+                    <label>Type</label>
+                    <select name="campaign_type" class="form-control">
+                        {% for t in ['Door Knocking', 'Flyer Drop', 'Facebook Ads', 'Google Ads', 'Nextdoor', 'Referral Program', 'Yard Signs', 'Direct Mail', 'Other'] %}
+                        <option value="{{ t }}" {% if campaign and campaign.CAMPAIGN_TYPE == t %}selected{% endif %}>{{ t }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Target Area</label>
+                    <input type="text" name="target_area" class="form-control"
+                           value="{{ campaign.TARGET_AREA if campaign else '' }}"
+                           placeholder="e.g. Moores Mill, Yarbrough Farms">
+                </div>
+                <div class="form-group">
+                    <label>Status</label>
+                    <select name="status" class="form-control">
+                        {% for s in ['Planned', 'Active', 'Paused', 'Completed'] %}
+                        <option value="{{ s }}" {% if campaign and campaign.STATUS == s %}selected{% endif %}>{{ s }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Start Date</label>
+                    <input type="date" name="start_date" class="form-control"
+                           value="{{ campaign.START_DATE if campaign and campaign.START_DATE else '' }}">
+                </div>
+                <div class="form-group">
+                    <label>End Date</label>
+                    <input type="date" name="end_date" class="form-control"
+                           value="{{ campaign.END_DATE if campaign and campaign.END_DATE else '' }}">
+                </div>
+                <div class="form-group">
+                    <label>Budget ($)</label>
+                    <input type="number" name="budget" class="form-control" step="0.01"
+                           value="{{ campaign.BUDGET if campaign and campaign.BUDGET else '' }}">
+                </div>
+                {% if mode == 'edit' %}
+                <div class="form-group">
+                    <label>Leads Generated</label>
+                    <input type="number" name="leads_generated" class="form-control"
+                           value="{{ campaign.LEADS_GENERATED if campaign and campaign.LEADS_GENERATED else '' }}">
+                </div>
+                <div class="form-group">
+                    <label>Deals Won</label>
+                    <input type="number" name="deals_won" class="form-control"
+                           value="{{ campaign.DEALS_WON if campaign and campaign.DEALS_WON else '' }}">
+                </div>
+                <div class="form-group">
+                    <label>Revenue Generated ($)</label>
+                    <input type="number" name="revenue_generated" class="form-control" step="0.01"
+                           value="{{ campaign.REVENUE_GENERATED if campaign and campaign.REVENUE_GENERATED else '' }}">
+                </div>
+                {% endif %}
+                <div class="form-group full-width">
+                    <label>Notes</label>
+                    <textarea name="notes" class="form-control" rows="3">{{ campaign.NOTES if campaign else '' }}</textarea>
+                </div>
+            </div>
+            <div style="margin-top: 20px; display: flex; gap: 10px;">
+                <button type="submit" class="btn btn-primary">{{ 'Update Campaign' if mode == 'edit' else 'Create Campaign' }}</button>
+                <a href="{{ url_for('campaigns_list') }}" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

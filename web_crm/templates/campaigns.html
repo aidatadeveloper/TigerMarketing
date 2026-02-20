@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block title %}Campaigns - Tiger Marketing CRM{% endblock %}
+{% block page_title %}Campaigns{% endblock %}
+{% block page_subtitle %}Marketing campaigns{% endblock %}
+
+{% block header_actions %}
+<a href="{{ url_for('campaign_new') }}" class="btn btn-primary">+ New Campaign</a>
+{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Campaign</th>
+                    <th>Type</th>
+                    <th>Target Area</th>
+                    <th>Status</th>
+                    <th>Budget</th>
+                    <th>Leads</th>
+                    <th>Deals Won</th>
+                    <th>Revenue</th>
+                    <th>Dates</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for c in campaigns %}
+                <tr>
+                    <td><strong>{{ c.CAMPAIGN_NAME }}</strong></td>
+                    <td class="text-muted">{{ c.CAMPAIGN_TYPE or '-' }}</td>
+                    <td>{{ c.TARGET_AREA or '-' }}</td>
+                    <td><span class="badge badge-{{ c.STATUS|lower if c.STATUS else 'planned' }}">{{ c.STATUS or '-' }}</span></td>
+                    <td>${{ "{:,.0f}".format(c.BUDGET or 0) }}</td>
+                    <td>{{ c.LEADS_GENERATED or 0 }}</td>
+                    <td>{{ c.DEALS_WON or 0 }}</td>
+                    <td style="font-weight:700; color: var(--green);">${{ "{:,.0f}".format(c.REVENUE_GENERATED or 0) }}</td>
+                    <td class="text-muted">{{ c.START_DATE or '?' }} - {{ c.END_DATE or '?' }}</td>
+                    <td>
+                        <a href="{{ url_for('campaign_edit', campaign_id=c.CAMPAIGN_ID) }}" class="btn btn-sm btn-secondary">Edit</a>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="10">
+                        <div class="empty-state">
+                            <div class="icon">📣</div>
+                            <p>No campaigns yet</p>
+                            <a href="{{ url_for('campaign_new') }}" class="btn btn-primary">+ Create Campaign</a>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

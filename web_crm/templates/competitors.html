@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Competitors - Tiger Marketing CRM{% endblock %}
+{% block page_title %}Competitors{% endblock %}
+{% block page_subtitle %}{{ competitors|length }} tracked{% endblock %}
+
+{% block content %}
+<div class="competitor-grid">
+    {% for c in competitors %}
+    <div class="competitor-card">
+        <div class="name">{{ c.NAME }}</div>
+        <div class="category">{{ c.CATEGORY or 'Unknown' }}</div>
+        <div class="details">
+            {% if c.ADDRESS %}📍 {{ c.ADDRESS }}{% if c.CITY %}, {{ c.CITY }}{% endif %} {{ c.STATE or '' }}<br>{% endif %}
+            {% if c.PHONE %}📞 {{ c.PHONE }}<br>{% endif %}
+            {% if c.WEBSITE %}🌐 <a href="{{ c.WEBSITE }}" target="_blank">{{ c.WEBSITE|truncate(40) }}</a><br>{% endif %}
+            {% if c.REVIEW_COUNT %}📝 {{ c.REVIEW_COUNT }} reviews{% endif %}
+        </div>
+        {% if c.RATING %}
+        <div class="rating">
+            {% for i in range(c.RATING|int) %}<span class="star">★</span>{% endfor %}{% for i in range(5 - c.RATING|int) %}<span class="text-muted">★</span>{% endfor %}
+            <span class="text-muted" style="margin-left: 4px;">{{ c.RATING }}</span>
+        </div>
+        {% endif %}
+        {% if c.GOOGLE_MAPS_URL %}
+        <div class="mt-2"><a href="{{ c.GOOGLE_MAPS_URL }}" target="_blank" class="btn btn-sm btn-secondary">View on Maps</a></div>
+        {% endif %}
+    </div>
+    {% else %}
+    <div class="empty-state" style="grid-column: 1/-1;">
+        <div class="icon">🔍</div>
+        <p>No competitors tracked yet</p>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

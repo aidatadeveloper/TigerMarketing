@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block title %}New Task - Tiger Marketing CRM{% endblock %}
+{% block page_title %}New Task{% endblock %}
+
+{% block header_actions %}
+<a href="{{ url_for('tasks_list') }}" class="btn btn-secondary">← Back</a>
+{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-body">
+        <form method="POST" action="{{ url_for('task_new') }}">
+            <div class="form-grid">
+                <div class="form-group full-width">
+                    <label>Description *</label>
+                    <input type="text" name="description" class="form-control" required
+                           placeholder="e.g. Follow up with Johnson family about window quote">
+                </div>
+                <div class="form-group">
+                    <label>Task Type</label>
+                    <select name="task_type" class="form-control">
+                        {% for t in ['Follow Up', 'Estimate', 'Phone Call', 'Email', 'Door Knock', 'Job Scheduled', 'Invoice', 'Other'] %}
+                        <option value="{{ t }}">{{ t }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Contact</label>
+                    <select name="contact_id" class="form-control">
+                        <option value="">-- Select Contact --</option>
+                        {% for c in contacts %}
+                        <option value="{{ c.CONTACT_ID }}" {% if preselect_contact == c.CONTACT_ID|string %}selected{% endif %}>{{ c.NAME }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Related Deal</label>
+                    <select name="deal_id" class="form-control">
+                        <option value="">-- Select Deal --</option>
+                        {% for d in deals %}
+                        <option value="{{ d.DEAL_ID }}">{{ d.DEAL_NAME }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Due Date</label>
+                    <input type="date" name="due_date" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label>Priority</label>
+                    <select name="priority" class="form-control">
+                        <option value="Normal">Normal</option>
+                        <option value="High">High</option>
+                        <option value="Low">Low</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Assigned To</label>
+                    <input type="text" name="assigned_to" class="form-control" value="Jason">
+                </div>
+            </div>
+            <div style="margin-top: 20px; display: flex; gap: 10px;">
+                <button type="submit" class="btn btn-primary">Create Task</button>
+                <a href="{{ url_for('tasks_list') }}" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

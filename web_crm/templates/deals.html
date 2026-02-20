@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% block title %}Deals - Tiger Marketing CRM{% endblock %}
+{% block page_title %}Deals{% endblock %}
+{% block page_subtitle %}Sales Pipeline{% endblock %}
+
+{% block header_actions %}
+<a href="{{ url_for('deal_new') }}" class="btn btn-primary">+ New Deal</a>
+{% endblock %}
+
+{% block content %}
+<!-- Pipeline Summary -->
+{% if pipeline %}
+<div class="stats-grid mb-4">
+    {% for p in pipeline %}
+    <div class="stat-card {% if p.STAGE == 'Won' %}green{% elif p.STAGE == 'Lost' %}red{% else %}accent{% endif %}">
+        <div class="label">{{ p.STAGE }}</div>
+        <div class="value">{{ p.CNT }}</div>
+        <div class="change" style="color: var(--green);">${{ "{:,.0f}".format(p.TOTAL) }}</div>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+<!-- Filter -->
+<form class="filter-bar" method="GET">
+    <select name="stage" class="form-control" style="width: auto; min-width: 150px;" onchange="filterChange(this)">
+        <option value="">All Stages</option>
+        {% for s in stages %}
+        <option value="{{ s }}" {% if s == stage_filter %}selected{% endif %}>{{ s }}</option>
+        {% endfor %}
+    </select>
+</form>
+
+<!-- Deals Table -->
+<div class="card">
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Deal</th>
+                    <th>Contact</th>
+                    <th>Service</th>
+                    <th>Stage</th>
+                    <th>Amount</th>
+                    <th>Probability</th>
+                    <th>Close Date</th>
+                    <th>Recurring</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for d in deals %}
+                <tr>
+                    <td><strong>{{ d.DEAL_NAME }}</strong></td>
+                    <td>
+                        {% if d.CONTACT_NAME and d.CONTACT_ID %}
+                        <a href="{{ url_for('contact_detail', contact_id=d.CONTACT_ID) }}">{{ d.CONTACT_NAME }}</a>
+                        {% else %}-{% endif %}
+                    </td>
+                    <td class="text-muted">{{ d.SERVICE_TYPE or '-' }}</td>
+                    <td><span class="badge badge-{{ d.STAGE|lower|replace(' ', '') }}">{{ d.STAGE }}</span></td>
+                    <td style="font-weight:700">${{ "{:,.0f}".format(d.AMOUNT or 0) }}</td>
+                    <td>{{ d.PROBABILITY or '-' }}{% if d.PROBABILITY %}%{% endif %}</td>
+                    <td class="text-muted">{{ d.CLOSE_DATE or '-' }}</td>
+                    <td>{% if d.RECURRING %}🔄 {{ d.RECURRING_FREQUENCY or '' }}{% else %}-{% endif %}</td>
+                    <td>
+                        <div class="action-links">
+                            <a href="{{ url_for('deal_edit', deal_id=d.DEAL_ID) }}" class="btn btn-sm btn-secondary">Edit</a>
+                            <button class="btn btn-sm btn-danger delete-trigger" onclick="confirmDelete(this)">Del</button>
+                            <div class="confirm-delete">
+                                <form method="POST" action="{{ url_for('deal_delete', deal_id=d.DEAL_ID) }}" style="display:inline">
+                                    <button type="submit" class="btn btn-sm btn-danger">Confirm</button>
+                                </form>
+                                <button class="btn btn-sm btn-secondary" onclick="cancelDelete(this)">Cancel</button>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="9">
+                        <div class="empty-state">
+                            <div class="icon">💰</div>
+                            <p>No deals yet</p>
+                            <a href="{{ url_for('deal_new') }}" class="btn btn-primary">+ Create First Deal</a>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
