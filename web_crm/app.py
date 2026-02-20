@@ -1,14 +1,28 @@
 """
 Tiger Marketing CRM - Web Application
-Flask-based CRM connected to TIGER_MARKETING SQL Server database
+Flask-based CRM with dual database support:
+  - SQL Server (local Windows development)
+  - SQLite (PythonAnywhere / cloud deployment)
+
+Set environment variable USE_SQLITE=1 for SQLite mode.
 """
 
 import os
-import pyodbc
+import sqlite3
 import logging
 from datetime import datetime, date
 from flask import Flask, render_template, request, jsonify, redirect, url_for, flash
 from decimal import Decimal
+
+# --- Detect database mode ---
+USE_SQLITE = os.environ.get('USE_SQLITE', '0') == '1'
+
+# Auto-detect: if pyodbc not available, force SQLite
+if not USE_SQLITE:
+    try:
+        import pyodbc
+    except ImportError:
+        USE_SQLITE = True
 
 # --- Logging Setup ---
 log_dir = os.path.join(os.path.dirname(__file__), '..', 'logs')
@@ -24,36 +38,77 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 app = Flask(__name__)
-app.secret_key = 'tiger-marketing-crm-2026'
+app.secret_key = os.environ.get('SECRET_KEY', 'tiger-marketing-crm-2026')
 
-DB_CONN_STR = 'DRIVER={SQL Server};SERVER=localhost;DATABASE=TIGER_MARKETING;Trusted_Connection=yes;'
+# --- Database connections ---
+SQLSERVER_CONN_STR = 'DRIVER={SQL Server};SERVER=localhost;DATABASE=TIGER_MARKETING;Trusted_Connection=yes;'
+SQLITE_DB_PATH = os.path.join(os.path.dirname(__file__), 'tiger_crm.db')
 
 
 def get_db():
-    """Get database connection."""
-    return pyodbc.connect(DB_CONN_STR, timeout=30)
+    """Get database connection (SQL Server or SQLite based on env)."""
+    if USE_SQLITE:
+        conn = sqlite3.connect(SQLITE_DB_PATH)
+        conn.row_factory = sqlite3.Row
+        conn.execute("PRAGMA journal_mode=WAL")
+        conn.execute("PRAGMA foreign_keys=ON")
+        return conn
+    else:
+        return pyodbc.connect(SQLSERVER_CONN_STR, timeout=30)
 
 
 def row_to_dict(cursor, row):
-    """Convert a pyodbc row to a dictionary."""
+    """Convert a database row to a dictionary."""
     if row is None:
         return None
-    columns = [col[0] for col in cursor.description]
-    d = {}
-    for col, val in zip(columns, row):
-        if isinstance(val, Decimal):
-            val = float(val)
-        elif isinstance(val, datetime):
-            val = val.isoformat()
-        elif isinstance(val, date):
-            val = val.isoformat()
-        d[col] = val
-    return d
+    if USE_SQLITE:
+        return dict(row)
+    else:
+        columns = [col[0] for col in cursor.description]
+        d = {}
+        for col, val in zip(columns, row):
+            if isinstance(val, Decimal):
+                val = float(val)
+            elif isinstance(val, datetime):
+                val = val.isoformat()
+            elif isinstance(val, date):
+                val = val.isoformat()
+            d[col] = val
+        return d
 
 
 def rows_to_list(cursor, rows):
-    """Convert multiple pyodbc rows to a list of dicts."""
+    """Convert multiple database rows to a list of dicts."""
     return [row_to_dict(cursor, row) for row in rows]
+
+
+# --- SQL dialect helpers ---
+def NOW():
+    """Return current timestamp SQL expression."""
+    return "datetime('now')" if USE_SQLITE else "GETDATE()"
+
+def TODAY():
+    """Return current date SQL expression."""
+    return "date('now')" if USE_SQLITE else "CAST(GETDATE() AS DATE)"
+
+def CONCAT_NAME(table_alias=''):
+    """Return SQL for concatenating first + last name."""
+    prefix = f"{table_alias}." if table_alias else ""
+    if USE_SQLITE:
+        return f"{prefix}FIRST_NAME || ' ' || {prefix}LAST_NAME"
+    else:
+        return f"{prefix}FIRST_NAME + ' ' + {prefix}LAST_NAME"
+
+def TOP_N(n, query_after_select):
+    """Return a SELECT with TOP N (SQL Server) or LIMIT N (SQLite)."""
+    if USE_SQLITE:
+        return f"SELECT {query_after_select} LIMIT {n}"
+    else:
+        return f"SELECT TOP {n} {query_after_select}"
+
+def COALESCE_SUM(col, default=0):
+    """Return COALESCE(SUM(col), default) - works in both."""
+    return f"COALESCE(SUM({col}), {default})"
 
 
 # ============================================================
@@ -65,7 +120,6 @@ def dashboard():
     conn = get_db()
     cur = conn.cursor()
     try:
-        # Key metrics
         cur.execute("SELECT COUNT(*) FROM CONTACTS")
         total_contacts = cur.fetchone()[0]
 
@@ -75,10 +129,10 @@ def dashboard():
         cur.execute("SELECT COUNT(*) FROM DEALS WHERE STAGE NOT IN ('Won', 'Lost')")
         active_deals = cur.fetchone()[0]
 
-        cur.execute("SELECT ISNULL(SUM(AMOUNT), 0) FROM DEALS WHERE STAGE NOT IN ('Won', 'Lost')")
+        cur.execute(f"SELECT {COALESCE_SUM('AMOUNT')} FROM DEALS WHERE STAGE NOT IN ('Won', 'Lost')")
         pipeline_value = float(cur.fetchone()[0])
 
-        cur.execute("SELECT ISNULL(SUM(AMOUNT), 0) FROM DEALS WHERE STAGE = 'Won'")
+        cur.execute(f"SELECT {COALESCE_SUM('AMOUNT')} FROM DEALS WHERE STAGE = 'Won'")
         won_revenue = float(cur.fetchone()[0])
 
         cur.execute("SELECT COUNT(*) FROM DEALS WHERE STAGE = 'Won'")
@@ -87,7 +141,7 @@ def dashboard():
         cur.execute("SELECT COUNT(*) FROM TASKS WHERE STATUS != 'Completed'")
         open_tasks = cur.fetchone()[0]
 
-        cur.execute("SELECT COUNT(*) FROM TASKS WHERE STATUS != 'Completed' AND DUE_DATE <= CAST(GETDATE() AS DATE)")
+        cur.execute(f"SELECT COUNT(*) FROM TASKS WHERE STATUS != 'Completed' AND DUE_DATE <= {TODAY()}")
         overdue_tasks = cur.fetchone()[0]
 
         cur.execute("SELECT COUNT(*) FROM CAMPAIGNS WHERE STATUS = 'Active'")
@@ -100,31 +154,27 @@ def dashboard():
         total_interactions = cur.fetchone()[0]
 
         # Recent contacts
-        cur.execute("SELECT TOP 5 * FROM CONTACTS ORDER BY CREATED_DATE DESC")
+        cur.execute(TOP_N(5, "* FROM CONTACTS ORDER BY CREATED_DATE DESC"))
         recent_contacts = rows_to_list(cur, cur.fetchall())
 
         # Recent deals
-        cur.execute("""
-            SELECT TOP 5 d.*, c.FIRST_NAME + ' ' + c.LAST_NAME AS CONTACT_NAME
+        cur.execute(TOP_N(5, f"""d.*, {CONCAT_NAME('c')} AS CONTACT_NAME
             FROM DEALS d
             LEFT JOIN CONTACTS c ON d.CONTACT_ID = c.CONTACT_ID
-            ORDER BY d.CREATED_DATE DESC
-        """)
+            ORDER BY d.CREATED_DATE DESC"""))
         recent_deals = rows_to_list(cur, cur.fetchall())
 
         # Upcoming tasks
-        cur.execute("""
-            SELECT TOP 5 t.*, c.FIRST_NAME + ' ' + c.LAST_NAME AS CONTACT_NAME
+        cur.execute(TOP_N(5, f"""{'' if USE_SQLITE else ''}t.*, {CONCAT_NAME('c')} AS CONTACT_NAME
             FROM TASKS t
             LEFT JOIN CONTACTS c ON t.CONTACT_ID = c.CONTACT_ID
             WHERE t.STATUS != 'Completed'
-            ORDER BY t.DUE_DATE ASC
-        """)
+            ORDER BY t.DUE_DATE ASC"""))
         upcoming_tasks = rows_to_list(cur, cur.fetchall())
 
         # Pipeline by stage
-        cur.execute("""
-            SELECT STAGE, COUNT(*) AS CNT, ISNULL(SUM(AMOUNT), 0) AS TOTAL
+        cur.execute(f"""
+            SELECT STAGE, COUNT(*) AS CNT, {COALESCE_SUM('AMOUNT')} AS TOTAL
             FROM DEALS
             WHERE STAGE NOT IN ('Won', 'Lost')
             GROUP BY STAGE
@@ -203,7 +253,6 @@ def contacts_list():
         cur.execute(query, params)
         contacts = rows_to_list(cur, cur.fetchall())
 
-        # Get distinct values for filters
         cur.execute("SELECT DISTINCT LEAD_STATUS FROM CONTACTS WHERE LEAD_STATUS IS NOT NULL ORDER BY LEAD_STATUS")
         statuses = [r[0] for r in cur.fetchall()]
         cur.execute("SELECT DISTINCT CONTACT_TYPE FROM CONTACTS WHERE CONTACT_TYPE IS NOT NULL ORDER BY CONTACT_TYPE")
@@ -225,12 +274,12 @@ def contact_new():
         conn = get_db()
         cur = conn.cursor()
         try:
-            cur.execute("""
+            cur.execute(f"""
                 INSERT INTO CONTACTS (FIRST_NAME, LAST_NAME, COMPANY, JOB_TITLE, EMAIL, PHONE,
                     ADDRESS, CITY, STATE, ZIP, NEIGHBORHOOD, CONTACT_TYPE, LEAD_SOURCE,
                     LEAD_STATUS, INTEREST_SERVICES, PROPERTY_TYPE, ESTIMATED_VALUE, RATING,
                     NOTES, ASSIGNED_TO, DO_NOT_CONTACT, CREATED_DATE, UPDATED_DATE)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, GETDATE(), GETDATE())
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, {NOW()}, {NOW()})
             """, (
                 request.form.get('first_name', ''),
                 request.form.get('last_name', ''),
@@ -303,13 +352,13 @@ def contact_edit(contact_id):
     cur = conn.cursor()
     try:
         if request.method == 'POST':
-            cur.execute("""
+            cur.execute(f"""
                 UPDATE CONTACTS SET
                     FIRST_NAME=?, LAST_NAME=?, COMPANY=?, JOB_TITLE=?, EMAIL=?, PHONE=?,
                     ADDRESS=?, CITY=?, STATE=?, ZIP=?, NEIGHBORHOOD=?, CONTACT_TYPE=?,
                     LEAD_SOURCE=?, LEAD_STATUS=?, INTEREST_SERVICES=?, PROPERTY_TYPE=?,
                     ESTIMATED_VALUE=?, RATING=?, NOTES=?, ASSIGNED_TO=?, DO_NOT_CONTACT=?,
-                    UPDATED_DATE=GETDATE()
+                    UPDATED_DATE={NOW()}
                 WHERE CONTACT_ID=?
             """, (
                 request.form.get('first_name', ''),
@@ -381,8 +430,8 @@ def deals_list():
     cur = conn.cursor()
     try:
         stage_filter = request.args.get('stage', '')
-        query = """
-            SELECT d.*, c.FIRST_NAME + ' ' + c.LAST_NAME AS CONTACT_NAME
+        query = f"""
+            SELECT d.*, {CONCAT_NAME('c')} AS CONTACT_NAME
             FROM DEALS d
             LEFT JOIN CONTACTS c ON d.CONTACT_ID = c.CONTACT_ID
             WHERE 1=1
@@ -398,9 +447,8 @@ def deals_list():
         cur.execute("SELECT DISTINCT STAGE FROM DEALS WHERE STAGE IS NOT NULL ORDER BY STAGE")
         stages = [r[0] for r in cur.fetchall()]
 
-        # Pipeline summary
-        cur.execute("""
-            SELECT STAGE, COUNT(*) AS CNT, ISNULL(SUM(AMOUNT), 0) AS TOTAL
+        cur.execute(f"""
+            SELECT STAGE, COUNT(*) AS CNT, {COALESCE_SUM('AMOUNT')} AS TOTAL
             FROM DEALS GROUP BY STAGE
         """)
         pipeline = rows_to_list(cur, cur.fetchall())
@@ -421,11 +469,11 @@ def deal_new():
     cur = conn.cursor()
     try:
         if request.method == 'POST':
-            cur.execute("""
+            cur.execute(f"""
                 INSERT INTO DEALS (CONTACT_ID, DEAL_NAME, SERVICE_TYPE, STAGE, AMOUNT,
                     CLOSE_DATE, PROBABILITY, RECURRING, RECURRING_FREQUENCY, NOTES,
                     CREATED_DATE, UPDATED_DATE)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, GETDATE(), GETDATE())
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, {NOW()}, {NOW()})
             """, (
                 request.form.get('contact_id') or None,
                 request.form.get('deal_name', ''),
@@ -442,7 +490,7 @@ def deal_new():
             flash('Deal created!', 'success')
             return redirect(url_for('deals_list'))
 
-        cur.execute("SELECT CONTACT_ID, FIRST_NAME + ' ' + LAST_NAME AS NAME FROM CONTACTS ORDER BY FIRST_NAME")
+        cur.execute(f"SELECT CONTACT_ID, {CONCAT_NAME()} AS NAME FROM CONTACTS ORDER BY FIRST_NAME")
         contacts = rows_to_list(cur, cur.fetchall())
         return render_template('deal_form.html', deal=None, contacts=contacts, mode='new')
     except Exception as e:
@@ -460,11 +508,11 @@ def deal_edit(deal_id):
     cur = conn.cursor()
     try:
         if request.method == 'POST':
-            cur.execute("""
+            cur.execute(f"""
                 UPDATE DEALS SET
                     CONTACT_ID=?, DEAL_NAME=?, SERVICE_TYPE=?, STAGE=?, AMOUNT=?,
                     CLOSE_DATE=?, PROBABILITY=?, RECURRING=?, RECURRING_FREQUENCY=?, NOTES=?,
-                    WON_DATE=?, LOST_REASON=?, UPDATED_DATE=GETDATE()
+                    WON_DATE=?, LOST_REASON=?, UPDATED_DATE={NOW()}
                 WHERE DEAL_ID=?
             """, (
                 request.form.get('contact_id') or None,
@@ -487,7 +535,7 @@ def deal_edit(deal_id):
 
         cur.execute("SELECT * FROM DEALS WHERE DEAL_ID = ?", (deal_id,))
         deal = row_to_dict(cur, cur.fetchone())
-        cur.execute("SELECT CONTACT_ID, FIRST_NAME + ' ' + LAST_NAME AS NAME FROM CONTACTS ORDER BY FIRST_NAME")
+        cur.execute(f"SELECT CONTACT_ID, {CONCAT_NAME()} AS NAME FROM CONTACTS ORDER BY FIRST_NAME")
         contacts = rows_to_list(cur, cur.fetchall())
         return render_template('deal_form.html', deal=deal, contacts=contacts, mode='edit')
     except Exception as e:
@@ -523,8 +571,8 @@ def interactions_list():
     conn = get_db()
     cur = conn.cursor()
     try:
-        cur.execute("""
-            SELECT i.*, c.FIRST_NAME + ' ' + c.LAST_NAME AS CONTACT_NAME
+        cur.execute(f"""
+            SELECT i.*, {CONCAT_NAME('c')} AS CONTACT_NAME
             FROM INTERACTIONS i
             LEFT JOIN CONTACTS c ON i.CONTACT_ID = c.CONTACT_ID
             ORDER BY i.CREATED_DATE DESC
@@ -545,10 +593,10 @@ def interaction_new():
     cur = conn.cursor()
     try:
         if request.method == 'POST':
-            cur.execute("""
+            cur.execute(f"""
                 INSERT INTO INTERACTIONS (CONTACT_ID, INTERACTION_TYPE, DIRECTION, SUBJECT,
                     NOTES, OUTCOME, FOLLOW_UP_DATE, CREATED_BY, CREATED_DATE)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, GETDATE())
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, {NOW()})
             """, (
                 request.form.get('contact_id') or None,
                 request.form.get('interaction_type', ''),
@@ -561,13 +609,12 @@ def interaction_new():
             ))
             conn.commit()
             flash('Interaction logged!', 'success')
-            # Redirect back to contact if came from one
             contact_id = request.form.get('contact_id')
             if contact_id:
                 return redirect(url_for('contact_detail', contact_id=contact_id))
             return redirect(url_for('interactions_list'))
 
-        cur.execute("SELECT CONTACT_ID, FIRST_NAME + ' ' + LAST_NAME AS NAME FROM CONTACTS ORDER BY FIRST_NAME")
+        cur.execute(f"SELECT CONTACT_ID, {CONCAT_NAME()} AS NAME FROM CONTACTS ORDER BY FIRST_NAME")
         contacts = rows_to_list(cur, cur.fetchall())
         preselect_contact = request.args.get('contact_id', '')
         return render_template('interaction_form.html', contacts=contacts, preselect_contact=preselect_contact)
@@ -589,8 +636,8 @@ def tasks_list():
     cur = conn.cursor()
     try:
         status_filter = request.args.get('status', '')
-        query = """
-            SELECT t.*, c.FIRST_NAME + ' ' + c.LAST_NAME AS CONTACT_NAME
+        query = f"""
+            SELECT t.*, {CONCAT_NAME('c')} AS CONTACT_NAME
             FROM TASKS t
             LEFT JOIN CONTACTS c ON t.CONTACT_ID = c.CONTACT_ID
             WHERE 1=1
@@ -617,10 +664,10 @@ def task_new():
     cur = conn.cursor()
     try:
         if request.method == 'POST':
-            cur.execute("""
+            cur.execute(f"""
                 INSERT INTO TASKS (CONTACT_ID, DEAL_ID, TASK_TYPE, DESCRIPTION, DUE_DATE,
                     PRIORITY, STATUS, ASSIGNED_TO, CREATED_DATE)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, GETDATE())
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, {NOW()})
             """, (
                 request.form.get('contact_id') or None,
                 request.form.get('deal_id') or None,
@@ -638,7 +685,7 @@ def task_new():
                 return redirect(url_for('contact_detail', contact_id=contact_id))
             return redirect(url_for('tasks_list'))
 
-        cur.execute("SELECT CONTACT_ID, FIRST_NAME + ' ' + LAST_NAME AS NAME FROM CONTACTS ORDER BY FIRST_NAME")
+        cur.execute(f"SELECT CONTACT_ID, {CONCAT_NAME()} AS NAME FROM CONTACTS ORDER BY FIRST_NAME")
         contacts = rows_to_list(cur, cur.fetchall())
         cur.execute("SELECT DEAL_ID, DEAL_NAME FROM DEALS ORDER BY DEAL_NAME")
         deals = rows_to_list(cur, cur.fetchall())
@@ -658,7 +705,7 @@ def task_complete(task_id):
     conn = get_db()
     cur = conn.cursor()
     try:
-        cur.execute("UPDATE TASKS SET STATUS = 'Completed', COMPLETED_DATE = GETDATE() WHERE TASK_ID = ?", (task_id,))
+        cur.execute(f"UPDATE TASKS SET STATUS = 'Completed', COMPLETED_DATE = {NOW()} WHERE TASK_ID = ?", (task_id,))
         conn.commit()
         flash('Task completed!', 'success')
     except Exception as e:
@@ -710,10 +757,10 @@ def campaign_new():
     cur = conn.cursor()
     try:
         if request.method == 'POST':
-            cur.execute("""
+            cur.execute(f"""
                 INSERT INTO CAMPAIGNS (CAMPAIGN_NAME, CAMPAIGN_TYPE, TARGET_AREA, START_DATE,
                     END_DATE, BUDGET, STATUS, NOTES, CREATED_DATE)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, GETDATE())
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, {NOW()})
             """, (
                 request.form.get('campaign_name', ''),
                 request.form.get('campaign_type', ''),
@@ -810,12 +857,10 @@ def api_contacts_search():
     conn = get_db()
     cur = conn.cursor()
     try:
-        cur.execute("""
-            SELECT TOP 10 CONTACT_ID, FIRST_NAME + ' ' + LAST_NAME AS NAME, COMPANY, PHONE
+        cur.execute(TOP_N(10, f"""CONTACT_ID, {CONCAT_NAME()} AS NAME, COMPANY, PHONE
             FROM CONTACTS
             WHERE FIRST_NAME LIKE ? OR LAST_NAME LIKE ? OR COMPANY LIKE ?
-            ORDER BY FIRST_NAME
-        """, (f'%{q}%', f'%{q}%', f'%{q}%'))
+            ORDER BY FIRST_NAME"""), (f'%{q}%', f'%{q}%', f'%{q}%'))
         return jsonify(rows_to_list(cur, cur.fetchall()))
     finally:
         conn.close()
@@ -831,7 +876,7 @@ def api_dashboard_stats():
         total_contacts = cur.fetchone()[0]
         cur.execute("SELECT COUNT(*) FROM DEALS WHERE STAGE NOT IN ('Won', 'Lost')")
         active_deals = cur.fetchone()[0]
-        cur.execute("SELECT ISNULL(SUM(AMOUNT), 0) FROM DEALS WHERE STAGE NOT IN ('Won', 'Lost')")
+        cur.execute(f"SELECT {COALESCE_SUM('AMOUNT')} FROM DEALS WHERE STAGE NOT IN ('Won', 'Lost')")
         pipeline_value = float(cur.fetchone()[0])
         cur.execute("SELECT COUNT(*) FROM TASKS WHERE STATUS != 'Completed'")
         open_tasks = cur.fetchone()[0]
@@ -849,5 +894,12 @@ def api_dashboard_stats():
 # RUN
 # ============================================================
 if __name__ == '__main__':
-    logger.info("Starting Tiger Marketing CRM on http://localhost:5000")
+    db_mode = "SQLite" if USE_SQLITE else "SQL Server"
+    logger.info(f"Starting Tiger Marketing CRM on http://localhost:5000 [{db_mode} mode]")
+
+    # Auto-create SQLite tables if needed
+    if USE_SQLITE:
+        from init_db import create_tables
+        create_tables()
+
     app.run(debug=True, host='0.0.0.0', port=5000)
