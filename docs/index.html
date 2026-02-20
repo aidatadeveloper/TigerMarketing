@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tiger Marketing CRM</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app-layout">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-brand">
+            <span class="logo">&#x1F42F;</span>
+            <div>
+                <h1>Tiger Marketing</h1>
+                <div class="sub">Auburn, AL CRM</div>
+            </div>
+        </div>
+        <nav class="sidebar-nav">
+            <div class="nav-section">Main</div>
+            <a class="nav-item active" onclick="showPage('dashboard')" data-page="dashboard">
+                <span class="icon">&#x1F4CA;</span> Dashboard
+            </a>
+            <div class="nav-section">Sales</div>
+            <a class="nav-item" onclick="showPage('contacts')" data-page="contacts">
+                <span class="icon">&#x1F465;</span> Contacts
+                <span class="badge" id="nav-contacts-count">0</span>
+            </a>
+            <a class="nav-item" onclick="showPage('deals')" data-page="deals">
+                <span class="icon">&#x1F4B0;</span> Deals
+            </a>
+            <div class="nav-section">Operations</div>
+            <a class="nav-item" onclick="showPage('tasks')" data-page="tasks">
+                <span class="icon">&#x2705;</span> Tasks
+                <span class="badge red" id="nav-tasks-count" style="display:none">0</span>
+            </a>
+            <a class="nav-item" onclick="showPage('interactions')" data-page="interactions">
+                <span class="icon">&#x1F4DE;</span> Interactions
+            </a>
+            <div class="nav-section">Marketing</div>
+            <a class="nav-item" onclick="showPage('campaigns')" data-page="campaigns">
+                <span class="icon">&#x1F3AF;</span> Campaigns
+            </a>
+            <div class="nav-section">Intel</div>
+            <a class="nav-item" onclick="showPage('territories')" data-page="territories">
+                <span class="icon">&#x1F5FA;</span> Territories
+            </a>
+            <a class="nav-item" onclick="showPage('stores')" data-page="stores">
+                <span class="icon">&#x1F3EA;</span> Top Stores
+            </a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Mobile Toggle -->
+        <div class="page-header" id="page-header">
+            <div>
+                <button class="mobile-toggle" onclick="toggleSidebar()">&#9776;</button>
+                <h2 id="page-title">Dashboard</h2>
+                <div class="subtitle" id="page-subtitle">Tiger Marketing Overview</div>
+            </div>
+            <div class="header-actions" id="header-actions"></div>
+        </div>
+
+        <!-- Flash Messages -->
+        <div class="content">
+            <div id="flash-area"></div>
+
+            <!-- ===== DASHBOARD PAGE ===== -->
+            <div id="page-dashboard" class="page-content">
+                <div class="stats-grid" id="dashboard-stats"></div>
+                <div class="two-col">
+                    <div class="card">
+                        <div class="card-header"><h3>Recent Contacts</h3></div>
+                        <div class="table-wrap"><table id="dash-recent-contacts"><thead><tr><th>Name</th><th>Status</th><th>Type</th><th>Added</th></tr></thead><tbody></tbody></table></div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header"><h3>Upcoming Tasks</h3></div>
+                        <div class="table-wrap"><table id="dash-upcoming-tasks"><thead><tr><th>Task</th><th>Due</th><th>Priority</th><th>Status</th></tr></thead><tbody></tbody></table></div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header"><h3>Recent Deals</h3></div>
+                    <div class="table-wrap"><table id="dash-recent-deals"><thead><tr><th>Deal</th><th>Contact</th><th>Stage</th><th>Amount</th></tr></thead><tbody></tbody></table></div>
+                </div>
+            </div>
+
+            <!-- ===== CONTACTS PAGE ===== -->
+            <div id="page-contacts" class="page-content" style="display:none">
+                <div class="filter-bar">
+                    <div class="search-wrap">
+                        <input type="text" class="search-input" id="contact-search" placeholder="Search contacts..." oninput="renderContacts()">
+                    </div>
+                    <select class="form-control" style="width:auto" id="contact-status-filter" onchange="renderContacts()">
+                        <option value="">All Statuses</option>
+                        <option value="New">New</option>
+                        <option value="Contacted">Contacted</option>
+                        <option value="Qualified">Qualified</option>
+                        <option value="Proposal">Proposal</option>
+                        <option value="Won">Won</option>
+                        <option value="Lost">Lost</option>
+                        <option value="Inactive">Inactive</option>
+                    </select>
+                    <select class="form-control" style="width:auto" id="contact-type-filter" onchange="renderContacts()">
+                        <option value="">All Types</option>
+                        <option value="Lead">Lead</option>
+                        <option value="Prospect">Prospect</option>
+                        <option value="Customer">Customer</option>
+                        <option value="Referral">Referral</option>
+                    </select>
+                </div>
+                <div class="card">
+                    <div class="table-wrap"><table id="contacts-table"><thead><tr><th>Name</th><th>Company</th><th>Phone</th><th>Status</th><th>Type</th><th>Value</th><th>Actions</th></tr></thead><tbody></tbody></table></div>
+                </div>
+            </div>
+
+            <!-- ===== CONTACT FORM ===== -->
+            <div id="page-contact-form" class="page-content" style="display:none">
+                <div class="card">
+                    <div class="card-body">
+                        <form id="contact-form" onsubmit="saveContact(event)">
+                            <input type="hidden" id="cf-id">
+                            <div class="form-grid">
+                                <div class="form-group"><label>First Name *</label><input class="form-control" id="cf-first" required></div>
+                                <div class="form-group"><label>Last Name *</label><input class="form-control" id="cf-last" required></div>
+                                <div class="form-group"><label>Company</label><input class="form-control" id="cf-company"></div>
+                                <div class="form-group"><label>Job Title</label><input class="form-control" id="cf-title"></div>
+                                <div class="form-group"><label>Email</label><input type="email" class="form-control" id="cf-email"></div>
+                                <div class="form-group"><label>Phone</label><input class="form-control" id="cf-phone"></div>
+                                <div class="form-group full-width"><label>Address</label><input class="form-control" id="cf-address"></div>
+                                <div class="form-group"><label>City</label><input class="form-control" id="cf-city" value="Auburn"></div>
+                                <div class="form-group"><label>State</label><input class="form-control" id="cf-state" value="AL"></div>
+                                <div class="form-group"><label>ZIP</label><input class="form-control" id="cf-zip"></div>
+                                <div class="form-group"><label>Neighborhood</label>
+                                    <select class="form-control" id="cf-neighborhood">
+                                        <option value="">Select...</option>
+                                        <option>Moores Mill</option>
+                                        <option>Cloverleaf / Windsor Forest</option>
+                                        <option>Willow Creek Farms</option>
+                                        <option>Yarbrough Farms / AU Club</option>
+                                        <option>Downtown Auburn</option>
+                                        <option>University Estates</option>
+                                        <option>Granite Hills / Head Estates</option>
+                                        <option>Grove Hill</option>
+                                        <option>Stone Creek / Cobblestone</option>
+                                        <option>Asheton Lakes</option>
+                                    </select>
+                                </div>
+                                <div class="form-group"><label>Contact Type</label>
+                                    <select class="form-control" id="cf-type">
+                                        <option>Lead</option><option>Prospect</option><option>Customer</option><option>Referral</option><option>Vendor</option><option>Other</option>
+                                    </select>
+                                </div>
+                                <div class="form-group"><label>Lead Source</label>
+                                    <select class="form-control" id="cf-source">
+                                        <option>Door Knock</option><option>Flyer</option><option>Google</option><option>Referral</option><option>Facebook</option><option>Nextdoor</option><option>Cold Call</option><option>Website</option><option>Yard Sign</option><option>Other</option>
+                                    </select>
+                                </div>
+                                <div class="form-group"><label>Lead Status</label>
+                                    <select class="form-control" id="cf-status">
+                                        <option>New</option><option>Contacted</option><option>Qualified</option><option>Proposal</option><option>Won</option><option>Lost</option><option>Inactive</option>
+                                    </select>
+                                </div>
+                                <div class="form-group"><label>Interest / Services</label><input class="form-control" id="cf-services" placeholder="Window Washing, Power Washing..."></div>
+                                <div class="form-group"><label>Property Type</label>
+                                    <select class="form-control" id="cf-property">
+                                        <option>Residential</option><option>Commercial</option><option>HOA</option><option>Multi-Family</option><option>Government</option><option>Other</option>
+                                    </select>
+                                </div>
+                                <div class="form-group"><label>Estimated Value ($)</label><input type="number" class="form-control" id="cf-value" step="0.01"></div>
+                                <div class="form-group"><label>Rating (1-5)</label>
+                                    <select class="form-control" id="cf-rating">
+                                        <option value="">-</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option>
+                                    </select>
+                                </div>
+                                <div class="form-group"><label>Assigned To</label><input class="form-control" id="cf-assigned" value="Jason"></div>
+                                <div class="form-group full-width"><label>Notes</label><textarea class="form-control" id="cf-notes" rows="3"></textarea></div>
+                            </div>
+                            <div class="flex gap-2 mt-4">
+                                <button type="submit" class="btn btn-primary">Save Contact</button>
+                                <button type="button" class="btn btn-secondary" onclick="showPage('contacts')">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== CONTACT DETAIL ===== -->
+            <div id="page-contact-detail" class="page-content" style="display:none">
+                <div id="contact-detail-content"></div>
+            </div>
+
+            <!-- ===== DEALS PAGE ===== -->
+            <div id="page-deals" class="page-content" style="display:none">
+                <div class="stats-grid" id="deal-stats"></div>
+                <div class="card">
+                    <div class="card-header"><h3>Pipeline</h3></div>
+                    <div class="table-wrap"><table id="deals-table"><thead><tr><th>Deal</th><th>Contact</th><th>Service</th><th>Stage</th><th>Amount</th><th>Probability</th><th>Close Date</th><th>Actions</th></tr></thead><tbody></tbody></table></div>
+                </div>
+            </div>
+
+            <!-- ===== DEAL FORM ===== -->
+            <div id="page-deal-form" class="page-content" style="display:none">
+                <div class="card"><div class="card-body">
+                    <form id="deal-form" onsubmit="saveDeal(event)">
+                        <input type="hidden" id="df-id">
+                        <div class="form-grid">
+                            <div class="form-group"><label>Deal Name *</label><input class="form-control" id="df-name" required></div>
+                            <div class="form-group"><label>Contact</label>
+                                <select class="form-control" id="df-contact"></select>
+                            </div>
+                            <div class="form-group"><label>Service Type</label>
+                                <select class="form-control" id="df-service">
+                                    <option>Window Washing</option><option>Power Washing</option><option>Gutter Cleaning</option><option>Roof Cleaning</option><option>Christmas Lights</option><option>Other</option>
+                                </select>
+                            </div>
+                            <div class="form-group"><label>Stage</label>
+                                <select class="form-control" id="df-stage">
+                                    <option>Prospect</option><option>Quoted</option><option>Negotiation</option><option>Scheduled</option><option>Won</option><option>Lost</option>
+                                </select>
+                            </div>
+                            <div class="form-group"><label>Amount ($)</label><input type="number" class="form-control" id="df-amount" step="0.01"></div>
+                            <div class="form-group"><label>Probability (%)</label><input type="number" class="form-control" id="df-prob" min="0" max="100"></div>
+                            <div class="form-group"><label>Close Date</label><input type="date" class="form-control" id="df-close"></div>
+                            <div class="form-group"><label>Recurring</label>
+                                <select class="form-control" id="df-recurring">
+                                    <option value="">No</option><option>Monthly</option><option>Quarterly</option><option>Semi-Annual</option><option>Annual</option>
+                                </select>
+                            </div>
+                            <div class="form-group full-width"><label>Notes</label><textarea class="form-control" id="df-notes" rows="3"></textarea></div>
+                        </div>
+                        <div class="flex gap-2 mt-4">
+                            <button type="submit" class="btn btn-primary">Save Deal</button>
+                            <button type="button" class="btn btn-secondary" onclick="showPage('deals')">Cancel</button>
+                        </div>
+                    </form>
+                </div></div>
+            </div>
+
+            <!-- ===== TASKS PAGE ===== -->
+            <div id="page-tasks" class="page-content" style="display:none">
+                <div class="filter-bar">
+                    <select class="form-control" style="width:auto" id="task-status-filter" onchange="renderTasks()">
+                        <option value="">All</option><option value="Pending">Pending</option><option value="In Progress">In Progress</option><option value="Completed">Completed</option>
+                    </select>
+                </div>
+                <div class="card">
+                    <div class="table-wrap"><table id="tasks-table"><thead><tr><th>Task</th><th>Type</th><th>Contact</th><th>Due</th><th>Priority</th><th>Status</th><th>Actions</th></tr></thead><tbody></tbody></table></div>
+                </div>
+            </div>
+
+            <!-- ===== TASK FORM ===== -->
+            <div id="page-task-form" class="page-content" style="display:none">
+                <div class="card"><div class="card-body">
+                    <form id="task-form" onsubmit="saveTask(event)">
+                        <input type="hidden" id="tf-id">
+                        <div class="form-grid">
+                            <div class="form-group full-width"><label>Description *</label><input class="form-control" id="tf-desc" required></div>
+                            <div class="form-group"><label>Task Type</label>
+                                <select class="form-control" id="tf-type">
+                                    <option>Follow Up</option><option>Estimate</option><option>Phone Call</option><option>Email</option><option>Door Knock</option><option>Job Scheduled</option><option>Invoice</option><option>Other</option>
+                                </select>
+                            </div>
+                            <div class="form-group"><label>Contact</label>
+                                <select class="form-control" id="tf-contact"></select>
+                            </div>
+                            <div class="form-group"><label>Due Date</label><input type="date" class="form-control" id="tf-due"></div>
+                            <div class="form-group"><label>Priority</label>
+                                <select class="form-control" id="tf-priority">
+                                    <option>Normal</option><option>High</option><option>Low</option>
+                                </select>
+                            </div>
+                            <div class="form-group"><label>Assigned To</label><input class="form-control" id="tf-assigned" value="Jason"></div>
+                            <div class="form-group"><label>Deal</label>
+                                <select class="form-control" id="tf-deal"></select>
+                            </div>
+                        </div>
+                        <div class="flex gap-2 mt-4">
+                            <button type="submit" class="btn btn-primary">Save Task</button>
+                            <button type="button" class="btn btn-secondary" onclick="showPage('tasks')">Cancel</button>
+                        </div>
+                    </form>
+                </div></div>
+            </div>
+
+            <!-- ===== INTERACTIONS PAGE ===== -->
+            <div id="page-interactions" class="page-content" style="display:none">
+                <div class="card">
+                    <div class="table-wrap"><table id="interactions-table"><thead><tr><th>Date</th><th>Contact</th><th>Type</th><th>Direction</th><th>Subject</th><th>Outcome</th></tr></thead><tbody></tbody></table></div>
+                </div>
+            </div>
+
+            <!-- ===== INTERACTION FORM ===== -->
+            <div id="page-interaction-form" class="page-content" style="display:none">
+                <div class="card"><div class="card-body">
+                    <form id="interaction-form" onsubmit="saveInteraction(event)">
+                        <input type="hidden" id="if-id">
+                        <div class="form-grid">
+                            <div class="form-group"><label>Contact *</label>
+                                <select class="form-control" id="if-contact" required></select>
+                            </div>
+                            <div class="form-group"><label>Type</label>
+                                <select class="form-control" id="if-type">
+                                    <option>Phone Call</option><option>Email</option><option>In Person</option><option>Door Knock</option><option>Text Message</option><option>Estimate Visit</option><option>Social Media</option><option>Other</option>
+                                </select>
+                            </div>
+                            <div class="form-group"><label>Direction</label>
+                                <select class="form-control" id="if-direction">
+                                    <option>Outbound</option><option>Inbound</option>
+                                </select>
+                            </div>
+                            <div class="form-group"><label>Outcome</label><input class="form-control" id="if-outcome"></div>
+                            <div class="form-group full-width"><label>Subject</label><input class="form-control" id="if-subject"></div>
+                            <div class="form-group full-width"><label>Notes</label><textarea class="form-control" id="if-notes" rows="3"></textarea></div>
+                            <div class="form-group"><label>Follow-Up Date</label><input type="date" class="form-control" id="if-followup"></div>
+                        </div>
+                        <div class="flex gap-2 mt-4">
+                            <button type="submit" class="btn btn-primary">Save Interaction</button>
+                            <button type="button" class="btn btn-secondary" onclick="showPage('interactions')">Cancel</button>
+                        </div>
+                    </form>
+                </div></div>
+            </div>
+
+            <!-- ===== CAMPAIGNS PAGE ===== -->
+            <div id="page-campaigns" class="page-content" style="display:none">
+                <div class="card">
+                    <div class="table-wrap"><table id="campaigns-table"><thead><tr><th>Campaign</th><th>Type</th><th>Target Area</th><th>Budget</th><th>Leads</th><th>Revenue</th><th>Status</th><th>Actions</th></tr></thead><tbody></tbody></table></div>
+                </div>
+            </div>
+
+            <!-- ===== CAMPAIGN FORM ===== -->
+            <div id="page-campaign-form" class="page-content" style="display:none">
+                <div class="card"><div class="card-body">
+                    <form id="campaign-form" onsubmit="saveCampaign(event)">
+                        <input type="hidden" id="cpf-id">
+                        <div class="form-grid">
+                            <div class="form-group"><label>Campaign Name *</label><input class="form-control" id="cpf-name" required></div>
+                            <div class="form-group"><label>Type</label>
+                                <select class="form-control" id="cpf-type">
+                                    <option>Door Knocking</option><option>Flyer Drop</option><option>Facebook Ads</option><option>Google Ads</option><option>Nextdoor</option><option>Referral Program</option><option>Yard Signs</option><option>Direct Mail</option><option>Other</option>
+                                </select>
+                            </div>
+                            <div class="form-group"><label>Target Area</label><input class="form-control" id="cpf-area" placeholder="Moores Mill, Yarbrough Farms..."></div>
+                            <div class="form-group"><label>Budget ($)</label><input type="number" class="form-control" id="cpf-budget" step="0.01"></div>
+                            <div class="form-group"><label>Start Date</label><input type="date" class="form-control" id="cpf-start"></div>
+                            <div class="form-group"><label>End Date</label><input type="date" class="form-control" id="cpf-end"></div>
+                            <div class="form-group"><label>Status</label>
+                                <select class="form-control" id="cpf-status">
+                                    <option>Planned</option><option>Active</option><option>Paused</option><option>Completed</option>
+                                </select>
+                            </div>
+                            <div class="form-group"><label>Leads Generated</label><input type="number" class="form-control" id="cpf-leads" value="0"></div>
+                            <div class="form-group"><label>Deals Won</label><input type="number" class="form-control" id="cpf-deals" value="0"></div>
+                            <div class="form-group"><label>Revenue Generated ($)</label><input type="number" class="form-control" id="cpf-revenue" step="0.01" value="0"></div>
+                            <div class="form-group full-width"><label>Notes</label><textarea class="form-control" id="cpf-notes" rows="3"></textarea></div>
+                        </div>
+                        <div class="flex gap-2 mt-4">
+                            <button type="submit" class="btn btn-primary">Save Campaign</button>
+                            <button type="button" class="btn btn-secondary" onclick="showPage('campaigns')">Cancel</button>
+                        </div>
+                    </form>
+                </div></div>
+            </div>
+
+            <!-- ===== TERRITORIES PAGE ===== -->
+            <div id="page-territories" class="page-content" style="display:none">
+                <div class="card">
+                    <div class="card-header"><h3>Wealthy Neighborhoods</h3></div>
+                    <div class="table-wrap"><table id="neighborhoods-table"><thead><tr><th>Rank</th><th>Neighborhood</th><th>ZIP</th><th>Median Home Value</th><th>Features</th></tr></thead><tbody></tbody></table></div>
+                </div>
+                <div class="card mt-4">
+                    <div class="card-header"><h3>Wealthy ZIP Codes</h3></div>
+                    <div class="table-wrap"><table id="zipcodes-table"><thead><tr><th>Rank</th><th>Area</th><th>ZIP</th><th>Median Income</th><th>Avg Income</th><th>% Over $200K</th><th>Features</th></tr></thead><tbody></tbody></table></div>
+                </div>
+            </div>
+
+            <!-- ===== TOP STORES PAGE ===== -->
+            <div id="page-stores" class="page-content" style="display:none">
+                <div class="card">
+                    <div class="card-header"><h3>Top 10 Neighborhood Stores</h3></div>
+                    <div class="table-wrap"><table id="stores-table"><thead><tr><th>#</th><th>Store</th><th>Category</th><th>Address</th><th>Neighborhood</th></tr></thead><tbody></tbody></table></div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+</div>
+
+<!-- Overlay for mobile sidebar -->
+<div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+<script src="app.js"></script>
+</body>
+</html>
