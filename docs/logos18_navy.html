@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logo #18 Navy - ALL CAPS Font &amp; Color Variations</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800;900&family=Bebas+Neue&family=Oswald:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700;800;900&family=Poppins:wght@400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700;800;900&family=Raleway:wght@300;400;500;600;700;800;900&family=Lato:wght@300;400;700;900&family=Russo+One&family=Teko:wght@400;500;600;700&family=Anton&family=Barlow+Condensed:wght@400;500;600;700;800&family=Archivo+Black&family=Righteous&family=Staatliches&family=Bungee&family=Permanent+Marker&family=Black+Ops+One&family=Orbitron:wght@400;500;600;700;800;900&family=Saira+Stencil+One&family=Major+Mono+Display&family=Fjalla+One&family=Passion+One:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --au-navy: #03244d;
+            --au-navy-light: #0a3a6b;
+            --au-navy-dark: #011a36;
+            --au-orange: #DD550C;
+            --au-orange-bright: #F26522;
+            --au-orange-deep: #c44a0a;
+            --au-white: #FFFFFF;
+            --au-cream: #f5f0e8;
+            --au-gold: #F1A836;
+            --au-silver: #c0c0c0;
+        }
+
+        body {
+            font-family: 'Geist', -apple-system, sans-serif;
+            background: #0f0f17;
+            color: #f0ece8;
+            min-height: 100vh;
+        }
+
+        .page-header {
+            text-align: center;
+            padding: 30px 16px 10px;
+            position: sticky;
+            top: 0;
+            background: #0f0f17;
+            z-index: 100;
+            border-bottom: 1px solid #2a2a44;
+        }
+        .page-header h1 {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--au-orange);
+        }
+        .page-header p {
+            font-size: 12px;
+            color: #9a9aaa;
+            margin-top: 4px;
+        }
+        .back-link {
+            display: inline-block;
+            color: var(--au-orange);
+            font-size: 12px;
+            text-decoration: none;
+            margin-top: 6px;
+        }
+
+        .section-title {
+            text-align: center;
+            padding: 20px 16px 8px;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--au-orange);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            border-top: 1px solid #2a2a44;
+        }
+        .section-sub {
+            text-align: center;
+            font-size: 11px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 12px;
+            padding: 8px 16px 20px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .logo-card {
+            aspect-ratio: 1;
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 8px;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.2s;
+            background: var(--au-navy);
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+        .logo-card:active { transform: scale(0.96); }
+
+        .logo-num {
+            position: absolute;
+            top: 6px;
+            left: 8px;
+            font-size: 9px;
+            font-weight: 600;
+            color: rgba(255,255,255,0.3);
+        }
+
+        .logo-label {
+            position: absolute;
+            bottom: 4px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 7px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            opacity: 0.4;
+            color: rgba(255,255,255,0.5);
+        }
+
+        .fav-btn {
+            position: absolute; top: 6px; right: 8px; font-size: 14px;
+            cursor: pointer; opacity: 0.3; transition: opacity 0.2s;
+            background: none; border: none; padding: 0;
+        }
+        .fav-btn.active { opacity: 1; }
+
+        /* DOT GRID */
+        .dots { display: grid; grid-template-columns: repeat(3,1fr); gap: 4px; margin-bottom: 4px; }
+        .dot { width: 12px; height: 12px; border-radius: 50%; }
+
+        /* STACKED TEXT */
+        .stacked {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            line-height: 1;
+            gap: 0px;
+        }
+        .top-text {
+            font-weight: 800;
+            letter-spacing: 3px;
+            font-size: 14px;
+        }
+        .bottom-text {
+            font-weight: 400;
+            letter-spacing: 2px;
+            font-size: 9px;
+            margin-top: 1px;
+        }
+    </style>
+</head>
+<body>
+    <div class="page-header">
+        <h1>Navy BG - ALL CAPS - Font &amp; Color Variations</h1>
+        <p>TIGER / MARKETING on navy blue, different fonts and color combos</p>
+        <a href="logos18_stacked.html" class="back-link">&#8592; Back to stacked variations</a>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- SECTION 1: FONT VARIATIONS - Orange/White -->
+    <!-- ============================================ -->
+    <div class="section-title">Font Showcase &mdash; Orange / White</div>
+    <div class="section-sub">Navy BG / Orange TIGER / White MARKETING</div>
+    <div class="grid">
+
+        <!-- N1: Geist -->
+        <div class="logo-card">
+            <span class="logo-num">N-1</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:#fff"></div><div class="dot" style="background:var(--au-orange)"></div>
+                <div class="dot" style="background:#fff"></div><div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:#fff"></div>
+                <div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:#fff"></div><div class="dot" style="background:var(--au-orange)"></div>
+            </div>
+            <div class="stacked">
+                <span class="top-text" style="font-family:'Geist',sans-serif; color:var(--au-orange);">TIGER</span>
+                <span class="bottom-text" style="font-family:'Geist',sans-serif; color:#fff;">MARKETING</span>
+            </div>
+            <span class="logo-label">Geist</span>
+        </div>
+
+        <!-- N2: Bebas Neue -->
+        <div class="logo-card">
+            <span class="logo-num">N-2</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:#fff"></div><div class="dot" style="background:var(--au-orange)"></div>
+                <div class="dot" style="background:#fff"></div><div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:#fff"></div>
+                <div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:#fff"></div><div class="dot" style="background:var(--au-orange)"></div>
+            </div>
+            <div class="stacked">
+                <span class="top-text" style="font-family:'Bebas Neue',sans-serif; color:var(--au-orange); font-size:18px; letter-spacing:4px;">TIGER</span>
+                <span class="bottom-text" style="font-family:'Bebas Neue',sans-serif; color:#fff; font-size:11px; letter-spacing:3px;">MARKETING</span>
+            </div>
+            <span class="logo-label">Bebas Neue</span>
+        </div>
+
+        <!-- N3: Oswald -->
+        <div class="logo-card">
+            <span class="logo-num">N-3</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:#fff"></div><div class="dot" style="background:var(--au-orange)"></div>
+                <div class="dot" style="background:#fff"></div><div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:#fff"></div>
+                <div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:#fff"></div><div class="dot" style="background:var(--au-orange)"></div>
+            </div>
+            <div class="stacked">
+                <span class="top-text" style="font-family:'Oswald',sans-serif; color:var(--au-orange); font-weight:700;">TIGER</span>
+                <span class="bottom-text" style="font-family:'Oswald',sans-serif; color:#fff; font-weight:400;">MARKETING</span>
+            </div>
+            <span class="logo-label">Oswald</span>
+        </div>
+
+        <!-- N4: Montserrat -->
+        <div class="logo-card">
+            <span class="logo-num">N-4</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:#fff"></div><div class="dot" style="background:var(--au-orange)"></div>
+                <div class="dot" style="background:#fff"></div><div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:#fff"></div>
+                <div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:#fff"></div><div class="dot" style="background:var(--au-orange)"></div>
+            </div>
+            <div class="stacked">
+                <span class="top-text" style="font-family:'Montserrat',sans-serif; color:var(--au-orange); font-weight:900;">TIGER</span>
+                <span class="bottom-text" style="font-family:'Montserrat',sans-serif; color:#fff; font-weight:400;">MARKETING</span>
+            </div>
+            <span class="logo-label">Montserrat</span>
+        </div>
+
+        <!-- N5: Poppins -->
+        <div class="logo-card">
+            <span class="logo-num">N-5</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:#fff"></div><div class="dot" style="background:var(--au-orange)"></div>
+                <div class="dot" style="background:#fff"></div><div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:#fff"></div>
+                <div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:#fff"></div><div class="dot" style="background:var(--au-orange)"></div>
+            </div>
+            <div class="stacked">
+                <span class="top-text" style="font-family:'Poppins',sans-serif; color:var(--au-orange); font-weight:800;">TIGER</span>
+                <span class="bottom-text" style="font-family:'Poppins',sans-serif; color:#fff; font-weight:400;">MARKETING</span>
+            </div>
+            <span class="logo-label">Poppins</span>
+        </div>
+
+        <!-- N6: Playfair Display -->
+        <div class="logo-card">
+            <span class="logo-num">N-6</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:#fff"></div><div class="dot" style="background:var(--au-orange)"></div>
+                <div class="dot" style="background:#fff"></div><div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:#fff"></div>
+                <div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:#fff"></div><div class="dot" style="background:var(--au-orange)"></div>
+            </div>
+            <div class="stacked">
+                <span class="top-text" style="font-family:'Playfair Display',serif; color:var(--au-orange); font-weight:800;">TIGER</span>
+                <span class="bottom-text" style="font-family:'Playfair Display',serif; color:#fff; font-weight:400;">MARKETING</span>
+            </div>
+            <span class="logo-label">Playfair Display</span>
+        </div>
+
+        <!-- N7: Raleway -->
+        <div class="logo-card">
+            <span class="logo-num">N-7</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:#fff"></div><div class="dot" style="background:var(--au-orange)"></div>
+                <div class="dot" style="background:#fff"></div><div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:#fff"></div>
+                <div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:#fff"></div><div class="dot" style="background:var(--au-orange)"></div>
+            </div>
+            <div class="stacked">
+                <span class="top-text" style="font-family:'Raleway',sans-serif; color:var(--au-orange); font-weight:800;">TIGER</span>
+                <span class="bottom-text" style="font-family:'Raleway',sans-serif; color:#fff; font-weight:300; letter-spacing:4px;">MARKETING</span>
+            </div>
+            <span class="logo-label">Raleway</span>
+        </div>
+
+        <!-- N8: Lato -->
+        <div class="logo-card">
+            <span class="logo-num">N-8</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:#fff"></div><div class="dot" style="background:var(--au-orange)"></div>
+                <div class="dot" style="background:#fff"></div><div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:#fff"></div>
+                <div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:#fff"></div><div class="dot" style="background:var(--au-orange)"></div>
+            </div>
+            <div class="stacked">
+                <span class="top-text" style="font-family:'Lato',sans-serif; color:var(--au-orange); font-weight:900;">TIGER</span>
+                <span class="bottom-text" style="font-family:'Lato',sans-serif; color:#fff; font-weight:300;">MARKETING</span>
+            </div>
+            <span class="logo-label">Lato</span>
+        </div>
+
+        <!-- N9: Russo One -->
+        <div class="logo-card">
+            <span class="logo-num">N-9</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:#fff"></div><div class="dot" style="background:var(--au-orange)"></div>
+                <div class="dot" style="background:#fff"></div><div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:#fff"></div>
+                <div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:#fff"></div><div class="dot" style="background:var(--au-orange)"></div>
+            </div>
+            <div class="stacked">
+                <span class="top-text" style="font-family:'Russo One',sans-serif; color:var(--au-orange);">TIGER</span>
+                <span class="bottom-text" style="font-family:'Russo One',sans-serif; color:#fff; font-size:8px;">MARKETING</span>
+            </div>
+            <span class="logo-label">Russo One</span>
+        </div>
+
+        <!-- N10: Teko -->
+        <div class="logo-card">
+            <span class="logo-num">N-10</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:#fff"></div><div class="dot" style="background:var(--au-orange)"></div>
+                <div class="dot" style="background:#fff"></div><div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:#fff"></div>
+                <div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:#fff"></div><div class="dot" style="background:var(--au-orange)"></div>
+            </div>
+            <div class="stacked">
+                <span class="top-text" style="font-family:'Teko',sans-serif; color:var(--au-orange); font-size:20px; font-weight:700;">TIGER</span>
+                <span class="bottom-text" style="font-family:'Teko',sans-serif; color:#fff; font-size:12px; font-weight:400;">MARKETING</span>
+            </div>
+            <span class="logo-label">Teko</span>
+        </div>
+
+        <!-- N11: Anton -->
+        <div class="logo-card">
+            <span class="logo-num">N-11</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:#fff"></div><div class="dot" style="background:var(--au-orange)"></div>
+                <div class="dot" style="background:#fff"></div><div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:#fff"></div>
+                <div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:#fff"></div><div class="dot" style="background:var(--au-orange)"></div>
+            </div>
+            <div class="stacked">
+                <span class="top-text" style="font-family:'Anton',sans-serif; color:var(--au-orange); font-size:16px;">TIGER</span>
+                <span class="bottom-text" style="font-family:'Anton',sans-serif; color:#fff; font-size:10px;">MARKETING</span>
+            </div>
+            <span class="logo-label">Anton</span>
+        </div>
+
+        <!-- N12: Barlow Condensed -->
+        <div class="logo-card">
+            <span class="logo-num">N-12</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:#fff"></div><div class="dot" style="background:var(--au-orange)"></div>
+                <div class="dot" style="background:#fff"></div><div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:#fff"></div>
+                <div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:#fff"></div><div class="dot" style="background:var(--au-orange)"></div>
+            </div>
+            <div class="stacked">
+                <span class="top-text" style="font-family:'Barlow Condensed',sans-serif; color:var(--au-orange); font-weight:800; font-size:16px;">TIGER</span>
+                <span class="bottom-text" style="font-family:'Barlow Condensed',sans-serif; color:#fff; font-weight:400; letter-spacing:3px;">MARKETING</span>
+            </div>
+            <span class="logo-label">Barlow Condensed</span>
+        </div>
+
+    </div>
+
+    <!-- ============================================ -->
+    <!-- SECTION 2: COLOR VARIATIONS - Same Fonts, Different Colors -->
+    <!-- ============================================ -->
+    <div class="section-title">Color Combos &mdash; All White</div>
+    <div class="section-sub">Navy BG / White TIGER / White MARKETING</div>
+    <div class="grid">
+
+        <!-- N13: Geist All White -->
+        <div class="logo-card">
+            <span class="logo-num">N-13</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot" style="background:#fff"></div><div class="dot" style="background:rgba(255,255,255,0.4)"></div><div class="dot" style="background:#fff"></div>
+                <div class="dot" style="background:rgba(255,255,255,0.4)"></div><div class="dot" style="background:#fff"></div><div class="dot" style="background:rgba(255,255,255,0.4)"></div>
+                <div class="dot" style="background:#fff"></div><div class="dot" style="background:rgba(255,255,255,0.4)"></div><div class="dot" style="background:#fff"></div>
+            </div>
+            <div class="stacked">
+                <span class="top-text" style="font-family:'Geist',sans-serif; color:#fff;">TIGER</span>
+                <span class="bottom-text" style="font-family:'Geist',sans-serif; color:rgba(255,255,255,0.7);">MARKETING</span>
+            </div>
+            <span class="logo-label">Geist / All White</span>
+        </div>
+
+        <!-- N14: Montserrat All White -->
+        <div class="logo-card">
+            <span class="logo-num">N-14</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot" style="background:#fff"></div><div class="dot" style="background:rgba(255,255,255,0.4)"></div><div class="dot" style="background:#fff"></div>
+                <div class="dot" style="background:rgba(255,255,255,0.4)"></div><div class="dot" style="background:#fff"></div><div class="dot" style="background:rgba(255,255,255,0.4)"></div>
+                <div class="dot" style="background:#fff"></div><div class="dot" style="background:rgba(255,255,255,0.4)"></div><div class="dot" style="background:#fff"></div>
+            </div>
+            <div class="stacked">
+                <span class="top-text" style="font-family:'Montserrat',sans-serif; color:#fff; font-weight:900;">TIGER</span>
+                <span class="bottom-text" style="font-family:'Montserrat',sans-serif; color:rgba(255,255,255,0.7); font-weight:300;">MARKETING</span>
+            </div>
+            <span class="logo-label">Montserrat / All White</span>
+        </div>
+
+        <!-- N15: Bebas Neue All White -->
+        <div class="logo-card">
+            <span class="logo-num">N-15</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot" style="background:#fff"></div><div class="dot" style="background:rgba(255,255,255,0.4)"></div><div class="dot" style="background:#fff"></div>
+                <div class="dot" style="background:rgba(255,255,255,0.4)"></div><div class="dot" style="background:#fff"></div><div class="dot" style="background:rgba(255,255,255,0.4)"></div>
+                <div class="dot" style="background:#fff"></div><div class="dot" style="background:rgba(255,255,255,0.4)"></div><div class="dot" style="background:#fff"></div>
+            </div>
+            <div class="stacked">
+                <span class="top-text" style="font-family:'Bebas Neue',sans-serif; color:#fff; font-size:18px; letter-spacing:4px;">TIGER</span>
+                <span class="bottom-text" style="font-family:'Bebas Neue',sans-serif; color:rgba(255,255,255,0.7); font-size:11px; letter-spacing:3px;">MARKETING</span>
+            </div>
+            <span class="logo-label">Bebas Neue / All White</span>
+        </div>
+
+        <!-- N16: Anton All White -->
+        <div class="logo-card">
+            <span class="logo-num">N-16</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot" style="background:#fff"></div><div class="dot" style="background:rgba(255,255,255,0.4)"></div><div class="dot" style="background:#fff"></div>
+                <div class="dot" style="background:rgba(255,255,255,0.4)"></div><div class="dot" style="background:#fff"></div><div class="dot" style="background:rgba(255,255,255,0.4)"></div>
+                <div class="dot" style="background:#fff"></div><div class="dot" style="background:rgba(255,255,255,0.4)"></div><div class="dot" style="background:#fff"></div>
+            </div>
+            <div class="stacked">
+                <span class="top-text" style="font-family:'Anton',sans-serif; color:#fff; font-size:16px;">TIGER</span>
+                <span class="bottom-text" style="font-family:'Anton',sans-serif; color:rgba(255,255,255,0.7); font-size:10px;">MARKETING</span>
+            </div>
+            <span class="logo-label">Anton / All White</span>
+        </div>
+
+    </div>
+
+    <!-- ============================================ -->
+    <!-- SECTION 3: All Orange -->
+    <!-- ============================================ -->
+    <div class="section-title">Color Combos &mdash; All Orange</div>
+    <div class="section-sub">Navy BG / Orange TIGER / Orange MARKETING</div>
+    <div class="grid">
+
+        <!-- N17: Geist All Orange -->
+        <div class="logo-card">
+            <span class="logo-num">N-17</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:var(--au-orange-bright)"></div><div class="dot" style="background:var(--au-orange)"></div>
+                <div class="dot" style="background:var(--au-orange-bright)"></div><div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:var(--au-orange-bright)"></div>
+                <div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:var(--au-orange-bright)"></div><div class="dot" style="background:var(--au-orange)"></div>
+            </div>
+            <div class="stacked">
+                <span class="top-text" style="font-family:'Geist',sans-serif; color:var(--au-orange);">TIGER</span>
+                <span class="bottom-text" style="font-family:'Geist',sans-serif; color:var(--au-orange-bright);">MARKETING</span>
+            </div>
+            <span class="logo-label">Geist / All Orange</span>
+        </div>
+
+        <!-- N18: Montserrat All Orange -->
+        <div class="logo-card">
+            <span class="logo-num">N-18</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:var(--au-orange-bright)"></div><div class="dot" style="background:var(--au-orange)"></div>
+                <div class="dot" style="background:var(--au-orange-bright)"></div><div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:var(--au-orange-bright)"></div>
+                <div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:var(--au-orange-bright)"></div><div class="dot" style="background:var(--au-orange)"></div>
+            </div>
+            <div class="stacked">
+                <span class="top-text" style="font-family:'Montserrat',sans-serif; color:var(--au-orange); font-weight:900;">TIGER</span>
+                <span class="bottom-text" style="font-family:'Montserrat',sans-serif; color:var(--au-orange-bright); font-weight:400;">MARKETING</span>
+            </div>
+            <span class="logo-label">Montserrat / All Orange</span>
+        </div>
+
+        <!-- N19: Oswald All Orange -->
+        <div class="logo-card">
+            <span class="logo-num">N-19</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:var(--au-orange-bright)"></div><div class="dot" style="background:var(--au-orange)"></div>
+                <div class="dot" style="background:var(--au-orange-bright)"></div><div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:var(--au-orange-bright)"></div>
+                <div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:var(--au-orange-bright)"></div><div class="dot" style="background:var(--au-orange)"></div>
+            </div>
+            <div class="stacked">
+                <span class="top-text" style="font-family:'Oswald',sans-serif; color:var(--au-orange); font-weight:700;">TIGER</span>
+                <span class="bottom-text" style="font-family:'Oswald',sans-serif; color:var(--au-orange-bright); font-weight:400;">MARKETING</span>
+            </div>
+            <span class="logo-label">Oswald / All Orange</span>
+        </div>
+
+        <!-- N20: Raleway All Orange -->
+        <div class="logo-card">
+            <span class="logo-num">N-20</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:var(--au-orange-bright)"></div><div class="dot" style="background:var(--au-orange)"></div>
+                <div class="dot" style="background:var(--au-orange-bright)"></div><div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:var(--au-orange-bright)"></div>
+                <div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:var(--au-orange-bright)"></div><div class="dot" style="background:var(--au-orange)"></div>
+            </div>
+            <div class="stacked">
+                <span class="top-text" style="font-family:'Raleway',sans-serif; color:var(--au-orange); font-weight:800;">TIGER</span>
+                <span class="bottom-text" style="font-family:'Raleway',sans-serif; color:var(--au-orange-bright); font-weight:300; letter-spacing:4px;">MARKETING</span>
+            </div>
+            <span class="logo-label">Raleway / All Orange</span>
+        </div>
+
+    </div>
+
+    <!-- ============================================ -->
+    <!-- SECTION 4: Gold & Silver -->
+    <!-- ============================================ -->
+    <div class="section-title">Color Combos &mdash; Gold &amp; Silver</div>
+    <div class="section-sub">Navy BG / Gold + Silver text combos</div>
+    <div class="grid">
+
+        <!-- N21: Geist Gold/Silver -->
+        <div class="logo-card">
+            <span class="logo-num">N-21</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot" style="background:var(--au-gold)"></div><div class="dot" style="background:var(--au-silver)"></div><div class="dot" style="background:var(--au-gold)"></div>
+                <div class="dot" style="background:var(--au-silver)"></div><div class="dot" style="background:var(--au-gold)"></div><div class="dot" style="background:var(--au-silver)"></div>
+                <div class="dot" style="background:var(--au-gold)"></div><div class="dot" style="background:var(--au-silver)"></div><div class="dot" style="background:var(--au-gold)"></div>
+            </div>
+            <div class="stacked">
+                <span class="top-text" style="font-family:'Geist',sans-serif; color:var(--au-gold);">TIGER</span>
+                <span class="bottom-text" style="font-family:'Geist',sans-serif; color:var(--au-silver);">MARKETING</span>
+            </div>
+            <span class="logo-label">Geist / Gold-Silver</span>
+        </div>
+
+        <!-- N22: Montserrat Gold/Silver -->
+        <div class="logo-card">
+            <span class="logo-num">N-22</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot" style="background:var(--au-gold)"></div><div class="dot" style="background:var(--au-silver)"></div><div class="dot" style="background:var(--au-gold)"></div>
+                <div class="dot" style="background:var(--au-silver)"></div><div class="dot" style="background:var(--au-gold)"></div><div class="dot" style="background:var(--au-silver)"></div>
+                <div class="dot" style="background:var(--au-gold)"></div><div class="dot" style="background:var(--au-silver)"></div><div class="dot" style="background:var(--au-gold)"></div>
+            </div>
+            <div class="stacked">
+                <span class="top-text" style="font-family:'Montserrat',sans-serif; color:var(--au-gold); font-weight:900;">TIGER</span>
+                <span class="bottom-text" style="font-family:'Montserrat',sans-serif; color:var(--au-silver); font-weight:300;">MARKETING</span>
+            </div>
+            <span class="logo-label">Montserrat / Gold-Silver</span>
+        </div>
+
+        <!-- N23: Playfair Gold/White -->
+        <div class="logo-card">
+            <span class="logo-num">N-23</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot" style="background:var(--au-gold)"></div><div class="dot" style="background:#fff"></div><div class="dot" style="background:var(--au-gold)"></div>
+                <div class="dot" style="background:#fff"></div><div class="dot" style="background:var(--au-gold)"></div><div class="dot" style="background:#fff"></div>
+                <div class="dot" style="background:var(--au-gold)"></div><div class="dot" style="background:#fff"></div><div class="dot" style="background:var(--au-gold)"></div>
+            </div>
+            <div class="stacked">
+                <span class="top-text" style="font-family:'Playfair Display',serif; color:var(--au-gold); font-weight:800;">TIGER</span>
+                <span class="bottom-text" style="font-family:'Playfair Display',serif; color:#fff; font-weight:400;">MARKETING</span>
+            </div>
+            <span class="logo-label">Playfair / Gold-White</span>
+        </div>
+
+        <!-- N24: Bebas Gold/Orange -->
+        <div class="logo-card">
+            <span class="logo-num">N-24</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot" style="background:var(--au-gold)"></div><div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:var(--au-gold)"></div>
+                <div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:var(--au-gold)"></div><div class="dot" style="background:var(--au-orange)"></div>
+                <div class="dot" style="background:var(--au-gold)"></div><div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:var(--au-gold)"></div>
+            </div>
+            <div class="stacked">
+                <span class="top-text" style="font-family:'Bebas Neue',sans-serif; color:var(--au-gold); font-size:18px; letter-spacing:4px;">TIGER</span>
+                <span class="bottom-text" style="font-family:'Bebas Neue',sans-serif; color:var(--au-orange); font-size:11px; letter-spacing:3px;">MARKETING</span>
+            </div>
+            <span class="logo-label">Bebas / Gold-Orange</span>
+        </div>
+
+    </div>
+
+    <!-- ============================================ -->
+    <!-- SECTION 5: Bold/Edgy Fonts -->
+    <!-- ============================================ -->
+    <div class="section-title">Bold &amp; Edgy Fonts</div>
+    <div class="section-sub">Navy BG / Statement fonts with Auburn colors</div>
+    <div class="grid">
+
+        <!-- N25: Archivo Black -->
+        <div class="logo-card">
+            <span class="logo-num">N-25</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:#fff"></div><div class="dot" style="background:var(--au-orange)"></div>
+                <div class="dot" style="background:#fff"></div><div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:#fff"></div>
+                <div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:#fff"></div><div class="dot" style="background:var(--au-orange)"></div>
+            </div>
+            <div class="stacked">
+                <span class="top-text" style="font-family:'Archivo Black',sans-serif; color:var(--au-orange); font-size:13px;">TIGER</span>
+                <span class="bottom-text" style="font-family:'Archivo Black',sans-serif; color:#fff; font-size:8px;">MARKETING</span>
+            </div>
+            <span class="logo-label">Archivo Black</span>
+        </div>
+
+        <!-- N26: Righteous -->
+        <div class="logo-card">
+            <span class="logo-num">N-26</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:#fff"></div><div class="dot" style="background:var(--au-orange)"></div>
+                <div class="dot" style="background:#fff"></div><div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:#fff"></div>
+                <div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:#fff"></div><div class="dot" style="background:var(--au-orange)"></div>
+            </div>
+            <div class="stacked">
+                <span class="top-text" style="font-family:'Righteous',sans-serif; color:var(--au-orange); font-size:15px;">TIGER</span>
+                <span class="bottom-text" style="font-family:'Righteous',sans-serif; color:#fff; font-size:9px;">MARKETING</span>
+            </div>
+            <span class="logo-label">Righteous</span>
+        </div>
+
+        <!-- N27: Staatliches -->
+        <div class="logo-card">
+            <span class="logo-num">N-27</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:#fff"></div><div class="dot" style="background:var(--au-orange)"></div>
+                <div class="dot" style="background:#fff"></div><div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:#fff"></div>
+                <div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:#fff"></div><div class="dot" style="background:var(--au-orange)"></div>
+            </div>
+            <div class="stacked">
+                <span class="top-text" style="font-family:'Staatliches',sans-serif; color:var(--au-orange); font-size:18px; letter-spacing:4px;">TIGER</span>
+                <span class="bottom-text" style="font-family:'Staatliches',sans-serif; color:#fff; font-size:10px; letter-spacing:2px;">MARKETING</span>
+            </div>
+            <span class="logo-label">Staatliches</span>
+        </div>
+
+        <!-- N28: Bungee -->
+        <div class="logo-card">
+            <span class="logo-num">N-28</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:#fff"></div><div class="dot" style="background:var(--au-orange)"></div>
+                <div class="dot" style="background:#fff"></div><div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:#fff"></div>
+                <div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:#fff"></div><div class="dot" style="background:var(--au-orange)"></div>
+            </div>
+            <div class="stacked">
+                <span class="top-text" style="font-family:'Bungee',sans-serif; color:var(--au-orange); font-size:12px;">TIGER</span>
+                <span class="bottom-text" style="font-family:'Bungee',sans-serif; color:#fff; font-size:7px;">MARKETING</span>
+            </div>
+            <span class="logo-label">Bungee</span>
+        </div>
+
+        <!-- N29: Permanent Marker -->
+        <div class="logo-card">
+            <span class="logo-num">N-29</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:#fff"></div><div class="dot" style="background:var(--au-orange)"></div>
+                <div class="dot" style="background:#fff"></div><div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:#fff"></div>
+                <div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:#fff"></div><div class="dot" style="background:var(--au-orange)"></div>
+            </div>
+            <div class="stacked">
+                <span class="top-text" style="font-family:'Permanent Marker',cursive; color:var(--au-orange); font-size:14px; letter-spacing:1px;">TIGER</span>
+                <span class="bottom-text" style="font-family:'Permanent Marker',cursive; color:#fff; font-size:8px;">MARKETING</span>
+            </div>
+            <span class="logo-label">Permanent Marker</span>
+        </div>
+
+        <!-- N30: Black Ops One -->
+        <div class="logo-card">
+            <span class="logo-num">N-30</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:#fff"></div><div class="dot" style="background:var(--au-orange)"></div>
+                <div class="dot" style="background:#fff"></div><div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:#fff"></div>
+                <div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:#fff"></div><div class="dot" style="background:var(--au-orange)"></div>
+            </div>
+            <div class="stacked">
+                <span class="top-text" style="font-family:'Black Ops One',sans-serif; color:var(--au-orange); font-size:12px;">TIGER</span>
+                <span class="bottom-text" style="font-family:'Black Ops One',sans-serif; color:#fff; font-size:7px;">MARKETING</span>
+            </div>
+            <span class="logo-label">Black Ops One</span>
+        </div>
+
+        <!-- N31: Saira Stencil -->
+        <div class="logo-card">
+            <span class="logo-num">N-31</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:#fff"></div><div class="dot" style="background:var(--au-orange)"></div>
+                <div class="dot" style="background:#fff"></div><div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:#fff"></div>
+                <div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:#fff"></div><div class="dot" style="background:var(--au-orange)"></div>
+            </div>
+            <div class="stacked">
+                <span class="top-text" style="font-family:'Saira Stencil One',sans-serif; color:var(--au-orange); font-size:11px;">TIGER</span>
+                <span class="bottom-text" style="font-family:'Saira Stencil One',sans-serif; color:#fff; font-size:7px;">MARKETING</span>
+            </div>
+            <span class="logo-label">Saira Stencil</span>
+        </div>
+
+        <!-- N32: Fjalla One -->
+        <div class="logo-card">
+            <span class="logo-num">N-32</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:#fff"></div><div class="dot" style="background:var(--au-orange)"></div>
+                <div class="dot" style="background:#fff"></div><div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:#fff"></div>
+                <div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:#fff"></div><div class="dot" style="background:var(--au-orange)"></div>
+            </div>
+            <div class="stacked">
+                <span class="top-text" style="font-family:'Fjalla One',sans-serif; color:var(--au-orange); font-size:15px;">TIGER</span>
+                <span class="bottom-text" style="font-family:'Fjalla One',sans-serif; color:#fff; font-size:9px;">MARKETING</span>
+            </div>
+            <span class="logo-label">Fjalla One</span>
+        </div>
+
+        <!-- N33: Passion One -->
+        <div class="logo-card">
+            <span class="logo-num">N-33</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:#fff"></div><div class="dot" style="background:var(--au-orange)"></div>
+                <div class="dot" style="background:#fff"></div><div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:#fff"></div>
+                <div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:#fff"></div><div class="dot" style="background:var(--au-orange)"></div>
+            </div>
+            <div class="stacked">
+                <span class="top-text" style="font-family:'Passion One',sans-serif; color:var(--au-orange); font-size:16px; font-weight:900;">TIGER</span>
+                <span class="bottom-text" style="font-family:'Passion One',sans-serif; color:#fff; font-size:10px; font-weight:400;">MARKETING</span>
+            </div>
+            <span class="logo-label">Passion One</span>
+        </div>
+
+        <!-- N34: Orbitron -->
+        <div class="logo-card">
+            <span class="logo-num">N-34</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:#fff"></div><div class="dot" style="background:var(--au-orange)"></div>
+                <div class="dot" style="background:#fff"></div><div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:#fff"></div>
+                <div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:#fff"></div><div class="dot" style="background:var(--au-orange)"></div>
+            </div>
+            <div class="stacked">
+                <span class="top-text" style="font-family:'Orbitron',monospace; color:var(--au-orange); font-size:11px; font-weight:800;">TIGER</span>
+                <span class="bottom-text" style="font-family:'Orbitron',monospace; color:#fff; font-size:7px; font-weight:400;">MARKETING</span>
+            </div>
+            <span class="logo-label">Orbitron</span>
+        </div>
+
+    </div>
+
+    <!-- ============================================ -->
+    <!-- SECTION 6: Mixed Font Combos -->
+    <!-- ============================================ -->
+    <div class="section-title">Mixed Font Combos</div>
+    <div class="section-sub">Navy BG / Different font for TIGER vs MARKETING</div>
+    <div class="grid">
+
+        <!-- N35: Bebas + Raleway -->
+        <div class="logo-card">
+            <span class="logo-num">N-35</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:#fff"></div><div class="dot" style="background:var(--au-orange)"></div>
+                <div class="dot" style="background:#fff"></div><div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:#fff"></div>
+                <div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:#fff"></div><div class="dot" style="background:var(--au-orange)"></div>
+            </div>
+            <div class="stacked">
+                <span class="top-text" style="font-family:'Bebas Neue',sans-serif; color:var(--au-orange); font-size:18px; letter-spacing:5px;">TIGER</span>
+                <span class="bottom-text" style="font-family:'Raleway',sans-serif; color:#fff; font-weight:300; letter-spacing:4px;">MARKETING</span>
+            </div>
+            <span class="logo-label">Bebas + Raleway Light</span>
+        </div>
+
+        <!-- N36: Anton + Geist -->
+        <div class="logo-card">
+            <span class="logo-num">N-36</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:#fff"></div><div class="dot" style="background:var(--au-orange)"></div>
+                <div class="dot" style="background:#fff"></div><div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:#fff"></div>
+                <div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:#fff"></div><div class="dot" style="background:var(--au-orange)"></div>
+            </div>
+            <div class="stacked">
+                <span class="top-text" style="font-family:'Anton',sans-serif; color:var(--au-orange); font-size:16px;">TIGER</span>
+                <span class="bottom-text" style="font-family:'Geist',sans-serif; color:#fff; font-weight:300; letter-spacing:3px;">MARKETING</span>
+            </div>
+            <span class="logo-label">Anton + Geist Light</span>
+        </div>
+
+        <!-- N37: Montserrat + Playfair -->
+        <div class="logo-card">
+            <span class="logo-num">N-37</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:#fff"></div><div class="dot" style="background:var(--au-orange)"></div>
+                <div class="dot" style="background:#fff"></div><div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:#fff"></div>
+                <div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:#fff"></div><div class="dot" style="background:var(--au-orange)"></div>
+            </div>
+            <div class="stacked">
+                <span class="top-text" style="font-family:'Montserrat',sans-serif; color:var(--au-orange); font-weight:900;">TIGER</span>
+                <span class="bottom-text" style="font-family:'Playfair Display',serif; color:#fff; font-weight:400; font-style:italic; letter-spacing:1px;">MARKETING</span>
+            </div>
+            <span class="logo-label">Montserrat + Playfair</span>
+        </div>
+
+        <!-- N38: Oswald + Lato -->
+        <div class="logo-card">
+            <span class="logo-num">N-38</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:#fff"></div><div class="dot" style="background:var(--au-orange)"></div>
+                <div class="dot" style="background:#fff"></div><div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:#fff"></div>
+                <div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:#fff"></div><div class="dot" style="background:var(--au-orange)"></div>
+            </div>
+            <div class="stacked">
+                <span class="top-text" style="font-family:'Oswald',sans-serif; color:var(--au-orange); font-weight:700;">TIGER</span>
+                <span class="bottom-text" style="font-family:'Lato',sans-serif; color:#fff; font-weight:300; letter-spacing:3px;">MARKETING</span>
+            </div>
+            <span class="logo-label">Oswald + Lato Light</span>
+        </div>
+
+        <!-- N39: Teko + Poppins -->
+        <div class="logo-card">
+            <span class="logo-num">N-39</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:#fff"></div><div class="dot" style="background:var(--au-orange)"></div>
+                <div class="dot" style="background:#fff"></div><div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:#fff"></div>
+                <div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:#fff"></div><div class="dot" style="background:var(--au-orange)"></div>
+            </div>
+            <div class="stacked">
+                <span class="top-text" style="font-family:'Teko',sans-serif; color:var(--au-orange); font-size:20px; font-weight:700;">TIGER</span>
+                <span class="bottom-text" style="font-family:'Poppins',sans-serif; color:#fff; font-weight:400; font-size:8px; letter-spacing:2px;">MARKETING</span>
+            </div>
+            <span class="logo-label">Teko + Poppins</span>
+        </div>
+
+        <!-- N40: Staatliches + Montserrat -->
+        <div class="logo-card">
+            <span class="logo-num">N-40</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:#fff"></div><div class="dot" style="background:var(--au-orange)"></div>
+                <div class="dot" style="background:#fff"></div><div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:#fff"></div>
+                <div class="dot" style="background:var(--au-orange)"></div><div class="dot" style="background:#fff"></div><div class="dot" style="background:var(--au-orange)"></div>
+            </div>
+            <div class="stacked">
+                <span class="top-text" style="font-family:'Staatliches',sans-serif; color:var(--au-orange); font-size:18px; letter-spacing:4px;">TIGER</span>
+                <span class="bottom-text" style="font-family:'Montserrat',sans-serif; color:#fff; font-weight:300; font-size:8px; letter-spacing:3px;">MARKETING</span>
+            </div>
+            <span class="logo-label">Staatliches + Montserrat</span>
+        </div>
+
+    </div>
+
+    <!-- ============================================ -->
+    <!-- SECTION 7: Glow Effects on Navy -->
+    <!-- ============================================ -->
+    <div class="section-title">Glow Effects on Navy</div>
+    <div class="section-sub">Navy BG / Glowing text with different fonts</div>
+    <div class="grid">
+
+        <!-- N41: Geist Glow -->
+        <div class="logo-card" style="background: var(--au-navy-dark);">
+            <span class="logo-num">N-41</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot" style="background:var(--au-orange); box-shadow: 0 0 8px rgba(221,85,12,0.6);"></div>
+                <div class="dot" style="background:#fff; box-shadow: 0 0 8px rgba(255,255,255,0.4);"></div>
+                <div class="dot" style="background:var(--au-orange); box-shadow: 0 0 8px rgba(221,85,12,0.6);"></div>
+                <div class="dot" style="background:#fff; box-shadow: 0 0 8px rgba(255,255,255,0.4);"></div>
+                <div class="dot" style="background:var(--au-orange); box-shadow: 0 0 8px rgba(221,85,12,0.6);"></div>
+                <div class="dot" style="background:#fff; box-shadow: 0 0 8px rgba(255,255,255,0.4);"></div>
+                <div class="dot" style="background:var(--au-orange); box-shadow: 0 0 8px rgba(221,85,12,0.6);"></div>
+                <div class="dot" style="background:#fff; box-shadow: 0 0 8px rgba(255,255,255,0.4);"></div>
+                <div class="dot" style="background:var(--au-orange); box-shadow: 0 0 8px rgba(221,85,12,0.6);"></div>
+            </div>
+            <div class="stacked">
+                <span class="top-text" style="font-family:'Geist',sans-serif; color:var(--au-orange); text-shadow: 0 0 12px rgba(221,85,12,0.5);">TIGER</span>
+                <span class="bottom-text" style="font-family:'Geist',sans-serif; color:#fff; text-shadow: 0 0 10px rgba(255,255,255,0.3);">MARKETING</span>
+            </div>
+            <span class="logo-label">Geist / Glow</span>
+        </div>
+
+        <!-- N42: Bebas Glow -->
+        <div class="logo-card" style="background: var(--au-navy-dark);">
+            <span class="logo-num">N-42</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot" style="background:var(--au-orange); box-shadow: 0 0 8px rgba(221,85,12,0.6);"></div>
+                <div class="dot" style="background:#fff; box-shadow: 0 0 8px rgba(255,255,255,0.4);"></div>
+                <div class="dot" style="background:var(--au-orange); box-shadow: 0 0 8px rgba(221,85,12,0.6);"></div>
+                <div class="dot" style="background:#fff; box-shadow: 0 0 8px rgba(255,255,255,0.4);"></div>
+                <div class="dot" style="background:var(--au-orange); box-shadow: 0 0 8px rgba(221,85,12,0.6);"></div>
+                <div class="dot" style="background:#fff; box-shadow: 0 0 8px rgba(255,255,255,0.4);"></div>
+                <div class="dot" style="background:var(--au-orange); box-shadow: 0 0 8px rgba(221,85,12,0.6);"></div>
+                <div class="dot" style="background:#fff; box-shadow: 0 0 8px rgba(255,255,255,0.4);"></div>
+                <div class="dot" style="background:var(--au-orange); box-shadow: 0 0 8px rgba(221,85,12,0.6);"></div>
+            </div>
+            <div class="stacked">
+                <span class="top-text" style="font-family:'Bebas Neue',sans-serif; color:var(--au-orange); font-size:18px; letter-spacing:4px; text-shadow: 0 0 12px rgba(221,85,12,0.5);">TIGER</span>
+                <span class="bottom-text" style="font-family:'Bebas Neue',sans-serif; color:#fff; font-size:11px; letter-spacing:3px; text-shadow: 0 0 10px rgba(255,255,255,0.3);">MARKETING</span>
+            </div>
+            <span class="logo-label">Bebas Neue / Glow</span>
+        </div>
+
+        <!-- N43: Montserrat Glow -->
+        <div class="logo-card" style="background: var(--au-navy-dark);">
+            <span class="logo-num">N-43</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot" style="background:var(--au-gold); box-shadow: 0 0 8px rgba(241,168,54,0.6);"></div>
+                <div class="dot" style="background:var(--au-orange); box-shadow: 0 0 8px rgba(221,85,12,0.6);"></div>
+                <div class="dot" style="background:var(--au-gold); box-shadow: 0 0 8px rgba(241,168,54,0.6);"></div>
+                <div class="dot" style="background:var(--au-orange); box-shadow: 0 0 8px rgba(221,85,12,0.6);"></div>
+                <div class="dot" style="background:var(--au-gold); box-shadow: 0 0 8px rgba(241,168,54,0.6);"></div>
+                <div class="dot" style="background:var(--au-orange); box-shadow: 0 0 8px rgba(221,85,12,0.6);"></div>
+                <div class="dot" style="background:var(--au-gold); box-shadow: 0 0 8px rgba(241,168,54,0.6);"></div>
+                <div class="dot" style="background:var(--au-orange); box-shadow: 0 0 8px rgba(221,85,12,0.6);"></div>
+                <div class="dot" style="background:var(--au-gold); box-shadow: 0 0 8px rgba(241,168,54,0.6);"></div>
+            </div>
+            <div class="stacked">
+                <span class="top-text" style="font-family:'Montserrat',sans-serif; color:var(--au-gold); font-weight:900; text-shadow: 0 0 12px rgba(241,168,54,0.5);">TIGER</span>
+                <span class="bottom-text" style="font-family:'Montserrat',sans-serif; color:var(--au-orange); font-weight:400; text-shadow: 0 0 10px rgba(221,85,12,0.3);">MARKETING</span>
+            </div>
+            <span class="logo-label">Montserrat / Gold Glow</span>
+        </div>
+
+        <!-- N44: Staatliches Glow -->
+        <div class="logo-card" style="background: var(--au-navy-dark);">
+            <span class="logo-num">N-44</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot" style="background:var(--au-orange); box-shadow: 0 0 10px rgba(221,85,12,0.8);"></div>
+                <div class="dot" style="background:var(--au-orange-bright); box-shadow: 0 0 10px rgba(242,101,34,0.8);"></div>
+                <div class="dot" style="background:var(--au-orange); box-shadow: 0 0 10px rgba(221,85,12,0.8);"></div>
+                <div class="dot" style="background:var(--au-orange-bright); box-shadow: 0 0 10px rgba(242,101,34,0.8);"></div>
+                <div class="dot" style="background:var(--au-orange); box-shadow: 0 0 10px rgba(221,85,12,0.8);"></div>
+                <div class="dot" style="background:var(--au-orange-bright); box-shadow: 0 0 10px rgba(242,101,34,0.8);"></div>
+                <div class="dot" style="background:var(--au-orange); box-shadow: 0 0 10px rgba(221,85,12,0.8);"></div>
+                <div class="dot" style="background:var(--au-orange-bright); box-shadow: 0 0 10px rgba(242,101,34,0.8);"></div>
+                <div class="dot" style="background:var(--au-orange); box-shadow: 0 0 10px rgba(221,85,12,0.8);"></div>
+            </div>
+            <div class="stacked">
+                <span class="top-text" style="font-family:'Staatliches',sans-serif; color:var(--au-orange-bright); font-size:18px; letter-spacing:4px; text-shadow: 0 0 15px rgba(242,101,34,0.6);">TIGER</span>
+                <span class="bottom-text" style="font-family:'Staatliches',sans-serif; color:var(--au-orange); font-size:10px; letter-spacing:2px; text-shadow: 0 0 12px rgba(221,85,12,0.4);">MARKETING</span>
+            </div>
+            <span class="logo-label">Staatliches / Fire Glow</span>
+        </div>
+
+    </div>
+
+    <div style="height: 40px;"></div>
+
+    <script>
+        let favs = JSON.parse(localStorage.getItem('tm_logo18n_favs') || '[]');
+
+        function initFavs() {
+            document.querySelectorAll('.fav-btn').forEach((btn, i) => {
+                if (favs.includes(i)) btn.classList.add('active');
+            });
+        }
+
+        function toggleFav(btn, e) {
+            e.stopPropagation();
+            const idx = Array.from(document.querySelectorAll('.fav-btn')).indexOf(btn);
+            if (favs.includes(idx)) {
+                favs = favs.filter(f => f !== idx);
+                btn.classList.remove('active');
+            } else {
+                favs.push(idx);
+                btn.classList.add('active');
+            }
+            localStorage.setItem('tm_logo18n_favs', JSON.stringify(favs));
+        }
+
+        initFavs();
+    </script>
+</body>
+</html>
