@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tiger Marketing - Theme Playground</title>
+    <style>
+        /* ===== THEME SWITCHER BAR ===== */
+        .theme-bar {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 9999;
+            display: flex; align-items: center; gap: 8px;
+            padding: 10px 20px;
+            background: #111; border-bottom: 2px solid #333;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            overflow-x: auto; -webkit-overflow-scrolling: touch;
+        }
+        .theme-bar .label { color: #aaa; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; white-space: nowrap; margin-right: 8px; }
+        .theme-btn {
+            padding: 8px 16px; border-radius: 20px; border: 2px solid transparent;
+            font-size: 13px; font-weight: 600; cursor: pointer; white-space: nowrap;
+            transition: all 0.2s;
+        }
+        .theme-btn:hover { transform: scale(1.05); }
+        .theme-btn.active { border-color: #fff; box-shadow: 0 0 12px rgba(255,255,255,0.3); }
+        .theme-btn[data-theme="tiger-light"] { background: linear-gradient(135deg, #f97316, #ea580c); color: #fff; }
+        .theme-btn[data-theme="tiger-dark"] { background: linear-gradient(135deg, #1a1a2e, #16213e); color: #f97316; }
+        .theme-btn[data-theme="tiger-navy"] { background: linear-gradient(135deg, #0c1d3d, #1e3a5f); color: #f59e0b; }
+        .theme-btn[data-theme="tiger-midnight"] { background: linear-gradient(135deg, #0a0a0a, #1a1a1a); color: #ff6b00; }
+        .theme-btn[data-theme="tiger-clean"] { background: linear-gradient(135deg, #ffffff, #f8f9fa); color: #ea580c; border: 1px solid #ddd; }
+        .back-link { color: #f97316; text-decoration: none; font-size: 13px; margin-left: auto; white-space: nowrap; }
+        .back-link:hover { text-decoration: underline; }
+
+        /* ===== BASE RESET ===== */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { padding-top: 56px; min-height: 100vh; transition: background 0.4s, color 0.4s; }
+        a { cursor: pointer; text-decoration: none; }
+
+        /* ===== THEME 1: TIGER LIGHT (twcauburn.com inspired) ===== */
+        body.tiger-light {
+            --bg: #fafaf8;
+            --bg-alt: #ffffff;
+            --bg-card: #ffffff;
+            --bg-sidebar: #1c1917;
+            --bg-input: #f5f5f4;
+            --border: #e7e5e4;
+            --border-hover: #d6d3d1;
+            --text: #1c1917;
+            --text-secondary: #57534e;
+            --text-muted: #a8a29e;
+            --text-sidebar: #fafaf9;
+            --text-sidebar-muted: #a8a29e;
+            --accent: #ea580c;
+            --accent-hover: #c2410c;
+            --accent-light: rgba(234, 88, 12, 0.1);
+            --accent-glow: rgba(234, 88, 12, 0.15);
+            --green: #16a34a;
+            --green-bg: rgba(22, 163, 74, 0.1);
+            --yellow: #ca8a04;
+            --yellow-bg: rgba(202, 138, 4, 0.1);
+            --red: #dc2626;
+            --red-bg: rgba(220, 38, 38, 0.1);
+            --purple: #9333ea;
+            --purple-bg: rgba(147, 51, 234, 0.1);
+            --orange: #ea580c;
+            --orange-bg: rgba(234, 88, 12, 0.1);
+            --card-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.06);
+            --header-bg: #ffffff;
+            --header-border: #e7e5e4;
+            --nav-active-bg: rgba(234, 88, 12, 0.1);
+            --nav-active-color: #ea580c;
+            --nav-active-border: #ea580c;
+            --table-hover: rgba(234, 88, 12, 0.04);
+            --stat-border-radius: 16px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+        }
+
+        /* ===== THEME 2: TIGER DARK (orange on dark) ===== */
+        body.tiger-dark {
+            --bg: #0f0f17;
+            --bg-alt: #161622;
+            --bg-card: #1c1c2e;
+            --bg-sidebar: #0a0a12;
+            --bg-input: #22223a;
+            --border: #2a2a44;
+            --border-hover: #3a3a5e;
+            --text: #f0ece8;
+            --text-secondary: #9a9aaa;
+            --text-muted: #5e5e78;
+            --text-sidebar: #f0ece8;
+            --text-sidebar-muted: #5e5e78;
+            --accent: #f97316;
+            --accent-hover: #fb923c;
+            --accent-light: rgba(249, 115, 22, 0.15);
+            --accent-glow: rgba(249, 115, 22, 0.2);
+            --green: #22c55e;
+            --green-bg: rgba(34, 197, 94, 0.15);
+            --yellow: #eab308;
+            --yellow-bg: rgba(234, 179, 8, 0.15);
+            --red: #ef4444;
+            --red-bg: rgba(239, 68, 68, 0.15);
+            --purple: #a855f7;
+            --purple-bg: rgba(168, 85, 247, 0.15);
+            --orange: #f97316;
+            --orange-bg: rgba(249, 115, 22, 0.15);
+            --card-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            --header-bg: #161622;
+            --header-border: #2a2a44;
+            --nav-active-bg: rgba(249, 115, 22, 0.12);
+            --nav-active-color: #f97316;
+            --nav-active-border: #f97316;
+            --table-hover: rgba(249, 115, 22, 0.04);
+            --stat-border-radius: 12px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+        }
+
+        /* ===== THEME 3: TIGER NAVY (Auburn colors) ===== */
+        body.tiger-navy {
+            --bg: #0a1628;
+            --bg-alt: #0f1f3d;
+            --bg-card: #132844;
+            --bg-sidebar: #060e1f;
+            --bg-input: #1a3355;
+            --border: #1e3a5f;
+            --border-hover: #2a5080;
+            --text: #e8edf5;
+            --text-secondary: #8899bb;
+            --text-muted: #4a6080;
+            --text-sidebar: #e8edf5;
+            --text-sidebar-muted: #4a6080;
+            --accent: #f59e0b;
+            --accent-hover: #fbbf24;
+            --accent-light: rgba(245, 158, 11, 0.15);
+            --accent-glow: rgba(245, 158, 11, 0.2);
+            --green: #22c55e;
+            --green-bg: rgba(34, 197, 94, 0.15);
+            --yellow: #f59e0b;
+            --yellow-bg: rgba(245, 158, 11, 0.15);
+            --red: #ef4444;
+            --red-bg: rgba(239, 68, 68, 0.15);
+            --purple: #818cf8;
+            --purple-bg: rgba(129, 140, 248, 0.15);
+            --orange: #fb923c;
+            --orange-bg: rgba(251, 146, 60, 0.15);
+            --card-shadow: 0 2px 12px rgba(0,0,0,0.4);
+            --header-bg: #0f1f3d;
+            --header-border: #1e3a5f;
+            --nav-active-bg: rgba(245, 158, 11, 0.1);
+            --nav-active-color: #f59e0b;
+            --nav-active-border: #f59e0b;
+            --table-hover: rgba(245, 158, 11, 0.04);
+            --stat-border-radius: 12px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+        }
+
+        /* ===== THEME 4: TIGER MIDNIGHT (pure dark + glowing orange) ===== */
+        body.tiger-midnight {
+            --bg: #050505;
+            --bg-alt: #0d0d0d;
+            --bg-card: #111111;
+            --bg-sidebar: #080808;
+            --bg-input: #1a1a1a;
+            --border: #222222;
+            --border-hover: #333333;
+            --text: #e5e5e5;
+            --text-secondary: #888888;
+            --text-muted: #555555;
+            --text-sidebar: #e5e5e5;
+            --text-sidebar-muted: #555555;
+            --accent: #ff6b00;
+            --accent-hover: #ff8533;
+            --accent-light: rgba(255, 107, 0, 0.12);
+            --accent-glow: rgba(255, 107, 0, 0.25);
+            --green: #00d26a;
+            --green-bg: rgba(0, 210, 106, 0.12);
+            --yellow: #ffc107;
+            --yellow-bg: rgba(255, 193, 7, 0.12);
+            --red: #ff3d3d;
+            --red-bg: rgba(255, 61, 61, 0.12);
+            --purple: #b388ff;
+            --purple-bg: rgba(179, 136, 255, 0.12);
+            --orange: #ff6b00;
+            --orange-bg: rgba(255, 107, 0, 0.12);
+            --card-shadow: 0 0 20px rgba(255, 107, 0, 0.06);
+            --header-bg: #0d0d0d;
+            --header-border: #222222;
+            --nav-active-bg: rgba(255, 107, 0, 0.1);
+            --nav-active-color: #ff6b00;
+            --nav-active-border: #ff6b00;
+            --table-hover: rgba(255, 107, 0, 0.04);
+            --stat-border-radius: 8px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+        }
+
+        /* ===== THEME 5: TIGER CLEAN (minimal white, twcauburn.com closest match) ===== */
+        body.tiger-clean {
+            --bg: #f8f8f6;
+            --bg-alt: #ffffff;
+            --bg-card: #ffffff;
+            --bg-sidebar: #ffffff;
+            --bg-input: #f4f4f2;
+            --border: #e5e5e0;
+            --border-hover: #d4d4cf;
+            --text: #18181b;
+            --text-secondary: #52525b;
+            --text-muted: #a1a1aa;
+            --text-sidebar: #18181b;
+            --text-sidebar-muted: #a1a1aa;
+            --accent: #ea580c;
+            --accent-hover: #dc2626;
+            --accent-light: rgba(234, 88, 12, 0.08);
+            --accent-glow: rgba(234, 88, 12, 0.12);
+            --green: #16a34a;
+            --green-bg: rgba(22, 163, 74, 0.08);
+            --yellow: #ca8a04;
+            --yellow-bg: rgba(202, 138, 4, 0.08);
+            --red: #dc2626;
+            --red-bg: rgba(220, 38, 38, 0.08);
+            --purple: #7c3aed;
+            --purple-bg: rgba(124, 58, 237, 0.08);
+            --orange: #ea580c;
+            --orange-bg: rgba(234, 88, 12, 0.08);
+            --card-shadow: 0 1px 3px rgba(0,0,0,0.06);
+            --header-bg: #ffffff;
+            --header-border: #e5e5e0;
+            --nav-active-bg: rgba(234, 88, 12, 0.06);
+            --nav-active-color: #ea580c;
+            --nav-active-border: #ea580c;
+            --table-hover: rgba(234, 88, 12, 0.03);
+            --stat-border-radius: 16px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+        }
+
+        /* ===== LAYOUT ===== */
+        .app-layout { display: flex; min-height: calc(100vh - 56px); }
+
+        /* ===== SIDEBAR ===== */
+        .sidebar {
+            width: 250px;
+            background: var(--bg-sidebar);
+            border-right: 1px solid var(--border);
+            position: fixed;
+            top: 56px; left: 0; bottom: 0;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            transition: transform 0.3s, background 0.4s;
+        }
+
+        .sidebar-brand {
+            padding: 24px 20px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .sidebar-brand .tiger-icon {
+            width: 44px; height: 44px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-hover));
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 22px;
+            box-shadow: 0 2px 8px var(--accent-glow);
+        }
+
+        .sidebar-brand h1 {
+            font-size: 17px; font-weight: 800;
+            letter-spacing: 0.3px;
+            color: var(--text-sidebar);
+            line-height: 1.2;
+        }
+        .sidebar-brand .sub {
+            font-size: 11px; color: var(--text-sidebar-muted);
+            text-transform: uppercase; letter-spacing: 1.5px;
+            margin-top: 2px;
+        }
+
+        .sidebar-nav { flex: 1; padding: 12px 0; }
+
+        .nav-section {
+            padding: 10px 20px 4px;
+            font-size: 10px; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 1.5px;
+            color: var(--text-sidebar-muted);
+            margin-top: 4px;
+        }
+
+        .nav-item {
+            display: flex; align-items: center; gap: 12px;
+            padding: 10px 20px;
+            color: var(--text-sidebar-muted);
+            font-size: 14px; font-weight: 500;
+            transition: all 0.15s;
+            border-left: 3px solid transparent;
+        }
+        .nav-item:hover { background: var(--accent-light); color: var(--text-sidebar); }
+        .nav-item.active {
+            background: var(--nav-active-bg);
+            color: var(--nav-active-color);
+            border-left-color: var(--nav-active-border);
+            font-weight: 600;
+        }
+        .nav-item .icon { font-size: 18px; width: 24px; text-align: center; }
+        .nav-item .badge-count {
+            margin-left: auto;
+            background: var(--accent-light); color: var(--accent);
+            font-size: 11px; font-weight: 700;
+            padding: 2px 8px; border-radius: 10px;
+        }
+
+        /* Clean theme sidebar override */
+        body.tiger-clean .sidebar { border-right: 1px solid #e5e5e0; box-shadow: 2px 0 8px rgba(0,0,0,0.04); }
+        body.tiger-light .sidebar { box-shadow: 2px 0 8px rgba(0,0,0,0.1); }
+        body.tiger-light .nav-item:hover, body.tiger-clean .nav-item:hover { color: var(--text); }
+
+        /* ===== MAIN CONTENT ===== */
+        .main-content { flex: 1; margin-left: 250px; min-height: calc(100vh - 56px); }
+
+        .page-header {
+            background: var(--header-bg);
+            border-bottom: 1px solid var(--header-border);
+            padding: 20px 32px;
+            display: flex; align-items: center; justify-content: space-between;
+            position: sticky; top: 56px; z-index: 50;
+            transition: background 0.4s;
+        }
+        .page-header h2 { font-size: 22px; font-weight: 700; }
+        .page-header .subtitle { font-size: 13px; color: var(--text-muted); margin-top: 2px; }
+
+        .content { padding: 24px 32px; }
+
+        /* ===== STAT CARDS ===== */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+            gap: 16px; margin-bottom: 28px;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--stat-border-radius);
+            padding: 22px;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        .stat-card:hover { border-color: var(--border-hover); transform: translateY(-2px); box-shadow: var(--card-shadow), 0 4px 12px rgba(0,0,0,0.1); }
+        .stat-card .label {
+            font-size: 11px; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 0.8px;
+            color: var(--text-muted); margin-bottom: 10px;
+        }
+        .stat-card .value { font-size: 30px; font-weight: 800; color: var(--text); }
+        .stat-card .value small { font-size: 16px; color: var(--text-muted); font-weight: 500; }
+        .stat-card.accent { border-left: 4px solid var(--accent); }
+        .stat-card.green { border-left: 4px solid var(--green); }
+        .stat-card.yellow { border-left: 4px solid var(--yellow); }
+        .stat-card.red { border-left: 4px solid var(--red); }
+        .stat-card.purple { border-left: 4px solid var(--purple); }
+
+        /* ===== CARDS ===== */
+        .card {
+            background: var(--bg-card); border: 1px solid var(--border);
+            border-radius: 12px; margin-bottom: 20px;
+            box-shadow: var(--card-shadow);
+            overflow: hidden; transition: all 0.3s;
+        }
+        .card-header {
+            padding: 16px 22px; border-bottom: 1px solid var(--border);
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .card-header h3 { font-size: 15px; font-weight: 700; }
+
+        /* ===== TABLES ===== */
+        .table-wrap { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; }
+        table th {
+            padding: 12px 16px; text-align: left;
+            font-size: 11px; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 0.5px;
+            color: var(--text-muted);
+            border-bottom: 1px solid var(--border);
+        }
+        table td {
+            padding: 14px 16px; font-size: 14px;
+            border-bottom: 1px solid var(--border);
+            vertical-align: middle;
+        }
+        table tr:hover td { background: var(--table-hover); }
+        table tr:last-child td { border-bottom: none; }
+
+        /* ===== BADGES ===== */
+        .badge {
+            display: inline-block; padding: 4px 12px; border-radius: 20px;
+            font-size: 11px; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 0.5px;
+        }
+        .badge-new { background: var(--accent-light); color: var(--accent); }
+        .badge-contacted { background: var(--yellow-bg); color: var(--yellow); }
+        .badge-qualified { background: var(--green-bg); color: var(--green); }
+        .badge-proposal { background: var(--purple-bg); color: var(--purple); }
+        .badge-won { background: var(--green-bg); color: var(--green); }
+        .badge-lost { background: var(--red-bg); color: var(--red); }
+        .badge-prospect { background: var(--accent-light); color: var(--accent); }
+        .badge-quoted { background: var(--yellow-bg); color: var(--yellow); }
+        .badge-negotiation { background: var(--orange-bg); color: var(--orange); }
+        .badge-scheduled { background: var(--purple-bg); color: var(--purple); }
+        .badge-high { background: var(--red-bg); color: var(--red); }
+        .badge-normal { background: var(--accent-light); color: var(--accent); }
+        .badge-pending { background: var(--yellow-bg); color: var(--yellow); }
+        .badge-in-progress { background: var(--accent-light); color: var(--accent); }
+        .badge-overdue { background: var(--red-bg); color: var(--red); }
+        .badge-active { background: var(--green-bg); color: var(--green); }
+        .badge-customer { background: var(--green-bg); color: var(--green); }
+        .badge-lead { background: var(--accent-light); color: var(--accent); }
+        .badge-referral { background: var(--purple-bg); color: var(--purple); }
+
+        /* ===== BUTTONS ===== */
+        .btn {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 10px 20px; border-radius: 10px;
+            font-size: 13px; font-weight: 600;
+            border: none; cursor: pointer;
+            transition: all 0.2s; font-family: inherit;
+        }
+        .btn-primary { background: var(--accent); color: #fff; }
+        .btn-primary:hover { background: var(--accent-hover); transform: translateY(-1px); }
+        .btn-secondary { background: var(--bg-input); color: var(--text); border: 1px solid var(--border); }
+        .btn-sm { padding: 6px 12px; font-size: 12px; border-radius: 8px; }
+
+        /* ===== TWO COL ===== */
+        .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+
+        /* ===== PIPELINE VISUAL ===== */
+        .pipeline-bar {
+            display: flex; gap: 2px; height: 8px; border-radius: 4px; overflow: hidden;
+            margin-top: 16px; margin-bottom: 8px;
+        }
+        .pipeline-bar div { height: 100%; transition: width 0.5s; }
+        .pipeline-legend {
+            display: flex; gap: 16px; flex-wrap: wrap; font-size: 12px; color: var(--text-secondary);
+        }
+        .pipeline-legend span { display: flex; align-items: center; gap: 6px; }
+        .pipeline-legend .dot { width: 8px; height: 8px; border-radius: 50%; }
+
+        /* ===== THEME LABEL ===== */
+        .theme-label {
+            text-align: center; padding: 20px;
+            font-size: 14px; color: var(--text-muted);
+            border-top: 1px solid var(--border);
+            margin-top: 20px;
+        }
+        .theme-label strong { color: var(--accent); }
+
+        /* ===== MOBILE TOGGLE ===== */
+        .mobile-toggle {
+            display: none;
+            background: none; border: none;
+            color: var(--text); font-size: 24px;
+            cursor: pointer; padding: 4px 8px;
+            margin-right: 12px; vertical-align: middle;
+        }
+        .sidebar-overlay {
+            display: none; position: fixed;
+            top: 56px; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.6); z-index: 99;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .sidebar { transform: translateX(-100%); width: 260px; }
+            .sidebar.open { transform: translateX(0); }
+            .sidebar-overlay.open { display: block; }
+            .main-content { margin-left: 0; }
+            .content { padding: 16px; }
+            .page-header { padding: 16px; top: 56px; }
+            .two-col { grid-template-columns: 1fr; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .mobile-toggle { display: inline-block !important; }
+            .theme-bar { padding: 8px 12px; gap: 6px; }
+            .theme-btn { padding: 6px 12px; font-size: 11px; }
+        }
+        @media (max-width: 480px) {
+            .stats-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body class="tiger-light">
+
+<!-- Theme Switcher Bar -->
+<div class="theme-bar">
+    <span class="label">Theme:</span>
+    <button class="theme-btn active" data-theme="tiger-light" onclick="setTheme('tiger-light')">Tiger Light</button>
+    <button class="theme-btn" data-theme="tiger-dark" onclick="setTheme('tiger-dark')">Tiger Dark</button>
+    <button class="theme-btn" data-theme="tiger-navy" onclick="setTheme('tiger-navy')">Tiger Navy</button>
+    <button class="theme-btn" data-theme="tiger-midnight" onclick="setTheme('tiger-midnight')">Midnight</button>
+    <button class="theme-btn" data-theme="tiger-clean" onclick="setTheme('tiger-clean')">Tiger Clean</button>
+    <a class="back-link" href="index.html">Back to CRM</a>
+</div>
+
+<div class="app-layout">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-brand">
+            <div class="tiger-icon">&#x1F42F;</div>
+            <div>
+                <h1>Tiger Marketing</h1>
+                <div class="sub">Auburn, AL</div>
+            </div>
+        </div>
+        <nav class="sidebar-nav">
+            <div class="nav-section">Main</div>
+            <a class="nav-item active">
+                <span class="icon">&#x1F4CA;</span> Dashboard
+            </a>
+            <div class="nav-section">Sales</div>
+            <a class="nav-item">
+                <span class="icon">&#x1F465;</span> Contacts
+                <span class="badge-count">7</span>
+            </a>
+            <a class="nav-item">
+                <span class="icon">&#x1F4B0;</span> Deals
+            </a>
+            <div class="nav-section">Operations</div>
+            <a class="nav-item">
+                <span class="icon">&#x2705;</span> Tasks
+                <span class="badge-count" style="background:var(--red-bg);color:var(--red)">6</span>
+            </a>
+            <a class="nav-item">
+                <span class="icon">&#x1F4DE;</span> Interactions
+            </a>
+            <div class="nav-section">Marketing</div>
+            <a class="nav-item">
+                <span class="icon">&#x1F3AF;</span> Campaigns
+            </a>
+            <div class="nav-section">Intel</div>
+            <a class="nav-item">
+                <span class="icon">&#x1F5FA;</span> Territories
+            </a>
+            <a class="nav-item">
+                <span class="icon">&#x1F3EA;</span> Top Stores
+            </a>
+            <a class="nav-item">
+                <span class="icon">&#x1F3C1;</span> Competitors
+            </a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="page-header">
+            <div>
+                <button class="mobile-toggle" onclick="toggleSidebar()">&#9776;</button>
+                <h2>Dashboard</h2>
+                <div class="subtitle">Tiger Marketing Overview</div>
+            </div>
+            <button class="btn btn-primary">+ New Contact</button>
+        </div>
+
+        <div class="content">
+            <!-- Stats -->
+            <div class="stats-grid">
+                <div class="stat-card accent">
+                    <div class="label">Total Contacts</div>
+                    <div class="value">7</div>
+                </div>
+                <div class="stat-card green">
+                    <div class="label">New Leads</div>
+                    <div class="value">2</div>
+                </div>
+                <div class="stat-card purple">
+                    <div class="label">Active Deals</div>
+                    <div class="value">5</div>
+                </div>
+                <div class="stat-card yellow">
+                    <div class="label">Pipeline Value</div>
+                    <div class="value"><small>$</small>1,875</div>
+                </div>
+                <div class="stat-card green">
+                    <div class="label">Won Revenue</div>
+                    <div class="value"><small>$</small>1,200</div>
+                </div>
+                <div class="stat-card red">
+                    <div class="label">Open Tasks</div>
+                    <div class="value">6 <small style="color:var(--red)">(2 overdue)</small></div>
+                </div>
+            </div>
+
+            <!-- Pipeline Visual -->
+            <div class="card">
+                <div class="card-header"><h3>Deal Pipeline</h3></div>
+                <div style="padding:20px 22px">
+                    <div class="pipeline-bar">
+                        <div style="width:33%;background:var(--accent)"></div>
+                        <div style="width:33%;background:var(--yellow)"></div>
+                        <div style="width:17%;background:var(--purple)"></div>
+                        <div style="width:17%;background:var(--green)"></div>
+                    </div>
+                    <div class="pipeline-legend">
+                        <span><span class="dot" style="background:var(--accent)"></span> Prospect (2)</span>
+                        <span><span class="dot" style="background:var(--yellow)"></span> Quoted (2)</span>
+                        <span><span class="dot" style="background:var(--purple)"></span> Negotiation (1)</span>
+                        <span><span class="dot" style="background:var(--green)"></span> Won (1)</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Two Column -->
+            <div class="two-col">
+                <!-- Recent Contacts -->
+                <div class="card">
+                    <div class="card-header"><h3>Recent Contacts</h3></div>
+                    <div class="table-wrap">
+                        <table>
+                            <thead><tr><th>Name</th><th>Status</th><th>Type</th></tr></thead>
+                            <tbody>
+                                <tr><td>Tom Bradley</td><td><span class="badge badge-new">New</span></td><td><span class="badge badge-lead">Lead</span></td></tr>
+                                <tr><td>Lisa Tran</td><td><span class="badge badge-new">New</span></td><td><span class="badge badge-lead">Lead</span></td></tr>
+                                <tr><td>Mike Henderson</td><td><span class="badge badge-contacted">Contacted</span></td><td><span class="badge badge-lead">Lead</span></td></tr>
+                                <tr><td>Sarah Collins</td><td><span class="badge badge-qualified">Qualified</span></td><td><span class="badge badge-prospect">Prospect</span></td></tr>
+                                <tr><td>Robert James</td><td><span class="badge badge-won">Won</span></td><td><span class="badge badge-customer">Customer</span></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Upcoming Tasks -->
+                <div class="card">
+                    <div class="card-header"><h3>Upcoming Tasks</h3></div>
+                    <div class="table-wrap">
+                        <table>
+                            <thead><tr><th>Task</th><th>Due</th><th>Priority</th></tr></thead>
+                            <tbody>
+                                <tr><td>Schedule James Q1 dates</td><td>Feb 20</td><td><span class="badge badge-high">High</span></td></tr>
+                                <tr><td>Follow up Sarah Collins</td><td>Feb 21</td><td><span class="badge badge-high">High</span></td></tr>
+                                <tr><td>Call Mike Henderson</td><td>Feb 21</td><td><span class="badge badge-normal">Normal</span></td></tr>
+                                <tr><td>Send insurance to Park</td><td>Feb 22</td><td><span class="badge badge-high">High</span></td></tr>
+                                <tr><td>Door knock Granite Hills</td><td>Feb 22</td><td><span class="badge badge-normal">Normal</span></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Deals -->
+            <div class="card">
+                <div class="card-header"><h3>Recent Deals</h3></div>
+                <div class="table-wrap">
+                    <table>
+                        <thead><tr><th>Deal</th><th>Contact</th><th>Service</th><th>Stage</th><th>Amount</th><th>Probability</th></tr></thead>
+                        <tbody>
+                            <tr><td>Tran Driveway Pressure Wash</td><td>Lisa Tran</td><td>Power Washing</td><td><span class="badge badge-prospect">Prospect</span></td><td>$275</td><td>40%</td></tr>
+                            <tr><td>Henderson Home - Quarterly</td><td>Mike Henderson</td><td>Window Washing</td><td><span class="badge badge-quoted">Quoted</span></td><td>$450</td><td>70%</td></tr>
+                            <tr><td>Collins - Windows + Gutters</td><td>Sarah Collins</td><td>Window Washing</td><td><span class="badge badge-negotiation">Negotiation</span></td><td>$350</td><td>85%</td></tr>
+                            <tr><td>Auburn Realty - Listing Prep</td><td>Karen Mitchell</td><td>Window Washing</td><td><span class="badge badge-quoted">Quoted</span></td><td>$500</td><td>50%</td></tr>
+                            <tr><td>James Properties - Q1</td><td>Robert James</td><td>Window Washing</td><td><span class="badge badge-won">Won</span></td><td>$1,200</td><td>100%</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Active Campaigns -->
+            <div class="card">
+                <div class="card-header"><h3>Active Campaigns</h3></div>
+                <div class="table-wrap">
+                    <table>
+                        <thead><tr><th>Campaign</th><th>Type</th><th>Target</th><th>Budget</th><th>Leads</th><th>Status</th></tr></thead>
+                        <tbody>
+                            <tr><td>Moores Mill Door Knocking</td><td>Door Knocking</td><td>Moores Mill</td><td>$50</td><td>3</td><td><span class="badge badge-active">Active</span></td></tr>
+                            <tr><td>Nextdoor Auburn Launch</td><td>Nextdoor</td><td>All Auburn</td><td>$0</td><td>1</td><td><span class="badge badge-active">Active</span></td></tr>
+                            <tr><td>Yarbrough Farms Flyer Drop</td><td>Flyer Drop</td><td>Yarbrough Farms</td><td>$75</td><td>0</td><td><span class="badge badge-pending">Planned</span></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Theme Info -->
+            <div class="theme-label">
+                Currently viewing: <strong id="current-theme-name">Tiger Light</strong> theme
+                &mdash; Inspired by <strong>twcauburn.com</strong> Tiger branding
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- Mobile Overlay -->
+<div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+<script>
+    const themeNames = {
+        'tiger-light': 'Tiger Light',
+        'tiger-dark': 'Tiger Dark',
+        'tiger-navy': 'Tiger Navy',
+        'tiger-midnight': 'Midnight',
+        'tiger-clean': 'Tiger Clean'
+    };
+
+    function setTheme(theme) {
+        document.body.className = theme;
+        document.querySelectorAll('.theme-btn').forEach(b => {
+            b.classList.toggle('active', b.dataset.theme === theme);
+        });
+        document.getElementById('current-theme-name').textContent = themeNames[theme] || theme;
+        localStorage.setItem('tm_playground_theme', theme);
+    }
+
+    function toggleSidebar() {
+        document.getElementById('sidebar').classList.toggle('open');
+        document.getElementById('sidebar-overlay').classList.toggle('open');
+    }
+
+    // Restore saved theme
+    const saved = localStorage.getItem('tm_playground_theme');
+    if (saved && themeNames[saved]) setTheme(saved);
+</script>
+</body>
+</html>
