@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logo #18 Stacked - TIGER / Marketing</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800;900&family=Bebas+Neue&family=Oswald:wght@700&family=Montserrat:wght@700;800;900&family=Poppins:wght@700;800;900&family=Playfair+Display:wght@700;800;900&family=Raleway:wght@300;400;700;800&family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --au-navy: #03244d;
+            --au-navy-light: #0a3a6b;
+            --au-navy-dark: #011a36;
+            --au-orange: #DD550C;
+            --au-orange-bright: #F26522;
+            --au-orange-deep: #c44a0a;
+            --au-white: #FFFFFF;
+            --au-cream: #f5f0e8;
+            --au-gray: #8b8b8b;
+        }
+
+        body {
+            font-family: 'Geist', -apple-system, sans-serif;
+            background: #0f0f17;
+            color: #f0ece8;
+            min-height: 100vh;
+        }
+
+        .page-header {
+            text-align: center;
+            padding: 30px 16px 10px;
+            position: sticky;
+            top: 0;
+            background: #0f0f17;
+            z-index: 100;
+            border-bottom: 1px solid #2a2a44;
+        }
+        .page-header h1 {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--au-orange);
+        }
+        .page-header p {
+            font-size: 12px;
+            color: #9a9aaa;
+            margin-top: 4px;
+        }
+        .back-link {
+            display: inline-block;
+            color: var(--au-orange);
+            font-size: 12px;
+            text-decoration: none;
+            margin-top: 6px;
+        }
+
+        .section-title {
+            text-align: center;
+            padding: 20px 16px 8px;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--au-orange);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            border-top: 1px solid #2a2a44;
+        }
+        .section-sub {
+            text-align: center;
+            font-size: 11px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 12px;
+            padding: 8px 16px 20px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .logo-card {
+            aspect-ratio: 1;
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 8px;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .logo-card:active { transform: scale(0.96); }
+
+        .logo-num {
+            position: absolute;
+            top: 6px;
+            left: 8px;
+            font-size: 9px;
+            font-weight: 600;
+        }
+
+        .logo-label {
+            position: absolute;
+            bottom: 4px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 7px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            opacity: 0.5;
+        }
+
+        .fav-btn {
+            position: absolute; top: 6px; right: 8px; font-size: 14px;
+            cursor: pointer; opacity: 0.3; transition: opacity 0.2s;
+            background: none; border: none; padding: 0;
+        }
+        .fav-btn.active { opacity: 1; }
+
+        /* DOT GRID */
+        .dots { display: grid; grid-template-columns: repeat(3,1fr); gap: 4px; margin-bottom: 4px; }
+        .dot { width: 12px; height: 12px; border-radius: 50%; }
+
+        /* STACKED TEXT */
+        .stacked {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            line-height: 1;
+            gap: 0px;
+        }
+        .top-text {
+            font-family: 'Geist', sans-serif;
+            font-weight: 800;
+            letter-spacing: 3px;
+            font-size: 14px;
+        }
+        .bottom-text {
+            font-family: 'Geist', sans-serif;
+            font-weight: 400;
+            letter-spacing: 2px;
+            font-size: 9px;
+            margin-top: 1px;
+        }
+
+        /* ====== COLOR THEMES (from original 18C, 18E, 18G, 18J) ====== */
+
+        /* 18-C: Clean White (White bg, Navy/Orange dots) */
+        .theme-c { background: var(--au-white); border: 1px solid #e0dcd4; }
+        .theme-c .logo-num { color: rgba(0,0,0,0.25); }
+        .theme-c .logo-label { color: rgba(0,0,0,0.3); }
+        .theme-c .dot { background: var(--au-navy); }
+        .theme-c .dot:nth-child(even) { background: var(--au-orange); }
+        .theme-c .top-text { color: var(--au-navy); }
+        .theme-c .bottom-text { color: var(--au-orange); }
+
+        /* 18-E: Cream Classic */
+        .theme-e { background: var(--au-cream); border: 1px solid #ddd5c8; }
+        .theme-e .logo-num { color: rgba(0,0,0,0.2); }
+        .theme-e .logo-label { color: rgba(0,0,0,0.3); }
+        .theme-e .dot { background: var(--au-orange); }
+        .theme-e .dot:nth-child(even) { background: var(--au-navy); }
+        .theme-e .top-text { color: var(--au-navy); }
+        .theme-e .bottom-text { color: var(--au-orange); }
+
+        /* 18-G: Navy Gradient (White bg) */
+        .theme-g { background: var(--au-white); border: 1px solid #e0dcd4; }
+        .theme-g .logo-num { color: rgba(0,0,0,0.25); }
+        .theme-g .logo-label { color: rgba(0,0,0,0.3); }
+        .theme-g .dot:nth-child(1) { background: #011a36; }
+        .theme-g .dot:nth-child(2) { background: var(--au-orange); }
+        .theme-g .dot:nth-child(3) { background: #03244d; }
+        .theme-g .dot:nth-child(4) { background: var(--au-orange); }
+        .theme-g .dot:nth-child(5) { background: #0a3a6b; }
+        .theme-g .dot:nth-child(6) { background: var(--au-orange); }
+        .theme-g .dot:nth-child(7) { background: #0f4d8a; }
+        .theme-g .dot:nth-child(8) { background: var(--au-orange); }
+        .theme-g .dot:nth-child(9) { background: #1565a8; }
+        .theme-g .top-text { color: var(--au-navy); }
+        .theme-g .bottom-text { color: var(--au-orange); }
+
+        /* 18-J: Glowing (Black bg) */
+        .theme-j { background: #0a0a0a; border: 1px solid #1a1a1a; }
+        .theme-j .logo-num { color: rgba(255,255,255,0.2); }
+        .theme-j .logo-label { color: rgba(255,255,255,0.3); }
+        .theme-j .dot { background: var(--au-orange); box-shadow: 0 0 8px rgba(221,85,12,0.6); }
+        .theme-j .dot:nth-child(even) { background: var(--au-navy-light); box-shadow: 0 0 8px rgba(3,36,77,0.6); }
+        .theme-j .top-text { color: var(--au-orange); text-shadow: 0 0 10px rgba(221,85,12,0.4); }
+        .theme-j .bottom-text { color: var(--au-white); text-shadow: 0 0 8px rgba(255,255,255,0.2); }
+
+        /* ====== ALTERNATE TOP/BOTTOM COLOR COMBOS ====== */
+        /* Same top as bottom color */
+        .same-color .top-text, .same-color .bottom-text { color: var(--au-navy); }
+        .theme-j.same-color .top-text, .theme-j.same-color .bottom-text { color: var(--au-orange); }
+
+        /* Swapped colors */
+        .theme-c.swapped .top-text { color: var(--au-orange); }
+        .theme-c.swapped .bottom-text { color: var(--au-navy); }
+        .theme-e.swapped .top-text { color: var(--au-orange); }
+        .theme-e.swapped .bottom-text { color: var(--au-navy); }
+        .theme-g.swapped .top-text { color: var(--au-orange); }
+        .theme-g.swapped .bottom-text { color: var(--au-navy); }
+        .theme-j.swapped .top-text { color: var(--au-white); }
+        .theme-j.swapped .bottom-text { color: var(--au-orange); }
+
+    </style>
+</head>
+<body>
+    <div class="page-header">
+        <h1>Stacked: TIGER / Marketing</h1>
+        <p>Your favorites (C, E, G, J) with text case variations</p>
+        <a href="logos18.html" class="back-link">&#8592; Back to 18 variations</a>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- SECTION 1: 18-C (Clean White) -->
+    <!-- ============================================ -->
+    <div class="section-title">18-C &mdash; Clean White</div>
+    <div class="section-sub">White BG / Navy + Orange dots</div>
+    <div class="grid">
+
+        <!-- C1: TIGER / MARKETING -->
+        <div class="logo-card theme-c">
+            <span class="logo-num">C-1</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+            </div>
+            <div class="stacked">
+                <span class="top-text">TIGER</span>
+                <span class="bottom-text">MARKETING</span>
+            </div>
+            <span class="logo-label">ALL CAPS / ALL CAPS</span>
+        </div>
+
+        <!-- C2: TIGER / marketing -->
+        <div class="logo-card theme-c">
+            <span class="logo-num">C-2</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+            </div>
+            <div class="stacked">
+                <span class="top-text">TIGER</span>
+                <span class="bottom-text">marketing</span>
+            </div>
+            <span class="logo-label">ALL CAPS / lowercase</span>
+        </div>
+
+        <!-- C3: TIGER / Marketing -->
+        <div class="logo-card theme-c">
+            <span class="logo-num">C-3</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+            </div>
+            <div class="stacked">
+                <span class="top-text">TIGER</span>
+                <span class="bottom-text">Marketing</span>
+            </div>
+            <span class="logo-label">ALL CAPS / CamelCase</span>
+        </div>
+
+        <!-- C4: Tiger / Marketing -->
+        <div class="logo-card theme-c">
+            <span class="logo-num">C-4</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+            </div>
+            <div class="stacked">
+                <span class="top-text" style="text-transform: capitalize; font-size: 14px;">Tiger</span>
+                <span class="bottom-text">Marketing</span>
+            </div>
+            <span class="logo-label">Capitalized / Capitalized</span>
+        </div>
+
+        <!-- C5: tiger / marketing -->
+        <div class="logo-card theme-c">
+            <span class="logo-num">C-5</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+            </div>
+            <div class="stacked">
+                <span class="top-text" style="text-transform: lowercase;">tiger</span>
+                <span class="bottom-text">marketing</span>
+            </div>
+            <span class="logo-label">lowercase / lowercase</span>
+        </div>
+
+        <!-- C6: Tiger / MARKETING -->
+        <div class="logo-card theme-c">
+            <span class="logo-num">C-6</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+            </div>
+            <div class="stacked">
+                <span class="top-text">Tiger</span>
+                <span class="bottom-text" style="text-transform: uppercase; letter-spacing: 3px;">MARKETING</span>
+            </div>
+            <span class="logo-label">Capitalized / ALL CAPS</span>
+        </div>
+
+        <!-- C7: TIGER / Marketing (swapped colors) -->
+        <div class="logo-card theme-c swapped">
+            <span class="logo-num">C-7</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+            </div>
+            <div class="stacked">
+                <span class="top-text">TIGER</span>
+                <span class="bottom-text">Marketing</span>
+            </div>
+            <span class="logo-label">Swapped Colors</span>
+        </div>
+
+        <!-- C8: TIGER / m a r k e t i n g (spaced) -->
+        <div class="logo-card theme-c">
+            <span class="logo-num">C-8</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+            </div>
+            <div class="stacked">
+                <span class="top-text">TIGER</span>
+                <span class="bottom-text" style="letter-spacing: 4px; font-size: 7px;">marketing</span>
+            </div>
+            <span class="logo-label">Caps / Wide Spaced Lower</span>
+        </div>
+
+    </div>
+
+    <!-- ============================================ -->
+    <!-- SECTION 2: 18-E (Cream Classic) -->
+    <!-- ============================================ -->
+    <div class="section-title">18-E &mdash; Cream Classic</div>
+    <div class="section-sub">Cream BG / Orange + Navy dots</div>
+    <div class="grid">
+
+        <div class="logo-card theme-e">
+            <span class="logo-num">E-1</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+            </div>
+            <div class="stacked">
+                <span class="top-text">TIGER</span>
+                <span class="bottom-text">MARKETING</span>
+            </div>
+            <span class="logo-label">ALL CAPS / ALL CAPS</span>
+        </div>
+
+        <div class="logo-card theme-e">
+            <span class="logo-num">E-2</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+            </div>
+            <div class="stacked">
+                <span class="top-text">TIGER</span>
+                <span class="bottom-text">marketing</span>
+            </div>
+            <span class="logo-label">ALL CAPS / lowercase</span>
+        </div>
+
+        <div class="logo-card theme-e">
+            <span class="logo-num">E-3</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+            </div>
+            <div class="stacked">
+                <span class="top-text">TIGER</span>
+                <span class="bottom-text">Marketing</span>
+            </div>
+            <span class="logo-label">ALL CAPS / CamelCase</span>
+        </div>
+
+        <div class="logo-card theme-e">
+            <span class="logo-num">E-4</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+            </div>
+            <div class="stacked">
+                <span class="top-text">Tiger</span>
+                <span class="bottom-text">Marketing</span>
+            </div>
+            <span class="logo-label">Capitalized / Capitalized</span>
+        </div>
+
+        <div class="logo-card theme-e">
+            <span class="logo-num">E-5</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+            </div>
+            <div class="stacked">
+                <span class="top-text" style="text-transform: lowercase;">tiger</span>
+                <span class="bottom-text">marketing</span>
+            </div>
+            <span class="logo-label">lowercase / lowercase</span>
+        </div>
+
+        <div class="logo-card theme-e">
+            <span class="logo-num">E-6</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+            </div>
+            <div class="stacked">
+                <span class="top-text">Tiger</span>
+                <span class="bottom-text" style="text-transform: uppercase; letter-spacing: 3px;">MARKETING</span>
+            </div>
+            <span class="logo-label">Capitalized / ALL CAPS</span>
+        </div>
+
+        <div class="logo-card theme-e swapped">
+            <span class="logo-num">E-7</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+            </div>
+            <div class="stacked">
+                <span class="top-text">TIGER</span>
+                <span class="bottom-text">Marketing</span>
+            </div>
+            <span class="logo-label">Swapped Colors</span>
+        </div>
+
+        <div class="logo-card theme-e">
+            <span class="logo-num">E-8</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+            </div>
+            <div class="stacked">
+                <span class="top-text">TIGER</span>
+                <span class="bottom-text" style="letter-spacing: 4px; font-size: 7px;">marketing</span>
+            </div>
+            <span class="logo-label">Caps / Wide Spaced Lower</span>
+        </div>
+
+    </div>
+
+    <!-- ============================================ -->
+    <!-- SECTION 3: 18-G (Navy Gradient on White) -->
+    <!-- ============================================ -->
+    <div class="section-title">18-G &mdash; Navy Gradient</div>
+    <div class="section-sub">White BG / Navy Gradient + Orange dots</div>
+    <div class="grid">
+
+        <div class="logo-card theme-g">
+            <span class="logo-num">G-1</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+            </div>
+            <div class="stacked">
+                <span class="top-text">TIGER</span>
+                <span class="bottom-text">MARKETING</span>
+            </div>
+            <span class="logo-label">ALL CAPS / ALL CAPS</span>
+        </div>
+
+        <div class="logo-card theme-g">
+            <span class="logo-num">G-2</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+            </div>
+            <div class="stacked">
+                <span class="top-text">TIGER</span>
+                <span class="bottom-text">marketing</span>
+            </div>
+            <span class="logo-label">ALL CAPS / lowercase</span>
+        </div>
+
+        <div class="logo-card theme-g">
+            <span class="logo-num">G-3</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+            </div>
+            <div class="stacked">
+                <span class="top-text">TIGER</span>
+                <span class="bottom-text">Marketing</span>
+            </div>
+            <span class="logo-label">ALL CAPS / CamelCase</span>
+        </div>
+
+        <div class="logo-card theme-g">
+            <span class="logo-num">G-4</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+            </div>
+            <div class="stacked">
+                <span class="top-text">Tiger</span>
+                <span class="bottom-text">Marketing</span>
+            </div>
+            <span class="logo-label">Capitalized / Capitalized</span>
+        </div>
+
+        <div class="logo-card theme-g">
+            <span class="logo-num">G-5</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+            </div>
+            <div class="stacked">
+                <span class="top-text" style="text-transform: lowercase;">tiger</span>
+                <span class="bottom-text">marketing</span>
+            </div>
+            <span class="logo-label">lowercase / lowercase</span>
+        </div>
+
+        <div class="logo-card theme-g">
+            <span class="logo-num">G-6</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+            </div>
+            <div class="stacked">
+                <span class="top-text">Tiger</span>
+                <span class="bottom-text" style="text-transform: uppercase; letter-spacing: 3px;">MARKETING</span>
+            </div>
+            <span class="logo-label">Capitalized / ALL CAPS</span>
+        </div>
+
+        <div class="logo-card theme-g swapped">
+            <span class="logo-num">G-7</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+            </div>
+            <div class="stacked">
+                <span class="top-text">TIGER</span>
+                <span class="bottom-text">Marketing</span>
+            </div>
+            <span class="logo-label">Swapped Colors</span>
+        </div>
+
+        <div class="logo-card theme-g">
+            <span class="logo-num">G-8</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+            </div>
+            <div class="stacked">
+                <span class="top-text">TIGER</span>
+                <span class="bottom-text" style="letter-spacing: 4px; font-size: 7px;">marketing</span>
+            </div>
+            <span class="logo-label">Caps / Wide Spaced Lower</span>
+        </div>
+
+    </div>
+
+    <!-- ============================================ -->
+    <!-- SECTION 4: 18-J (Glowing Black) -->
+    <!-- ============================================ -->
+    <div class="section-title">18-J &mdash; Glow Effect</div>
+    <div class="section-sub">Black BG / Glowing Orange + Navy dots</div>
+    <div class="grid">
+
+        <div class="logo-card theme-j">
+            <span class="logo-num">J-1</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+            </div>
+            <div class="stacked">
+                <span class="top-text">TIGER</span>
+                <span class="bottom-text">MARKETING</span>
+            </div>
+            <span class="logo-label">ALL CAPS / ALL CAPS</span>
+        </div>
+
+        <div class="logo-card theme-j">
+            <span class="logo-num">J-2</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+            </div>
+            <div class="stacked">
+                <span class="top-text">TIGER</span>
+                <span class="bottom-text">marketing</span>
+            </div>
+            <span class="logo-label">ALL CAPS / lowercase</span>
+        </div>
+
+        <div class="logo-card theme-j">
+            <span class="logo-num">J-3</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+            </div>
+            <div class="stacked">
+                <span class="top-text">TIGER</span>
+                <span class="bottom-text">Marketing</span>
+            </div>
+            <span class="logo-label">ALL CAPS / CamelCase</span>
+        </div>
+
+        <div class="logo-card theme-j">
+            <span class="logo-num">J-4</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+            </div>
+            <div class="stacked">
+                <span class="top-text">Tiger</span>
+                <span class="bottom-text">Marketing</span>
+            </div>
+            <span class="logo-label">Capitalized / Capitalized</span>
+        </div>
+
+        <div class="logo-card theme-j">
+            <span class="logo-num">J-5</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+            </div>
+            <div class="stacked">
+                <span class="top-text" style="text-transform: lowercase;">tiger</span>
+                <span class="bottom-text">marketing</span>
+            </div>
+            <span class="logo-label">lowercase / lowercase</span>
+        </div>
+
+        <div class="logo-card theme-j">
+            <span class="logo-num">J-6</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+            </div>
+            <div class="stacked">
+                <span class="top-text">Tiger</span>
+                <span class="bottom-text" style="text-transform: uppercase; letter-spacing: 3px;">MARKETING</span>
+            </div>
+            <span class="logo-label">Capitalized / ALL CAPS</span>
+        </div>
+
+        <div class="logo-card theme-j swapped">
+            <span class="logo-num">J-7</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+            </div>
+            <div class="stacked">
+                <span class="top-text">TIGER</span>
+                <span class="bottom-text">Marketing</span>
+            </div>
+            <span class="logo-label">Swapped Colors</span>
+        </div>
+
+        <div class="logo-card theme-j">
+            <span class="logo-num">J-8</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+            </div>
+            <div class="stacked">
+                <span class="top-text">TIGER</span>
+                <span class="bottom-text" style="letter-spacing: 4px; font-size: 7px;">marketing</span>
+            </div>
+            <span class="logo-label">Caps / Wide Spaced Lower</span>
+        </div>
+
+    </div>
+
+    <script>
+        let favs = JSON.parse(localStorage.getItem('tm_logo18s_favs') || '[]');
+
+        function initFavs() {
+            document.querySelectorAll('.fav-btn').forEach((btn, i) => {
+                if (favs.includes(i)) btn.classList.add('active');
+            });
+        }
+
+        function toggleFav(btn, e) {
+            e.stopPropagation();
+            const idx = Array.from(document.querySelectorAll('.fav-btn')).indexOf(btn);
+            if (favs.includes(idx)) {
+                favs = favs.filter(f => f !== idx);
+                btn.classList.remove('active');
+            } else {
+                favs.push(idx);
+                btn.classList.add('active');
+            }
+            localStorage.setItem('tm_logo18s_favs', JSON.stringify(favs));
+        }
+
+        initFavs();
+    </script>
+</body>
+</html>
