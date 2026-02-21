@@ -123,7 +123,7 @@
             width: 20px;
             height: 20px;
             border-radius: 50%;
-            transition: background 0.3s, box-shadow 0.3s;
+            transition: background 0.5s ease, box-shadow 0.5s ease;
         }
 
         /* 18-C dots (light mode default before animation) */
@@ -136,9 +136,9 @@
 
         .splash-name {
             font-family: 'Geist', sans-serif;
-            font-size: 16px;
+            font-size: 12px;
             font-weight: 700;
-            letter-spacing: 4px;
+            letter-spacing: 3px;
             text-transform: uppercase;
         }
         body.light .splash-name { color: #03244d; }
@@ -716,7 +716,7 @@
             <div class="splash-dot"></div>
             <div class="splash-dot"></div>
         </div>
-        <div class="splash-name">TIGER MARKETING</div>
+        <div class="splash-name">Tiger Mktg</div>
     </div>
 </div>
 
@@ -736,7 +736,7 @@
                 <div class="header-logo-dot"></div>
                 <div class="header-logo-dot"></div>
             </div>
-            <span class="header-title" id="header-title">Dashboard</span>
+            <span class="header-title" id="header-title">TIGER MKTG</span>
         </div>
         <div class="header-actions">
             <button class="theme-toggle-btn" id="theme-btn" onclick="toggleTheme()"></button>
@@ -1019,24 +1019,32 @@ function applyTheme() {
 // ===== SPLASH SCREEN =====
 function runSplash() {
     const dots = document.querySelectorAll('#splash-dots .splash-dot');
-    const lightColors = ['#03244d', '#DD550C', '#0a3a6b', '#F26522', '#1565a8', '#c44a0a', '#ea580c', '#f97316', '#9333ea', '#22c55e', '#eab308', '#ef4444', '#06b6d4'];
-    const darkColors = ['#DD550C', '#0a3a6b', '#F26522', '#03244d', '#f97316', '#ea580c', '#fb923c', '#a855f7', '#22c55e', '#eab308', '#ef4444', '#06b6d4', '#fbbf24'];
-    const colors = isDark ? darkColors : lightColors;
+    // Only blue and orange - dots swap to each other's color
+    const navy = '#03244d';
+    const navyLight = '#0a3a6b';
+    const orange = '#DD550C';
 
     let cycleCount = 0;
-    const maxCycles = 14; // ~2.8 seconds at 200ms intervals
+    const maxCycles = 2; // 2 swaps at 500ms = 1 second
 
     const interval = setInterval(() => {
         dots.forEach((dot, i) => {
-            const colorIdx = (cycleCount + i) % colors.length;
-            dot.style.background = colors[colorIdx];
+            const isEven = i % 2 === 0;
+            // Swap: even dots get orange, odd get navy (then vice versa)
+            const swapped = cycleCount % 2 === 0;
             if (isDark) {
-                dot.style.boxShadow = '0 0 10px ' + colors[colorIdx] + '99';
+                const c1 = swapped ? navyLight : orange;
+                const c2 = swapped ? orange : navyLight;
+                dot.style.background = isEven ? c1 : c2;
+                dot.style.boxShadow = '0 0 10px ' + (isEven ? c1 : c2) + '99';
             } else {
+                const c1 = swapped ? orange : navy;
+                const c2 = swapped ? navy : orange;
+                dot.style.background = isEven ? c1 : c2;
                 dot.style.boxShadow = 'none';
             }
             dot.classList.remove('animating');
-            void dot.offsetWidth; // trigger reflow
+            void dot.offsetWidth;
             dot.classList.add('animating');
         });
         cycleCount++;
@@ -1044,31 +1052,27 @@ function runSplash() {
         if (cycleCount >= maxCycles) {
             clearInterval(interval);
             // Settle back to final logo colors
+            dots.forEach((dot, i) => {
+                if (isDark) {
+                    dot.style.background = i % 2 === 0 ? orange : navyLight;
+                    dot.style.boxShadow = i % 2 === 0 ? '0 0 10px rgba(221,85,12,0.6)' : '0 0 10px rgba(3,36,77,0.6)';
+                } else {
+                    dot.style.background = i % 2 === 0 ? navy : orange;
+                    dot.style.boxShadow = 'none';
+                }
+                dot.classList.remove('animating');
+            });
+            // Fade out splash
             setTimeout(() => {
-                dots.forEach((dot, i) => {
-                    if (isDark) {
-                        // 18-J final state
-                        dot.style.background = i % 2 === 0 ? '#DD550C' : '#0a3a6b';
-                        dot.style.boxShadow = i % 2 === 0 ? '0 0 10px rgba(221,85,12,0.6)' : '0 0 10px rgba(3,36,77,0.6)';
-                    } else {
-                        // 18-C final state
-                        dot.style.background = i % 2 === 0 ? '#03244d' : '#DD550C';
-                        dot.style.boxShadow = 'none';
-                    }
-                    dot.classList.remove('animating');
-                });
-                // Fade out splash
+                $('splash').classList.add('fade-out');
+                $('app').classList.add('visible');
+                $('tab-bar').style.display = '';
                 setTimeout(() => {
-                    $('splash').classList.add('fade-out');
-                    $('app').classList.add('visible');
-                    $('tab-bar').style.display = '';
-                    setTimeout(() => {
-                        $('splash').style.display = 'none';
-                    }, 500);
-                }, 400);
-            }, 300);
+                    $('splash').style.display = 'none';
+                }, 500);
+            }, 100);
         }
-    }, 200);
+    }, 500);
 }
 
 // ===== NAVIGATION =====
@@ -1088,7 +1092,7 @@ function switchTab(tab) {
     $('page-' + tab).classList.add('active');
     document.querySelector('[data-tab="' + tab + '"]').classList.add('active');
 
-    const titles = { home:'Dashboard', deals:'Deals', tasks:'Tasks', contacts:'Contacts', more:'More' };
+    const titles = { home:'TIGER MKTG', deals:'Deals', tasks:'Tasks', contacts:'Contacts', more:'More' };
     $('header-title').textContent = titles[tab] || tab;
 
     // Show/hide add button
