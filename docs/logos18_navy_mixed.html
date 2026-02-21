@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navy Logos - Mixed Font Combos (M-1 to M-8)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700;800;900&family=Poppins:wght@400;500;600;700;800;900&family=Raleway:wght@300;400;500;600;700;800;900&family=Lato:wght@300;400;700;900&family=Playfair+Display:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800;900&family=Roboto+Condensed:wght@400;500;600;700;800;900&family=Anton&family=Archivo+Black&family=Staatliches&family=Barlow+Condensed:wght@400;500;600;700;800;900&family=Righteous&family=Teko:wght@400;500;600;700&family=Russo+One&family=Kanit:wght@400;500;600;700;800;900&family=Saira+Condensed:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --au-navy: #03244d;
+            --au-navy-light: #0a3a6b;
+            --au-navy-dark: #011a36;
+            --au-orange: #DD550C;
+            --au-orange-bright: #F26522;
+            --au-orange-deep: #c44a0a;
+            --au-white: #FFFFFF;
+            --au-cream: #f5f0e8;
+            --au-gold: #E8A33D;
+        }
+
+        body {
+            font-family: -apple-system, sans-serif;
+            background: #0a0a14;
+            color: #f0ece8;
+            min-height: 100vh;
+        }
+
+        .page-header {
+            text-align: center;
+            padding: 30px 16px 10px;
+            position: sticky;
+            top: 0;
+            background: #0a0a14;
+            z-index: 100;
+            border-bottom: 1px solid #1a1a2e;
+        }
+        .page-header h1 {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--au-orange);
+        }
+        .page-header p {
+            font-size: 12px;
+            color: #9a9aaa;
+            margin-top: 4px;
+        }
+        .back-link {
+            display: inline-block;
+            color: var(--au-orange);
+            font-size: 12px;
+            text-decoration: none;
+            margin-top: 6px;
+        }
+
+        .section-title {
+            text-align: center;
+            padding: 20px 16px 4px;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--au-orange);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            border-top: 1px solid #1a1a2e;
+        }
+        .section-sub {
+            text-align: center;
+            font-size: 11px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 12px;
+            padding: 8px 16px 20px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .logo-card {
+            aspect-ratio: 1;
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 8px;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.2s;
+            background: var(--au-navy);
+        }
+        .logo-card:active { transform: scale(0.96); }
+
+        .logo-num {
+            position: absolute;
+            top: 6px;
+            left: 8px;
+            font-size: 9px;
+            font-weight: 600;
+            color: rgba(255,255,255,0.25);
+        }
+
+        .logo-label {
+            position: absolute;
+            bottom: 4px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 6.5px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            opacity: 0.4;
+            color: rgba(255,255,255,0.6);
+        }
+
+        .fav-btn {
+            position: absolute; top: 6px; right: 8px; font-size: 14px;
+            cursor: pointer; opacity: 0.3; transition: opacity 0.2s;
+            background: none; border: none; padding: 0;
+        }
+        .fav-btn.active { opacity: 1; }
+
+        /* DOT GRID */
+        .dots { display: grid; grid-template-columns: repeat(3,1fr); gap: 4px; margin-bottom: 4px; }
+        .dot { width: 12px; height: 12px; border-radius: 50%; }
+
+        /* Default dot colors: orange/white alternating */
+        .dot { background: var(--au-orange); }
+        .dot:nth-child(even) { background: var(--au-white); }
+
+        /* STACKED TEXT */
+        .stacked {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            line-height: 1;
+            gap: 0px;
+        }
+        .top-text {
+            font-weight: 800;
+            letter-spacing: 3px;
+            font-size: 14px;
+        }
+        .bottom-text {
+            font-weight: 400;
+            letter-spacing: 2px;
+            font-size: 9px;
+            margin-top: 1px;
+        }
+
+        /* ====== DOT VARIATIONS ====== */
+        .dots-v1 .dot { background: var(--au-orange); }
+        .dots-v1 .dot:nth-child(even) { background: var(--au-white); }
+
+        .dots-v2 .dot { background: var(--au-orange); }
+        .dots-v2 .dot:nth-child(even) { background: var(--au-gold); }
+
+        .dots-v3 .dot { background: var(--au-white); }
+        .dots-v3 .dot:nth-child(even) { background: var(--au-orange); }
+
+        .dots-v4 .dot { background: var(--au-orange); }
+        .dots-v4 .dot:nth-child(even) { background: var(--au-orange); }
+
+        .dots-v5 .dot { background: var(--au-orange); box-shadow: 0 0 8px rgba(221,85,12,0.6); }
+        .dots-v5 .dot:nth-child(even) { background: var(--au-white); box-shadow: 0 0 8px rgba(255,255,255,0.3); }
+
+        .dots-v6 .dot { background: var(--au-navy-light); border: 1px solid rgba(255,255,255,0.15); }
+        .dots-v6 .dot:nth-child(even) { background: var(--au-orange); border: none; }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 11px;
+            color: #444;
+            border-top: 1px solid #1a1a2e;
+        }
+        footer a { color: var(--au-orange); text-decoration: none; }
+
+        .nav-links {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px 16px;
+            padding: 12px 16px;
+            font-size: 12px;
+        }
+        .nav-links a {
+            color: var(--au-orange);
+            text-decoration: none;
+        }
+        .nav-links a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="page-header">
+        <h1>Mixed Font Combos (M-1 to M-8)</h1>
+        <p>Different font for TIGER vs MARKETING / 8 combinations</p>
+        <a href="logos18_navy.html" class="back-link">&#8592; Back to Navy Hub</a>
+    </div>
+
+    <div class="section-title">Mixed Font Combos</div>
+    <div class="section-sub">Different font for TIGER vs MARKETING</div>
+    <div class="grid">
+
+        <!-- M1: Bebas + Montserrat -->
+        <div class="logo-card">
+            <span class="logo-num">M-1</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots dots-v1">
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+            </div>
+            <div class="stacked">
+                <span class="top-text" style="font-family: 'Bebas Neue', sans-serif; color: var(--au-orange); letter-spacing: 5px; font-size: 16px;">TIGER</span>
+                <span class="bottom-text" style="font-family: 'Montserrat', sans-serif; color: var(--au-white); letter-spacing: 3px; font-size: 7px; font-weight: 500;">MARKETING</span>
+            </div>
+            <span class="logo-label">Bebas + Montserrat</span>
+        </div>
+
+        <!-- M2: Anton + Raleway thin -->
+        <div class="logo-card">
+            <span class="logo-num">M-2</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots dots-v1">
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+            </div>
+            <div class="stacked">
+                <span class="top-text" style="font-family: 'Anton', sans-serif; color: var(--au-orange); letter-spacing: 4px; font-size: 16px;">TIGER</span>
+                <span class="bottom-text" style="font-family: 'Raleway', sans-serif; color: var(--au-white); letter-spacing: 4px; font-size: 7px; font-weight: 300;">MARKETING</span>
+            </div>
+            <span class="logo-label">Anton + Raleway Thin</span>
+        </div>
+
+        <!-- M3: Oswald + Lato -->
+        <div class="logo-card">
+            <span class="logo-num">M-3</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots dots-v1">
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+            </div>
+            <div class="stacked">
+                <span class="top-text" style="font-family: 'Oswald', sans-serif; color: var(--au-white); letter-spacing: 4px; font-size: 15px; font-weight: 700;">TIGER</span>
+                <span class="bottom-text" style="font-family: 'Lato', sans-serif; color: var(--au-orange); letter-spacing: 3px; font-size: 8px; font-weight: 300;">MARKETING</span>
+            </div>
+            <span class="logo-label">Oswald + Lato Light</span>
+        </div>
+
+        <!-- M4: Staatliches + Inter -->
+        <div class="logo-card">
+            <span class="logo-num">M-4</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots dots-v5">
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+            </div>
+            <div class="stacked">
+                <span class="top-text" style="font-family: 'Staatliches', sans-serif; color: var(--au-orange); letter-spacing: 5px; font-size: 16px; text-shadow: 0 0 10px rgba(221,85,12,0.4);">TIGER</span>
+                <span class="bottom-text" style="font-family: 'Inter', sans-serif; color: var(--au-white); letter-spacing: 3px; font-size: 7px; font-weight: 500;">MARKETING</span>
+            </div>
+            <span class="logo-label">Staatliches + Inter</span>
+        </div>
+
+        <!-- M5: Teko + Poppins -->
+        <div class="logo-card">
+            <span class="logo-num">M-5</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots dots-v1">
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+            </div>
+            <div class="stacked">
+                <span class="top-text" style="font-family: 'Teko', sans-serif; color: var(--au-gold); letter-spacing: 5px; font-size: 18px; font-weight: 700;">TIGER</span>
+                <span class="bottom-text" style="font-family: 'Poppins', sans-serif; color: var(--au-white); letter-spacing: 2px; font-size: 7px; font-weight: 500;">MARKETING</span>
+            </div>
+            <span class="logo-label">Teko + Poppins</span>
+        </div>
+
+        <!-- M6: Archivo + Barlow -->
+        <div class="logo-card">
+            <span class="logo-num">M-6</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots dots-v3">
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+            </div>
+            <div class="stacked">
+                <span class="top-text" style="font-family: 'Archivo Black', sans-serif; color: var(--au-white); letter-spacing: 3px; font-size: 14px;">TIGER</span>
+                <span class="bottom-text" style="font-family: 'Barlow Condensed', sans-serif; color: var(--au-orange); letter-spacing: 4px; font-size: 9px; font-weight: 500;">MARKETING</span>
+            </div>
+            <span class="logo-label">Archivo + Barlow</span>
+        </div>
+
+        <!-- M7: Kanit + Saira -->
+        <div class="logo-card">
+            <span class="logo-num">M-7</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots dots-v2">
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+            </div>
+            <div class="stacked">
+                <span class="top-text" style="font-family: 'Kanit', sans-serif; color: var(--au-orange); letter-spacing: 4px; font-size: 15px; font-weight: 800;">TIGER</span>
+                <span class="bottom-text" style="font-family: 'Saira Condensed', sans-serif; color: var(--au-gold); letter-spacing: 4px; font-size: 9px; font-weight: 500;">MARKETING</span>
+            </div>
+            <span class="logo-label">Kanit + Saira</span>
+        </div>
+
+        <!-- M8: Playfair + Bebas -->
+        <div class="logo-card">
+            <span class="logo-num">M-8</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots dots-v1">
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+            </div>
+            <div class="stacked">
+                <span class="top-text" style="font-family: 'Playfair Display', serif; color: var(--au-cream); letter-spacing: 3px; font-size: 14px; font-weight: 800;">TIGER</span>
+                <span class="bottom-text" style="font-family: 'Bebas Neue', sans-serif; color: var(--au-orange); letter-spacing: 4px; font-size: 11px;">MARKETING</span>
+            </div>
+            <span class="logo-label">Playfair + Bebas</span>
+        </div>
+
+    </div>
+
+    <footer>
+        <div class="nav-links">
+            <a href="logos18_navy.html">&#8592; Navy Hub</a>
+            <a href="logos18_navy_fonts.html">Font Variations (16)</a>
+            <a href="logos18_navy_colors.html">Color Variations (12)</a>
+            <a href="logos18_navy_shades.html">Navy Shades (4)</a>
+        </div>
+        <div style="margin-top: 8px;">
+            <a href="logos18_stacked.html">&#8592; Stacked</a> &nbsp;|&nbsp; <a href="logos18.html">&#8592; Original 18</a> &nbsp;|&nbsp; <a href="logos.html">&#8592; All 30 Logos</a>
+        </div>
+    </footer>
+
+    <script>
+        let favs = JSON.parse(localStorage.getItem('tm_logo18n_mixed_favs') || '[]');
+
+        function initFavs() {
+            document.querySelectorAll('.fav-btn').forEach((btn, i) => {
+                if (favs.includes(i)) btn.classList.add('active');
+            });
+        }
+
+        function toggleFav(btn, e) {
+            e.stopPropagation();
+            const idx = Array.from(document.querySelectorAll('.fav-btn')).indexOf(btn);
+            if (favs.includes(idx)) {
+                favs = favs.filter(f => f !== idx);
+                btn.classList.remove('active');
+            } else {
+                favs.push(idx);
+                btn.classList.add('active');
+            }
+            localStorage.setItem('tm_logo18n_mixed_favs', JSON.stringify(favs));
+        }
+
+        initFavs();
+    </script>
+</body>
+</html>
