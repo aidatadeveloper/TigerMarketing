@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tiger Marketing - 30 Logo Designs</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;900&family=Bebas+Neue&family=Righteous&family=Oswald:wght@700&family=Montserrat:wght@700;800;900&family=Raleway:wght@700;800;900&family=Poppins:wght@700;800;900&family=Inter:wght@700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Geist', -apple-system, sans-serif;
+            background: #0f0f17;
+            color: #f0ece8;
+            min-height: 100vh;
+        }
+
+        .page-header {
+            text-align: center;
+            padding: 30px 16px 10px;
+            position: sticky;
+            top: 0;
+            background: #0f0f17;
+            z-index: 100;
+            border-bottom: 1px solid #2a2a44;
+        }
+        .page-header h1 {
+            font-size: 20px;
+            font-weight: 700;
+            color: #f97316;
+        }
+        .page-header p {
+            font-size: 12px;
+            color: #9a9aaa;
+            margin-top: 4px;
+        }
+
+        .toggle-bar {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            padding: 12px 16px;
+            position: sticky;
+            top: 72px;
+            background: #0f0f17;
+            z-index: 99;
+        }
+        .toggle-bar button {
+            padding: 6px 16px;
+            border-radius: 20px;
+            border: 1px solid #2a2a44;
+            background: transparent;
+            color: #9a9aaa;
+            font-size: 12px;
+            cursor: pointer;
+            font-family: inherit;
+        }
+        .toggle-bar button.active {
+            background: #f97316;
+            color: #fff;
+            border-color: #f97316;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 12px;
+            padding: 16px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .logo-card {
+            aspect-ratio: 1;
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 16px 10px;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .logo-card:active { transform: scale(0.96); }
+
+        .logo-num {
+            position: absolute;
+            top: 6px;
+            left: 8px;
+            font-size: 10px;
+            color: rgba(255,255,255,0.4);
+            font-weight: 600;
+        }
+
+        .logo-card.light-bg {
+            background: #fafaf8;
+            border: 1px solid #e7e5e4;
+        }
+        .logo-card.light-bg .logo-num { color: rgba(0,0,0,0.3); }
+
+        .logo-card.dark-bg {
+            background: #1c1c2e;
+            border: 1px solid #2a2a44;
+        }
+
+        .logo-card.orange-bg {
+            background: linear-gradient(135deg, #ea580c, #f97316);
+        }
+
+        .logo-card.black-bg {
+            background: #0a0a0a;
+            border: 1px solid #222;
+        }
+
+        .logo-card.gradient-bg {
+            background: linear-gradient(135deg, #1c1917, #ea580c);
+        }
+
+        /* ===== 30 UNIQUE LOGO STYLES ===== */
+
+        /* 1. Classic Tiger Text */
+        .logo-1 .mark { font-size: 40px; line-height: 1; }
+        .logo-1 .name { font-family: 'Geist', sans-serif; font-size: 14px; font-weight: 800; letter-spacing: 3px; text-transform: uppercase; color: #ea580c; margin-top: 6px; }
+        .logo-1 .sub { font-size: 9px; letter-spacing: 5px; text-transform: uppercase; color: #78716c; margin-top: 2px; }
+
+        /* 2. Bold Stacked */
+        .logo-2 .word1 { font-family: 'Bebas Neue', sans-serif; font-size: 36px; letter-spacing: 6px; color: #f97316; line-height: 1; }
+        .logo-2 .word2 { font-family: 'Bebas Neue', sans-serif; font-size: 18px; letter-spacing: 10px; color: #57534e; line-height: 1; }
+
+        /* 3. Circle Badge */
+        .logo-3 .circle {
+            width: 100px; height: 100px; border-radius: 50%;
+            border: 3px solid #ea580c;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+        }
+        .logo-3 .circle .icon { font-size: 30px; }
+        .logo-3 .circle .txt { font-size: 8px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #ea580c; margin-top: 2px; }
+
+        /* 4. Slash Style */
+        .logo-4 .row { display: flex; align-items: center; gap: 6px; }
+        .logo-4 .t { font-family: 'Montserrat', sans-serif; font-size: 28px; font-weight: 900; color: #f97316; }
+        .logo-4 .slash { font-size: 32px; color: #3a3a5e; font-weight: 300; }
+        .logo-4 .m { font-family: 'Montserrat', sans-serif; font-size: 28px; font-weight: 900; color: #f0ece8; }
+        .logo-4 .full { font-size: 8px; letter-spacing: 3px; text-transform: uppercase; color: #5e5e78; margin-top: 4px; }
+
+        /* 5. Minimal Paw Print */
+        .logo-5 .paw { font-size: 50px; filter: drop-shadow(0 2px 8px rgba(249,115,22,0.4)); }
+        .logo-5 .name { font-family: 'Geist', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; color: #fff; margin-top: 6px; }
+
+        /* 6. Boxed Monogram */
+        .logo-6 .box {
+            width: 70px; height: 70px; background: #ea580c; border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-family: 'Playfair Display', serif; font-size: 40px; font-weight: 900; color: #fff;
+        }
+        .logo-6 .label { font-size: 10px; font-weight: 600; letter-spacing: 4px; text-transform: uppercase; color: #57534e; margin-top: 8px; }
+
+        /* 7. Stripe Accent */
+        .logo-7 .stripe { width: 60px; height: 4px; background: #f97316; border-radius: 2px; }
+        .logo-7 .name { font-family: 'Oswald', sans-serif; font-size: 22px; font-weight: 700; text-transform: uppercase; color: #1c1917; margin: 6px 0; letter-spacing: 2px; }
+        .logo-7 .sub { font-size: 9px; letter-spacing: 6px; text-transform: uppercase; color: #a8a29e; }
+
+        /* 8. Tiger Stripes Text */
+        .logo-8 .name {
+            font-family: 'Montserrat', sans-serif; font-size: 22px; font-weight: 900; text-transform: uppercase;
+            background: repeating-linear-gradient(90deg, #f97316 0px, #f97316 3px, #1c1917 3px, #1c1917 6px);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .logo-8 .sub { font-size: 9px; color: #f97316; letter-spacing: 4px; text-transform: uppercase; margin-top: 4px; }
+
+        /* 9. Rounded Pill */
+        .logo-9 .pill {
+            display: flex; align-items: center; gap: 8px;
+            background: #ea580c; border-radius: 30px; padding: 10px 20px;
+        }
+        .logo-9 .pill .icon { font-size: 22px; }
+        .logo-9 .pill .txt { font-family: 'Geist', sans-serif; font-size: 14px; font-weight: 700; color: #fff; letter-spacing: 1px; }
+
+        /* 10. Vertical Stack Minimal */
+        .logo-10 .letter { font-family: 'Playfair Display', serif; font-size: 50px; font-weight: 900; color: #f97316; line-height: 1; }
+        .logo-10 .word { font-size: 10px; font-weight: 600; letter-spacing: 6px; text-transform: uppercase; color: #f0ece8; }
+
+        /* 11. Diamond Badge */
+        .logo-11 .diamond {
+            width: 80px; height: 80px; background: #ea580c;
+            transform: rotate(45deg); border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .logo-11 .diamond .inner { transform: rotate(-45deg); text-align: center; }
+        .logo-11 .diamond .icon { font-size: 28px; }
+        .logo-11 .diamond .tm { font-size: 10px; font-weight: 800; color: #fff; letter-spacing: 2px; }
+
+        /* 12. Underline Accent */
+        .logo-12 .name { font-family: 'Raleway', sans-serif; font-size: 20px; font-weight: 800; color: #f0ece8; letter-spacing: 2px; text-transform: uppercase; }
+        .logo-12 .line { width: 100%; height: 3px; background: linear-gradient(90deg, #f97316, transparent); margin-top: 4px; }
+        .logo-12 .sub { font-size: 9px; color: #5e5e78; margin-top: 4px; letter-spacing: 4px; text-transform: uppercase; }
+
+        /* 13. Stencil Military */
+        .logo-13 .name {
+            font-family: 'Oswald', sans-serif; font-size: 26px; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 4px; color: #ea580c;
+            text-shadow: 2px 2px 0 #1c1917;
+        }
+        .logo-13 .sub { font-size: 8px; letter-spacing: 8px; text-transform: uppercase; color: #a8a29e; }
+        .logo-13 .stars { color: #f97316; font-size: 10px; letter-spacing: 6px; }
+
+        /* 14. Hexagon */
+        .logo-14 .hex {
+            width: 80px; height: 92px;
+            background: #f97316;
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            display: flex; align-items: center; justify-content: center;
+        }
+        .logo-14 .hex .inner { text-align: center; }
+        .logo-14 .hex .icon { font-size: 30px; }
+        .logo-14 .hex .tm { font-size: 8px; font-weight: 800; color: #fff; letter-spacing: 1px; }
+
+        /* 15. Retro Banner */
+        .logo-15 .banner {
+            background: #ea580c; padding: 6px 20px; position: relative;
+            clip-path: polygon(8% 0%, 92% 0%, 100% 50%, 92% 100%, 8% 100%, 0% 50%);
+        }
+        .logo-15 .banner .txt { font-family: 'Bebas Neue', sans-serif; font-size: 20px; color: #fff; letter-spacing: 4px; }
+        .logo-15 .sub { font-size: 9px; color: #f97316; margin-top: 6px; letter-spacing: 3px; text-transform: uppercase; }
+        .logo-15 .icon { font-size: 30px; margin-bottom: 4px; }
+
+        /* 16. Split Color */
+        .logo-16 { overflow: hidden; }
+        .logo-16 .split { display: flex; width: 100%; }
+        .logo-16 .left-half { flex: 1; background: #ea580c; display: flex; align-items: center; justify-content: center; padding: 10px; }
+        .logo-16 .right-half { flex: 1; display: flex; align-items: center; justify-content: center; padding: 10px; }
+        .logo-16 .left-half span { font-family: 'Montserrat', sans-serif; font-size: 32px; font-weight: 900; color: #fff; }
+        .logo-16 .right-half span { font-family: 'Montserrat', sans-serif; font-size: 32px; font-weight: 900; color: #ea580c; }
+
+        /* 17. Cursive Elegant */
+        .logo-17 .name { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 700; color: #f97316; font-style: italic; }
+        .logo-17 .sub { font-family: 'Geist', sans-serif; font-size: 9px; letter-spacing: 5px; text-transform: uppercase; color: #a8a29e; margin-top: 2px; }
+
+        /* 18. Dot Grid Pattern */
+        .logo-18 .dots { display: grid; grid-template-columns: repeat(3,1fr); gap: 4px; margin-bottom: 6px; }
+        .logo-18 .dot { width: 10px; height: 10px; border-radius: 50%; background: #f97316; }
+        .logo-18 .dot:nth-child(even) { background: #3a3a5e; }
+        .logo-18 .name { font-family: 'Geist', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: #f0ece8; }
+
+        /* 19. Shield Badge */
+        .logo-19 .shield {
+            width: 75px; height: 90px;
+            background: #ea580c;
+            clip-path: polygon(50% 0%, 100% 15%, 100% 70%, 50% 100%, 0% 70%, 0% 15%);
+            display: flex; align-items: center; justify-content: center;
+        }
+        .logo-19 .shield .inner { text-align: center; margin-top: -6px; }
+        .logo-19 .shield .icon { font-size: 28px; }
+        .logo-19 .shield .txt { font-size: 7px; font-weight: 800; color: #fff; letter-spacing: 1px; text-transform: uppercase; }
+
+        /* 20. Neon Glow */
+        .logo-20 .name {
+            font-family: 'Righteous', sans-serif; font-size: 22px; color: #f97316;
+            text-shadow: 0 0 10px rgba(249,115,22,0.8), 0 0 20px rgba(249,115,22,0.4), 0 0 40px rgba(249,115,22,0.2);
+        }
+        .logo-20 .icon { font-size: 36px; margin-bottom: 4px; filter: drop-shadow(0 0 10px rgba(249,115,22,0.6)); }
+
+        /* 21. Stamp/Seal */
+        .logo-21 .seal {
+            width: 100px; height: 100px; border-radius: 50%;
+            border: 3px double #f97316;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            position: relative;
+        }
+        .logo-21 .seal::before {
+            content: ''; position: absolute; inset: 4px; border-radius: 50%;
+            border: 1px solid #f97316;
+        }
+        .logo-21 .seal .icon { font-size: 24px; }
+        .logo-21 .seal .txt { font-size: 7px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; color: #f97316; }
+        .logo-21 .seal .est { font-size: 7px; color: #5e5e78; }
+
+        /* 22. Knockout Text */
+        .logo-22 .block {
+            background: #f97316; padding: 10px 16px; border-radius: 4px;
+        }
+        .logo-22 .block .txt {
+            font-family: 'Montserrat', sans-serif; font-size: 18px; font-weight: 900;
+            color: #0a0a0a; letter-spacing: 2px; text-transform: uppercase;
+        }
+        .logo-22 .sub { font-size: 9px; color: #f97316; letter-spacing: 4px; text-transform: uppercase; margin-top: 6px; }
+
+        /* 23. Arrow/Forward */
+        .logo-23 .row { display: flex; align-items: center; gap: 4px; }
+        .logo-23 .name { font-family: 'Poppins', sans-serif; font-size: 16px; font-weight: 800; color: #f0ece8; text-transform: uppercase; }
+        .logo-23 .arrow { font-size: 28px; color: #f97316; font-weight: 300; }
+        .logo-23 .icon { font-size: 26px; margin-bottom: 4px; }
+
+        /* 24. Vertical Bar */
+        .logo-24 .row { display: flex; align-items: center; gap: 10px; }
+        .logo-24 .bar { width: 4px; height: 50px; background: #f97316; border-radius: 2px; }
+        .logo-24 .text .t1 { font-family: 'Geist', sans-serif; font-size: 18px; font-weight: 800; color: #f0ece8; text-transform: uppercase; letter-spacing: 1px; }
+        .logo-24 .text .t2 { font-size: 10px; color: #f97316; letter-spacing: 3px; text-transform: uppercase; }
+
+        /* 25. Wave Underline */
+        .logo-25 .name { font-family: 'Inter', sans-serif; font-size: 18px; font-weight: 800; color: #1c1917; text-transform: uppercase; letter-spacing: 2px; }
+        .logo-25 .wave {
+            width: 120px; height: 8px; margin-top: 4px;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 8'%3E%3Cpath d='M0,4 Q15,0 30,4 T60,4 T90,4 T120,4' fill='none' stroke='%23ea580c' stroke-width='3'/%3E%3C/svg%3E") no-repeat;
+        }
+        .logo-25 .sub { font-size: 8px; color: #a8a29e; letter-spacing: 4px; text-transform: uppercase; margin-top: 4px; }
+
+        /* 26. Claw Marks */
+        .logo-26 .claws { font-size: 10px; color: #f97316; letter-spacing: 2px; margin-bottom: 2px; }
+        .logo-26 .name { font-family: 'Oswald', sans-serif; font-size: 24px; font-weight: 700; color: #fff; text-transform: uppercase; letter-spacing: 3px; }
+        .logo-26 .scratches {
+            width: 80px; height: 20px; position: relative; margin-top: 2px;
+        }
+        .logo-26 .scratch {
+            position: absolute; height: 2px; background: #f97316; border-radius: 1px;
+            transform: skewX(-20deg);
+        }
+        .logo-26 .scratch:nth-child(1) { width: 60px; top: 2px; left: 5px; }
+        .logo-26 .scratch:nth-child(2) { width: 70px; top: 8px; left: 0; }
+        .logo-26 .scratch:nth-child(3) { width: 50px; top: 14px; left: 10px; }
+
+        /* 27. Corner Accent */
+        .logo-27 .frame {
+            border: 2px solid #f97316; padding: 14px 18px; position: relative;
+        }
+        .logo-27 .frame::before {
+            content: ''; position: absolute; top: -2px; left: -2px;
+            width: 16px; height: 16px; border-top: 4px solid #f97316; border-left: 4px solid #f97316;
+        }
+        .logo-27 .frame::after {
+            content: ''; position: absolute; bottom: -2px; right: -2px;
+            width: 16px; height: 16px; border-bottom: 4px solid #f97316; border-right: 4px solid #f97316;
+        }
+        .logo-27 .frame .icon { font-size: 20px; }
+        .logo-27 .frame .name { font-family: 'Geist', sans-serif; font-size: 12px; font-weight: 700; color: #f0ece8; text-transform: uppercase; letter-spacing: 2px; }
+
+        /* 28. Sunset Gradient */
+        .logo-28 .name {
+            font-family: 'Montserrat', sans-serif; font-size: 20px; font-weight: 900; text-transform: uppercase;
+            background: linear-gradient(180deg, #fbbf24, #ea580c, #991b1b);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text; letter-spacing: 2px;
+        }
+        .logo-28 .icon { font-size: 36px; margin-bottom: 2px; }
+        .logo-28 .sub { font-size: 8px; color: #fbbf24; letter-spacing: 5px; text-transform: uppercase; }
+
+        /* 29. Tag/Label */
+        .logo-29 .tag {
+            display: inline-flex; align-items: center; gap: 6px;
+            background: #1c1917; border: 2px solid #f97316; border-radius: 6px;
+            padding: 8px 14px;
+        }
+        .logo-29 .tag .icon { font-size: 18px; }
+        .logo-29 .tag .txt { font-family: 'Geist', sans-serif; font-size: 13px; font-weight: 700; color: #f97316; text-transform: uppercase; letter-spacing: 1px; }
+        .logo-29 .sub { font-size: 8px; color: #5e5e78; margin-top: 4px; letter-spacing: 3px; text-transform: uppercase; }
+
+        /* 30. Abstract TM */
+        .logo-30 .monogram {
+            display: flex; align-items: flex-end; gap: 2px;
+        }
+        .logo-30 .monogram .t { font-family: 'Bebas Neue', sans-serif; font-size: 50px; color: #f97316; line-height: 0.8; }
+        .logo-30 .monogram .m { font-family: 'Bebas Neue', sans-serif; font-size: 36px; color: #f0ece8; line-height: 0.8; }
+        .logo-30 .full { font-size: 8px; color: #5e5e78; letter-spacing: 5px; text-transform: uppercase; margin-top: 4px; }
+
+        /* Filter visibility */
+        .logo-card.hidden { display: none; }
+
+        /* Favorite star */
+        .fav-btn {
+            position: absolute; top: 6px; right: 8px; font-size: 16px;
+            cursor: pointer; opacity: 0.3; transition: opacity 0.2s;
+            background: none; border: none; padding: 0;
+        }
+        .fav-btn.active { opacity: 1; }
+
+        .fav-counter {
+            font-size: 12px; color: #f97316; font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="page-header">
+        <h1>Tiger Marketing Logo Designs</h1>
+        <p>30 concepts - tap star to favorite | <span class="fav-counter" id="fav-count">0 favorites</span></p>
+    </div>
+    <div class="toggle-bar">
+        <button class="active" onclick="filterLogos('all', this)">All 30</button>
+        <button onclick="filterLogos('light', this)">Light</button>
+        <button onclick="filterLogos('dark', this)">Dark</button>
+        <button onclick="filterLogos('fav', this)">Favorites</button>
+    </div>
+
+    <div class="grid" id="logo-grid">
+
+        <!-- 1. Classic Tiger Text -->
+        <div class="logo-card dark-bg logo-1" data-theme="dark">
+            <span class="logo-num">01</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="mark">&#x1F42F;</div>
+            <div class="name">Tiger</div>
+            <div class="sub">Marketing</div>
+        </div>
+
+        <!-- 2. Bold Stacked -->
+        <div class="logo-card dark-bg logo-2" data-theme="dark">
+            <span class="logo-num">02</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="word1">TIGER</div>
+            <div class="word2">MARKETING</div>
+        </div>
+
+        <!-- 3. Circle Badge -->
+        <div class="logo-card light-bg logo-3" data-theme="light">
+            <span class="logo-num">03</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="circle">
+                <div class="icon">&#x1F42F;</div>
+                <div class="txt">Tiger Mktg</div>
+            </div>
+        </div>
+
+        <!-- 4. Slash Style -->
+        <div class="logo-card dark-bg logo-4" data-theme="dark">
+            <span class="logo-num">04</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="row"><span class="t">T</span><span class="slash">/</span><span class="m">M</span></div>
+            <div class="full">Tiger Marketing</div>
+        </div>
+
+        <!-- 5. Minimal Paw -->
+        <div class="logo-card orange-bg logo-5" data-theme="dark">
+            <span class="logo-num">05</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="paw">&#x1F43E;</div>
+            <div class="name">Tiger Marketing</div>
+        </div>
+
+        <!-- 6. Boxed Monogram -->
+        <div class="logo-card light-bg logo-6" data-theme="light">
+            <span class="logo-num">06</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="box">TM</div>
+            <div class="label">Tiger Marketing</div>
+        </div>
+
+        <!-- 7. Stripe Accent -->
+        <div class="logo-card light-bg logo-7" data-theme="light">
+            <span class="logo-num">07</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="stripe"></div>
+            <div class="name">Tiger</div>
+            <div class="sub">Marketing</div>
+        </div>
+
+        <!-- 8. Tiger Stripes Text -->
+        <div class="logo-card dark-bg logo-8" data-theme="dark">
+            <span class="logo-num">08</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="name">TIGER</div>
+            <div class="sub">Marketing</div>
+        </div>
+
+        <!-- 9. Rounded Pill -->
+        <div class="logo-card dark-bg logo-9" data-theme="dark">
+            <span class="logo-num">09</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="pill">
+                <span class="icon">&#x1F42F;</span>
+                <span class="txt">TIGER</span>
+            </div>
+        </div>
+
+        <!-- 10. Vertical Stack Minimal -->
+        <div class="logo-card black-bg logo-10" data-theme="dark">
+            <span class="logo-num">10</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="letter">T</div>
+            <div class="word">Tiger Marketing</div>
+        </div>
+
+        <!-- 11. Diamond Badge -->
+        <div class="logo-card dark-bg logo-11" data-theme="dark">
+            <span class="logo-num">11</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="diamond">
+                <div class="inner">
+                    <div class="icon">&#x1F42F;</div>
+                    <div class="tm">TM</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 12. Underline Accent -->
+        <div class="logo-card dark-bg logo-12" data-theme="dark">
+            <span class="logo-num">12</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="name">Tiger</div>
+            <div class="line"></div>
+            <div class="sub">Marketing Group</div>
+        </div>
+
+        <!-- 13. Stencil Military -->
+        <div class="logo-card light-bg logo-13" data-theme="light">
+            <span class="logo-num">13</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="stars">&#9733; &#9733; &#9733;</div>
+            <div class="name">TIGER</div>
+            <div class="sub">Marketing</div>
+        </div>
+
+        <!-- 14. Hexagon -->
+        <div class="logo-card dark-bg logo-14" data-theme="dark">
+            <span class="logo-num">14</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="hex">
+                <div class="inner">
+                    <div class="icon">&#x1F42F;</div>
+                    <div class="tm">TIGER MKT</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 15. Retro Banner -->
+        <div class="logo-card dark-bg logo-15" data-theme="dark">
+            <span class="logo-num">15</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="icon">&#x1F42F;</div>
+            <div class="banner"><span class="txt">TIGER</span></div>
+            <div class="sub">Marketing Co.</div>
+        </div>
+
+        <!-- 16. Split Color -->
+        <div class="logo-card dark-bg logo-16" data-theme="dark" style="padding:0;">
+            <span class="logo-num" style="z-index:2">16</span>
+            <button class="fav-btn" style="z-index:2" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="split" style="height:100%;width:100%;">
+                <div class="left-half"><span>T</span></div>
+                <div class="right-half"><span>M</span></div>
+            </div>
+        </div>
+
+        <!-- 17. Cursive Elegant -->
+        <div class="logo-card light-bg logo-17" data-theme="light">
+            <span class="logo-num">17</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="name">Tiger</div>
+            <div class="sub">Marketing</div>
+        </div>
+
+        <!-- 18. Dot Grid Pattern -->
+        <div class="logo-card dark-bg logo-18" data-theme="dark">
+            <span class="logo-num">18</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+            </div>
+            <div class="name">Tiger Mktg</div>
+        </div>
+
+        <!-- 19. Shield Badge -->
+        <div class="logo-card dark-bg logo-19" data-theme="dark">
+            <span class="logo-num">19</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="shield">
+                <div class="inner">
+                    <div class="icon">&#x1F42F;</div>
+                    <div class="txt">Tiger Mktg</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 20. Neon Glow -->
+        <div class="logo-card black-bg logo-20" data-theme="dark">
+            <span class="logo-num">20</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="icon">&#x1F42F;</div>
+            <div class="name">TIGER</div>
+        </div>
+
+        <!-- 21. Stamp/Seal -->
+        <div class="logo-card dark-bg logo-21" data-theme="dark">
+            <span class="logo-num">21</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="seal">
+                <div class="icon">&#x1F42F;</div>
+                <div class="txt">Tiger Marketing</div>
+                <div class="est">EST. 2025</div>
+            </div>
+        </div>
+
+        <!-- 22. Knockout Text -->
+        <div class="logo-card dark-bg logo-22" data-theme="dark">
+            <span class="logo-num">22</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="block"><span class="txt">TIGER</span></div>
+            <div class="sub">Marketing</div>
+        </div>
+
+        <!-- 23. Arrow/Forward -->
+        <div class="logo-card dark-bg logo-23" data-theme="dark">
+            <span class="logo-num">23</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="icon">&#x1F42F;</div>
+            <div class="row">
+                <span class="name">Tiger</span>
+                <span class="arrow">&#x279C;</span>
+            </div>
+        </div>
+
+        <!-- 24. Vertical Bar -->
+        <div class="logo-card dark-bg logo-24" data-theme="dark">
+            <span class="logo-num">24</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="row">
+                <div class="bar"></div>
+                <div class="text">
+                    <div class="t1">Tiger</div>
+                    <div class="t2">Marketing</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 25. Wave Underline -->
+        <div class="logo-card light-bg logo-25" data-theme="light">
+            <span class="logo-num">25</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="name">Tiger</div>
+            <div class="wave"></div>
+            <div class="sub">Marketing Auburn</div>
+        </div>
+
+        <!-- 26. Claw Marks -->
+        <div class="logo-card black-bg logo-26" data-theme="dark">
+            <span class="logo-num">26</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="claws">///</div>
+            <div class="name">Tiger</div>
+            <div class="scratches">
+                <div class="scratch"></div>
+                <div class="scratch"></div>
+                <div class="scratch"></div>
+            </div>
+        </div>
+
+        <!-- 27. Corner Accent -->
+        <div class="logo-card dark-bg logo-27" data-theme="dark">
+            <span class="logo-num">27</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="frame">
+                <div class="icon">&#x1F42F;</div>
+                <div class="name">Tiger Mktg</div>
+            </div>
+        </div>
+
+        <!-- 28. Sunset Gradient -->
+        <div class="logo-card dark-bg logo-28" data-theme="dark">
+            <span class="logo-num">28</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="icon">&#x1F42F;</div>
+            <div class="name">TIGER</div>
+            <div class="sub">Marketing</div>
+        </div>
+
+        <!-- 29. Tag/Label -->
+        <div class="logo-card dark-bg logo-29" data-theme="dark">
+            <span class="logo-num">29</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="tag">
+                <span class="icon">&#x1F42F;</span>
+                <span class="txt">Tiger</span>
+            </div>
+            <div class="sub">Marketing Group</div>
+        </div>
+
+        <!-- 30. Abstract TM -->
+        <div class="logo-card gradient-bg logo-30" data-theme="dark">
+            <span class="logo-num">30</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="monogram">
+                <span class="t">T</span>
+                <span class="m">M</span>
+            </div>
+            <div class="full">Tiger Marketing</div>
+        </div>
+
+    </div>
+
+    <script>
+        // Favorites
+        let favs = JSON.parse(localStorage.getItem('tm_logo_favs') || '[]');
+
+        function initFavs() {
+            document.querySelectorAll('.fav-btn').forEach((btn, i) => {
+                if (favs.includes(i)) btn.classList.add('active');
+            });
+            updateCount();
+        }
+
+        function toggleFav(btn, e) {
+            e.stopPropagation();
+            const idx = Array.from(document.querySelectorAll('.fav-btn')).indexOf(btn);
+            if (favs.includes(idx)) {
+                favs = favs.filter(f => f !== idx);
+                btn.classList.remove('active');
+            } else {
+                favs.push(idx);
+                btn.classList.add('active');
+            }
+            localStorage.setItem('tm_logo_favs', JSON.stringify(favs));
+            updateCount();
+        }
+
+        function updateCount() {
+            document.getElementById('fav-count').textContent = favs.length + ' favorite' + (favs.length !== 1 ? 's' : '');
+        }
+
+        function filterLogos(type, btn) {
+            document.querySelectorAll('.toggle-bar button').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            document.querySelectorAll('.logo-card').forEach((card, i) => {
+                if (type === 'all') card.classList.remove('hidden');
+                else if (type === 'light') card.classList.toggle('hidden', card.dataset.theme !== 'light');
+                else if (type === 'dark') card.classList.toggle('hidden', card.dataset.theme !== 'dark');
+                else if (type === 'fav') card.classList.toggle('hidden', !favs.includes(i));
+            });
+        }
+
+        initFavs();
+    </script>
+</body>
+</html>
