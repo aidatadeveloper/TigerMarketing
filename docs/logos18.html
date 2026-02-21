@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logo #18 Variations - Auburn Colors</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800;900&family=Bebas+Neue&family=Oswald:wght@700&family=Montserrat:wght@700;800;900&family=Poppins:wght@700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        /* Auburn University Colors */
+        :root {
+            --au-navy: #03244d;
+            --au-navy-light: #0a3a6b;
+            --au-navy-dark: #011a36;
+            --au-orange: #DD550C;
+            --au-orange-bright: #F26522;
+            --au-orange-deep: #c44a0a;
+            --au-white: #FFFFFF;
+            --au-cream: #f5f0e8;
+            --au-gray: #8b8b8b;
+        }
+
+        body {
+            font-family: 'Geist', -apple-system, sans-serif;
+            background: #0f0f17;
+            color: #f0ece8;
+            min-height: 100vh;
+        }
+
+        .page-header {
+            text-align: center;
+            padding: 30px 16px 10px;
+            position: sticky;
+            top: 0;
+            background: #0f0f17;
+            z-index: 100;
+            border-bottom: 1px solid #2a2a44;
+        }
+        .page-header h1 {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--au-orange);
+        }
+        .page-header p {
+            font-size: 12px;
+            color: #9a9aaa;
+            margin-top: 4px;
+        }
+        .page-header .colors {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 8px;
+        }
+        .page-header .swatch {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: 2px solid rgba(255,255,255,0.2);
+        }
+        .page-header .color-label {
+            font-size: 10px;
+            color: #666;
+            margin-top: 4px;
+        }
+
+        .back-link {
+            display: inline-block;
+            color: var(--au-orange);
+            font-size: 12px;
+            text-decoration: none;
+            margin-top: 6px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 12px;
+            padding: 16px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .logo-card {
+            aspect-ratio: 1;
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 16px 10px;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .logo-card:active { transform: scale(0.96); }
+
+        .logo-num {
+            position: absolute;
+            top: 6px;
+            left: 8px;
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        .logo-label {
+            position: absolute;
+            bottom: 6px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 8px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            opacity: 0.6;
+        }
+
+        .fav-btn {
+            position: absolute; top: 6px; right: 8px; font-size: 16px;
+            cursor: pointer; opacity: 0.3; transition: opacity 0.2s;
+            background: none; border: none; padding: 0;
+        }
+        .fav-btn.active { opacity: 1; }
+
+        /* ===== DOT GRID BASE ===== */
+        .dots { display: grid; grid-template-columns: repeat(3,1fr); gap: 4px; margin-bottom: 6px; }
+        .dot { width: 12px; height: 12px; border-radius: 50%; }
+        .name { font-family: 'Geist', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; }
+
+        /* Large dots variant */
+        .dots-lg .dot { width: 16px; height: 16px; }
+        .dots-lg { gap: 5px; }
+
+        /* Small dots variant */
+        .dots-sm .dot { width: 8px; height: 8px; }
+        .dots-sm { gap: 3px; }
+
+        /* 4x4 grid variant */
+        .dots-4x4 { grid-template-columns: repeat(4,1fr); }
+
+        /* ===== VARIATION 1: Original Auburn (Navy bg, Orange/White dots) ===== */
+        .v1 { background: var(--au-navy); border: 1px solid var(--au-navy-light); }
+        .v1 .logo-num { color: rgba(255,255,255,0.3); }
+        .v1 .logo-label { color: rgba(255,255,255,0.4); }
+        .v1 .dot { background: var(--au-orange); }
+        .v1 .dot:nth-child(even) { background: var(--au-white); }
+        .v1 .name { color: var(--au-orange); }
+
+        /* ===== VARIATION 2: Inverted (Orange bg, Navy/White dots) ===== */
+        .v2 { background: var(--au-orange); }
+        .v2 .logo-num { color: rgba(255,255,255,0.4); }
+        .v2 .logo-label { color: rgba(255,255,255,0.5); }
+        .v2 .dot { background: var(--au-navy); }
+        .v2 .dot:nth-child(even) { background: var(--au-white); }
+        .v2 .name { color: var(--au-white); }
+
+        /* ===== VARIATION 3: Clean White (White bg, Navy/Orange dots) ===== */
+        .v3 { background: var(--au-white); border: 1px solid #e0dcd4; }
+        .v3 .logo-num { color: rgba(0,0,0,0.25); }
+        .v3 .logo-label { color: rgba(0,0,0,0.3); }
+        .v3 .dot { background: var(--au-navy); }
+        .v3 .dot:nth-child(even) { background: var(--au-orange); }
+        .v3 .name { color: var(--au-navy); }
+
+        /* ===== VARIATION 4: Dark Navy (Deep navy bg, Orange only dots) ===== */
+        .v4 { background: var(--au-navy-dark); border: 1px solid var(--au-navy); }
+        .v4 .logo-num { color: rgba(255,255,255,0.2); }
+        .v4 .logo-label { color: rgba(255,255,255,0.3); }
+        .v4 .dot { background: var(--au-orange-bright); }
+        .v4 .dot:nth-child(even) { background: var(--au-orange-deep); }
+        .v4 .name { color: var(--au-orange-bright); }
+
+        /* ===== VARIATION 5: Cream/Classic (Cream bg, Navy/Orange) ===== */
+        .v5 { background: var(--au-cream); border: 1px solid #ddd5c8; }
+        .v5 .logo-num { color: rgba(0,0,0,0.2); }
+        .v5 .logo-label { color: rgba(0,0,0,0.3); }
+        .v5 .dot { background: var(--au-orange); }
+        .v5 .dot:nth-child(even) { background: var(--au-navy); }
+        .v5 .name { color: var(--au-navy); }
+
+        /* ===== VARIATION 6: All Orange Gradient (Navy bg) ===== */
+        .v6 { background: var(--au-navy); border: 1px solid var(--au-navy-light); }
+        .v6 .logo-num { color: rgba(255,255,255,0.3); }
+        .v6 .logo-label { color: rgba(255,255,255,0.4); }
+        .v6 .dot:nth-child(1) { background: #fbbf24; }
+        .v6 .dot:nth-child(2) { background: #f59e0b; }
+        .v6 .dot:nth-child(3) { background: #f97316; }
+        .v6 .dot:nth-child(4) { background: #ea580c; }
+        .v6 .dot:nth-child(5) { background: #DD550C; }
+        .v6 .dot:nth-child(6) { background: #c44a0a; }
+        .v6 .dot:nth-child(7) { background: #b45309; }
+        .v6 .dot:nth-child(8) { background: #9a3412; }
+        .v6 .dot:nth-child(9) { background: #7c2d12; }
+        .v6 .name { color: var(--au-orange-bright); }
+
+        /* ===== VARIATION 7: Navy Gradient dots (White bg) ===== */
+        .v7 { background: var(--au-white); border: 1px solid #e0dcd4; }
+        .v7 .logo-num { color: rgba(0,0,0,0.25); }
+        .v7 .logo-label { color: rgba(0,0,0,0.3); }
+        .v7 .dot:nth-child(1) { background: #011a36; }
+        .v7 .dot:nth-child(2) { background: var(--au-orange); }
+        .v7 .dot:nth-child(3) { background: #03244d; }
+        .v7 .dot:nth-child(4) { background: var(--au-orange); }
+        .v7 .dot:nth-child(5) { background: #0a3a6b; }
+        .v7 .dot:nth-child(6) { background: var(--au-orange); }
+        .v7 .dot:nth-child(7) { background: #0f4d8a; }
+        .v7 .dot:nth-child(8) { background: var(--au-orange); }
+        .v7 .dot:nth-child(9) { background: #1565a8; }
+        .v7 .name { color: var(--au-navy); }
+
+        /* ===== VARIATION 8: Split Navy/Orange bg ===== */
+        .v8 { background: linear-gradient(135deg, var(--au-navy) 50%, var(--au-orange) 50%); }
+        .v8 .logo-num { color: rgba(255,255,255,0.4); }
+        .v8 .logo-label { color: rgba(255,255,255,0.5); }
+        .v8 .dot { background: var(--au-white); }
+        .v8 .dot:nth-child(even) { background: rgba(255,255,255,0.5); }
+        .v8 .name { color: var(--au-white); }
+
+        /* ===== VARIATION 9: Bordered Dots (Navy bg, outlined dots) ===== */
+        .v9 { background: var(--au-navy); border: 1px solid var(--au-navy-light); }
+        .v9 .logo-num { color: rgba(255,255,255,0.3); }
+        .v9 .logo-label { color: rgba(255,255,255,0.4); }
+        .v9 .dot { background: transparent; border: 2px solid var(--au-orange); }
+        .v9 .dot:nth-child(even) { background: var(--au-orange); border-color: var(--au-orange); }
+        .v9 .name { color: var(--au-white); }
+
+        /* ===== VARIATION 10: Glowing Orange (Black bg, glowing dots) ===== */
+        .v10 { background: #0a0a0a; border: 1px solid #1a1a1a; }
+        .v10 .logo-num { color: rgba(255,255,255,0.2); }
+        .v10 .logo-label { color: rgba(255,255,255,0.3); }
+        .v10 .dot { background: var(--au-orange); box-shadow: 0 0 8px rgba(221,85,12,0.6); }
+        .v10 .dot:nth-child(even) { background: var(--au-navy-light); box-shadow: 0 0 8px rgba(3,36,77,0.6); }
+        .v10 .name { color: var(--au-orange); text-shadow: 0 0 10px rgba(221,85,12,0.4); }
+
+        /* ===== VARIATION 11: 4x4 Grid (Navy bg) ===== */
+        .v11 { background: var(--au-navy); border: 1px solid var(--au-navy-light); }
+        .v11 .logo-num { color: rgba(255,255,255,0.3); }
+        .v11 .logo-label { color: rgba(255,255,255,0.4); }
+        .v11 .dot { background: var(--au-orange); width: 10px; height: 10px; }
+        .v11 .dot:nth-child(even) { background: var(--au-white); }
+        .v11 .dot:nth-child(3n) { background: var(--au-navy-light); border: 1px solid var(--au-orange); }
+        .v11 .name { color: var(--au-orange); }
+
+        /* ===== VARIATION 12: Large Dots Minimal (White bg) ===== */
+        .v12 { background: var(--au-white); border: 1px solid #e0dcd4; }
+        .v12 .logo-num { color: rgba(0,0,0,0.25); }
+        .v12 .logo-label { color: rgba(0,0,0,0.3); }
+        .v12 .dot { background: var(--au-navy); }
+        .v12 .dot:nth-child(odd) { background: var(--au-orange); }
+        .v12 .dot:nth-child(5) { background: var(--au-navy); }
+        .v12 .name { color: var(--au-orange); }
+
+        /* ===== VARIATION 13: Tiger Stripe Pattern Dots (Navy bg) ===== */
+        .v13 { background: var(--au-navy-dark); border: 1px solid var(--au-navy); }
+        .v13 .logo-num { color: rgba(255,255,255,0.3); }
+        .v13 .logo-label { color: rgba(255,255,255,0.4); }
+        .v13 .dot:nth-child(1) { background: var(--au-orange); }
+        .v13 .dot:nth-child(2) { background: var(--au-navy-light); }
+        .v13 .dot:nth-child(3) { background: var(--au-orange); }
+        .v13 .dot:nth-child(4) { background: var(--au-navy-light); }
+        .v13 .dot:nth-child(5) { background: var(--au-orange-bright); }
+        .v13 .dot:nth-child(6) { background: var(--au-navy-light); }
+        .v13 .dot:nth-child(7) { background: var(--au-orange); }
+        .v13 .dot:nth-child(8) { background: var(--au-navy-light); }
+        .v13 .dot:nth-child(9) { background: var(--au-orange); }
+        .v13 .name { color: var(--au-orange); letter-spacing: 4px; }
+
+        /* ===== VARIATION 14: Diagonal Orange (Orange gradient bg) ===== */
+        .v14 { background: linear-gradient(135deg, var(--au-orange-deep), var(--au-orange-bright)); }
+        .v14 .logo-num { color: rgba(255,255,255,0.4); }
+        .v14 .logo-label { color: rgba(255,255,255,0.5); }
+        .v14 .dot { background: var(--au-navy); }
+        .v14 .dot:nth-child(even) { background: var(--au-white); }
+        .v14 .name { color: var(--au-navy); }
+
+        /* ===== VARIATION 15: Navy to Orange Gradient bg ===== */
+        .v15 { background: linear-gradient(180deg, var(--au-navy), var(--au-orange-deep)); }
+        .v15 .logo-num { color: rgba(255,255,255,0.4); }
+        .v15 .logo-label { color: rgba(255,255,255,0.5); }
+        .v15 .dot { background: var(--au-white); }
+        .v15 .dot:nth-child(even) { background: rgba(255,255,255,0.4); }
+        .v15 .name { color: var(--au-white); }
+
+        /* ===== VARIATION 16: Checkerboard Auburn ===== */
+        .v16 { background: var(--au-navy); border: 1px solid var(--au-navy-light); }
+        .v16 .logo-num { color: rgba(255,255,255,0.3); }
+        .v16 .logo-label { color: rgba(255,255,255,0.4); }
+        .v16 .dots { gap: 0; }
+        .v16 .dot { width: 20px; height: 20px; border-radius: 0; }
+        .v16 .dot:nth-child(odd) { background: var(--au-orange); }
+        .v16 .dot:nth-child(even) { background: var(--au-navy-light); }
+        .v16 .name { color: var(--au-white); margin-top: 8px; }
+
+        /* ===== VARIATION 17: Diamond Dots (Cream bg) ===== */
+        .v17 { background: var(--au-cream); border: 1px solid #ddd5c8; }
+        .v17 .logo-num { color: rgba(0,0,0,0.2); }
+        .v17 .logo-label { color: rgba(0,0,0,0.3); }
+        .v17 .dot { transform: rotate(45deg); border-radius: 3px; background: var(--au-navy); }
+        .v17 .dot:nth-child(even) { background: var(--au-orange); }
+        .v17 .name { color: var(--au-navy); }
+
+        /* ===== VARIATION 18: Ring Dots (Navy bg, hollow dots) ===== */
+        .v18 { background: var(--au-navy); border: 2px solid var(--au-orange); }
+        .v18 .logo-num { color: rgba(255,255,255,0.3); }
+        .v18 .logo-label { color: rgba(255,255,255,0.4); }
+        .v18 .dot { background: transparent; border: 2px solid var(--au-white); }
+        .v18 .dot:nth-child(even) { border-color: var(--au-orange); }
+        .v18 .dot:nth-child(5) { background: var(--au-orange); border-color: var(--au-orange); }
+        .v18 .name { color: var(--au-orange); }
+
+        /* ===== VARIATION 19: Monochrome Navy (All navy shades, white bg) ===== */
+        .v19 { background: var(--au-white); border: 1px solid #e0dcd4; }
+        .v19 .logo-num { color: rgba(0,0,0,0.25); }
+        .v19 .logo-label { color: rgba(0,0,0,0.3); }
+        .v19 .dot:nth-child(1) { background: #011a36; }
+        .v19 .dot:nth-child(2) { background: #021f3f; }
+        .v19 .dot:nth-child(3) { background: #03244d; }
+        .v19 .dot:nth-child(4) { background: #042c5c; }
+        .v19 .dot:nth-child(5) { background: var(--au-orange); }
+        .v19 .dot:nth-child(6) { background: #042c5c; }
+        .v19 .dot:nth-child(7) { background: #03244d; }
+        .v19 .dot:nth-child(8) { background: #021f3f; }
+        .v19 .dot:nth-child(9) { background: #011a36; }
+        .v19 .name { color: var(--au-navy); }
+
+        /* ===== VARIATION 20: War Eagle Gold Accent ===== */
+        .v20 { background: var(--au-navy); border: 1px solid var(--au-navy-light); }
+        .v20 .logo-num { color: rgba(255,255,255,0.3); }
+        .v20 .logo-label { color: rgba(255,255,255,0.4); }
+        .v20 .dot { background: #fbbf24; }
+        .v20 .dot:nth-child(even) { background: var(--au-orange); }
+        .v20 .dot:nth-child(5) { background: var(--au-white); }
+        .v20 .name { color: #fbbf24; }
+
+    </style>
+</head>
+<body>
+    <div class="page-header">
+        <h1>Logo #18 - Auburn Color Variations</h1>
+        <p>Dot Grid Pattern x Auburn University Tigers</p>
+        <div class="colors">
+            <div>
+                <div class="swatch" style="background: #03244d;"></div>
+                <div class="color-label">Navy</div>
+            </div>
+            <div>
+                <div class="swatch" style="background: #DD550C;"></div>
+                <div class="color-label">Orange</div>
+            </div>
+            <div>
+                <div class="swatch" style="background: #FFFFFF;"></div>
+                <div class="color-label">White</div>
+            </div>
+        </div>
+        <a href="logos.html" class="back-link">&#8592; Back to all 30 logos</a>
+    </div>
+
+    <div class="grid" id="logo-grid">
+
+        <!-- V1: Original Auburn -->
+        <div class="logo-card v1">
+            <span class="logo-num">18-A</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+            </div>
+            <div class="name">Tiger Mktg</div>
+            <span class="logo-label">Navy BG / Orange+White</span>
+        </div>
+
+        <!-- V2: Inverted -->
+        <div class="logo-card v2">
+            <span class="logo-num">18-B</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+            </div>
+            <div class="name">Tiger Mktg</div>
+            <span class="logo-label">Orange BG / Navy+White</span>
+        </div>
+
+        <!-- V3: Clean White -->
+        <div class="logo-card v3">
+            <span class="logo-num">18-C</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+            </div>
+            <div class="name">Tiger Mktg</div>
+            <span class="logo-label">White BG / Navy+Orange</span>
+        </div>
+
+        <!-- V4: Dark Navy -->
+        <div class="logo-card v4">
+            <span class="logo-num">18-D</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+            </div>
+            <div class="name">Tiger Mktg</div>
+            <span class="logo-label">Deep Navy / Orange Tones</span>
+        </div>
+
+        <!-- V5: Cream Classic -->
+        <div class="logo-card v5">
+            <span class="logo-num">18-E</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+            </div>
+            <div class="name">Tiger Mktg</div>
+            <span class="logo-label">Cream BG / Orange+Navy</span>
+        </div>
+
+        <!-- V6: Orange Gradient -->
+        <div class="logo-card v6">
+            <span class="logo-num">18-F</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+            </div>
+            <div class="name">Tiger Mktg</div>
+            <span class="logo-label">Navy BG / Orange Gradient</span>
+        </div>
+
+        <!-- V7: Navy Gradient -->
+        <div class="logo-card v7">
+            <span class="logo-num">18-G</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+            </div>
+            <div class="name">Tiger Mktg</div>
+            <span class="logo-label">White BG / Navy Gradient</span>
+        </div>
+
+        <!-- V8: Split bg -->
+        <div class="logo-card v8">
+            <span class="logo-num">18-H</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+            </div>
+            <div class="name">Tiger Mktg</div>
+            <span class="logo-label">Split Navy/Orange</span>
+        </div>
+
+        <!-- V9: Bordered Dots -->
+        <div class="logo-card v9">
+            <span class="logo-num">18-I</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+            </div>
+            <div class="name">Tiger Mktg</div>
+            <span class="logo-label">Navy / Outlined Dots</span>
+        </div>
+
+        <!-- V10: Glowing -->
+        <div class="logo-card v10">
+            <span class="logo-num">18-J</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+            </div>
+            <div class="name">Tiger Mktg</div>
+            <span class="logo-label">Black / Glow Effect</span>
+        </div>
+
+        <!-- V11: 4x4 Grid -->
+        <div class="logo-card v11">
+            <span class="logo-num">18-K</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots dots-4x4">
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+            </div>
+            <div class="name">Tiger Mktg</div>
+            <span class="logo-label">Navy / 4x4 Grid</span>
+        </div>
+
+        <!-- V12: Large Dots -->
+        <div class="logo-card v12">
+            <span class="logo-num">18-L</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots dots-lg">
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+            </div>
+            <div class="name">Tiger Mktg</div>
+            <span class="logo-label">White / Large Dots</span>
+        </div>
+
+        <!-- V13: Tiger Stripe Pattern -->
+        <div class="logo-card v13">
+            <span class="logo-num">18-M</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+            </div>
+            <div class="name">Tiger Mktg</div>
+            <span class="logo-label">Tiger Stripe Pattern</span>
+        </div>
+
+        <!-- V14: Orange Gradient bg -->
+        <div class="logo-card v14">
+            <span class="logo-num">18-N</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+            </div>
+            <div class="name">Tiger Mktg</div>
+            <span class="logo-label">Orange Gradient BG</span>
+        </div>
+
+        <!-- V15: Navy to Orange Gradient -->
+        <div class="logo-card v15">
+            <span class="logo-num">18-O</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+            </div>
+            <div class="name">Tiger Mktg</div>
+            <span class="logo-label">Navy-to-Orange Gradient</span>
+        </div>
+
+        <!-- V16: Checkerboard -->
+        <div class="logo-card v16">
+            <span class="logo-num">18-P</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+            </div>
+            <div class="name">Tiger Mktg</div>
+            <span class="logo-label">Checkerboard Squares</span>
+        </div>
+
+        <!-- V17: Diamond Dots -->
+        <div class="logo-card v17">
+            <span class="logo-num">18-Q</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+            </div>
+            <div class="name">Tiger Mktg</div>
+            <span class="logo-label">Cream / Diamond Dots</span>
+        </div>
+
+        <!-- V18: Ring Dots -->
+        <div class="logo-card v18">
+            <span class="logo-num">18-R</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+            </div>
+            <div class="name">Tiger Mktg</div>
+            <span class="logo-label">Navy / Ring Dots</span>
+        </div>
+
+        <!-- V19: Monochrome Navy -->
+        <div class="logo-card v19">
+            <span class="logo-num">18-S</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+            </div>
+            <div class="name">Tiger Mktg</div>
+            <span class="logo-label">Navy Mono + Orange Center</span>
+        </div>
+
+        <!-- V20: War Eagle Gold -->
+        <div class="logo-card v20">
+            <span class="logo-num">18-T</span>
+            <button class="fav-btn" onclick="toggleFav(this, event)">&#x2B50;</button>
+            <div class="dots">
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+            </div>
+            <div class="name">Tiger Mktg</div>
+            <span class="logo-label">War Eagle Gold Accent</span>
+        </div>
+
+    </div>
+
+    <script>
+        let favs = JSON.parse(localStorage.getItem('tm_logo18_favs') || '[]');
+
+        function initFavs() {
+            document.querySelectorAll('.fav-btn').forEach((btn, i) => {
+                if (favs.includes(i)) btn.classList.add('active');
+            });
+        }
+
+        function toggleFav(btn, e) {
+            e.stopPropagation();
+            const idx = Array.from(document.querySelectorAll('.fav-btn')).indexOf(btn);
+            if (favs.includes(idx)) {
+                favs = favs.filter(f => f !== idx);
+                btn.classList.remove('active');
+            } else {
+                favs.push(idx);
+                btn.classList.add('active');
+            }
+            localStorage.setItem('tm_logo18_favs', JSON.stringify(favs));
+        }
+
+        initFavs();
+    </script>
+</body>
+</html>
