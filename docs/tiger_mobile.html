@@ -201,10 +201,14 @@
         body.dark .header-logo-dot:nth-child(even) { background: #0a3a6b; box-shadow: 0 0 4px rgba(3,36,77,0.5); }
 
         .header-title {
-            font-size: 18px;
+            font-family: 'Geist', sans-serif;
+            font-size: 14px;
             font-weight: 700;
-            color: var(--text);
+            letter-spacing: 3px;
+            text-transform: uppercase;
         }
+        body.light .header-title { color: #03244d; }
+        body.dark .header-title { color: #DD550C; text-shadow: 0 0 10px rgba(221,85,12,0.4); }
 
         .header-actions {
             display: flex;
@@ -1019,48 +1023,58 @@ function applyTheme() {
 // ===== SPLASH SCREEN =====
 function runSplash() {
     const dots = document.querySelectorAll('#splash-dots .splash-dot');
-    // Only blue and orange - dots swap to each other's color
     const navy = '#03244d';
     const navyLight = '#0a3a6b';
     const orange = '#DD550C';
 
-    let cycleCount = 0;
-    const maxCycles = 2; // 2 swaps at 500ms = 1 second
+    // Track each dot's current color (matches 18-C light / 18-J dark defaults)
+    const dotColors = [];
+    dots.forEach((dot, i) => {
+        // Even indices (0,2,4,6,8) = navy/orange, Odd (1,3,5,7) = orange/navyLight
+        if (isDark) {
+            dotColors[i] = i % 2 === 0 ? 'orange' : 'navy';
+        } else {
+            dotColors[i] = i % 2 === 0 ? 'navy' : 'orange';
+        }
+    });
 
+    let changes = 0;
+    const maxChanges = 6; // 6 individual random dot changes
+
+    // Pick one random dot, swap its color
     const interval = setInterval(() => {
-        dots.forEach((dot, i) => {
-            const isEven = i % 2 === 0;
-            // Swap: even dots get orange, odd get navy (then vice versa)
-            const swapped = cycleCount % 2 === 0;
-            if (isDark) {
-                const c1 = swapped ? navyLight : orange;
-                const c2 = swapped ? orange : navyLight;
-                dot.style.background = isEven ? c1 : c2;
-                dot.style.boxShadow = '0 0 10px ' + (isEven ? c1 : c2) + '99';
-            } else {
-                const c1 = swapped ? orange : navy;
-                const c2 = swapped ? navy : orange;
-                dot.style.background = isEven ? c1 : c2;
-                dot.style.boxShadow = 'none';
-            }
-            dot.classList.remove('animating');
-            void dot.offsetWidth;
-            dot.classList.add('animating');
-        });
-        cycleCount++;
+        const idx = Math.floor(Math.random() * 9);
+        const dot = dots[idx];
 
-        if (cycleCount >= maxCycles) {
+        // Swap to the other color
+        if (dotColors[idx] === 'navy') {
+            dotColors[idx] = 'orange';
+            dot.style.background = orange;
+            dot.style.boxShadow = isDark ? '0 0 10px rgba(221,85,12,0.6)' : 'none';
+        } else {
+            dotColors[idx] = 'navy';
+            dot.style.background = isDark ? navyLight : navy;
+            dot.style.boxShadow = isDark ? '0 0 10px rgba(3,36,77,0.6)' : 'none';
+        }
+
+        // Pulse animation on just that dot
+        dot.classList.remove('animating');
+        void dot.offsetWidth;
+        dot.classList.add('animating');
+
+        changes++;
+        if (changes >= maxChanges) {
             clearInterval(interval);
-            // Settle back to final logo colors
-            dots.forEach((dot, i) => {
+            // Settle back to proper 18-C / 18-J pattern
+            dots.forEach((d, i) => {
                 if (isDark) {
-                    dot.style.background = i % 2 === 0 ? orange : navyLight;
-                    dot.style.boxShadow = i % 2 === 0 ? '0 0 10px rgba(221,85,12,0.6)' : '0 0 10px rgba(3,36,77,0.6)';
+                    d.style.background = i % 2 === 0 ? orange : navyLight;
+                    d.style.boxShadow = i % 2 === 0 ? '0 0 10px rgba(221,85,12,0.6)' : '0 0 10px rgba(3,36,77,0.6)';
                 } else {
-                    dot.style.background = i % 2 === 0 ? navy : orange;
-                    dot.style.boxShadow = 'none';
+                    d.style.background = i % 2 === 0 ? navy : orange;
+                    d.style.boxShadow = 'none';
                 }
-                dot.classList.remove('animating');
+                d.classList.remove('animating');
             });
             // Fade out splash
             setTimeout(() => {
@@ -1070,9 +1084,9 @@ function runSplash() {
                 setTimeout(() => {
                     $('splash').style.display = 'none';
                 }, 500);
-            }, 100);
+            }, 200);
         }
-    }, 500);
+    }, 150); // 150ms between each random dot change
 }
 
 // ===== NAVIGATION =====
