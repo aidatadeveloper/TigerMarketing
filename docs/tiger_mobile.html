@@ -1,0 +1,1894 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Tiger Marketing</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --safe-bottom: env(safe-area-inset-bottom, 0px);
+            --tab-height: 56px;
+            --header-height: 56px;
+        }
+
+        /* ===== LIGHT THEME ===== */
+        body.light {
+            --bg: #fafaf8;
+            --bg-card: #ffffff;
+            --bg-input: #f5f5f4;
+            --bg-header: rgba(250,250,248,0.92);
+            --bg-tab: rgba(255,255,255,0.95);
+            --border: #e7e5e4;
+            --text: #1c1917;
+            --text-sec: #57534e;
+            --text-muted: #a8a29e;
+            --accent: #ea580c;
+            --accent-hover: #c2410c;
+            --accent-dim: rgba(234,88,12,0.1);
+            --green: #16a34a;
+            --green-dim: rgba(22,163,74,0.1);
+            --yellow: #ca8a04;
+            --yellow-dim: rgba(202,138,4,0.1);
+            --red: #dc2626;
+            --red-dim: rgba(220,38,38,0.1);
+            --purple: #9333ea;
+            --purple-dim: rgba(147,51,234,0.1);
+            --shadow: 0 1px 3px rgba(0,0,0,0.08);
+            --tab-border: #e0dcd4;
+            /* Splash colors (18-C style) */
+            --splash-bg: #ffffff;
+            --splash-text: #03244d;
+        }
+
+        /* ===== DARK THEME ===== */
+        body.dark {
+            --bg: #0a0a0f;
+            --bg-card: #161622;
+            --bg-input: #1e1e30;
+            --bg-header: rgba(10,10,15,0.92);
+            --bg-tab: rgba(16,16,22,0.95);
+            --border: #2a2a44;
+            --text: #f0ece8;
+            --text-sec: #9a9aaa;
+            --text-muted: #5e5e78;
+            --accent: #f97316;
+            --accent-hover: #fb923c;
+            --accent-dim: rgba(249,115,22,0.15);
+            --green: #22c55e;
+            --green-dim: rgba(34,197,94,0.15);
+            --yellow: #eab308;
+            --yellow-dim: rgba(234,179,8,0.15);
+            --red: #ef4444;
+            --red-dim: rgba(239,68,68,0.15);
+            --purple: #a855f7;
+            --purple-dim: rgba(168,85,247,0.15);
+            --shadow: 0 2px 8px rgba(0,0,0,0.3);
+            --tab-border: #2a2a44;
+            /* Splash colors (18-J style) */
+            --splash-bg: #0a0a0a;
+            --splash-text: #DD550C;
+        }
+
+        body {
+            font-family: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            min-height: 100dvh;
+            -webkit-tap-highlight-color: transparent;
+            overflow-x: hidden;
+            transition: background 0.4s, color 0.4s;
+        }
+
+        /* ===== SPLASH SCREEN ===== */
+        #splash {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.5s ease;
+        }
+        body.light #splash { background: #ffffff; }
+        body.dark #splash { background: #0a0a0a; }
+
+        #splash.fade-out {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .splash-logo {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .splash-dots {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+        }
+
+        .splash-dot {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            transition: background 0.3s, box-shadow 0.3s;
+        }
+
+        /* 18-C dots (light mode default before animation) */
+        body.light .splash-dot { background: #03244d; }
+        body.light .splash-dot:nth-child(even) { background: #DD550C; }
+
+        /* 18-J dots (dark mode default before animation) */
+        body.dark .splash-dot { background: #DD550C; box-shadow: 0 0 10px rgba(221,85,12,0.6); }
+        body.dark .splash-dot:nth-child(even) { background: #0a3a6b; box-shadow: 0 0 10px rgba(3,36,77,0.6); }
+
+        .splash-name {
+            font-family: 'Geist', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+        }
+        body.light .splash-name { color: #03244d; }
+        body.dark .splash-name { color: #DD550C; text-shadow: 0 0 12px rgba(221,85,12,0.4); }
+
+        /* Dot color cycling animation */
+        @keyframes dotPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        .splash-dot.animating {
+            animation: dotPulse 0.4s ease-in-out;
+        }
+
+        /* ===== APP CONTAINER ===== */
+        #app {
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            padding-bottom: calc(var(--tab-height) + var(--safe-bottom) + 8px);
+        }
+        #app.visible { opacity: 1; }
+
+        /* ===== HEADER ===== */
+        .app-header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: var(--bg-header);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            min-height: var(--header-height);
+            transition: background 0.4s, border-color 0.4s;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header-logo-dots {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2px;
+        }
+        .header-logo-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+        }
+        body.light .header-logo-dot { background: #03244d; }
+        body.light .header-logo-dot:nth-child(even) { background: #DD550C; }
+        body.dark .header-logo-dot { background: #DD550C; box-shadow: 0 0 4px rgba(221,85,12,0.5); }
+        body.dark .header-logo-dot:nth-child(even) { background: #0a3a6b; box-shadow: 0 0 4px rgba(3,36,77,0.5); }
+
+        .header-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .theme-toggle-btn {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            padding: 6px;
+            border-radius: 8px;
+            transition: background 0.15s;
+        }
+        .theme-toggle-btn:hover { background: var(--accent-dim); }
+
+        .add-btn {
+            background: var(--accent);
+            color: #fff;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            font-size: 20px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.15s;
+        }
+        .add-btn:hover { background: var(--accent-hover); }
+
+        /* ===== BOTTOM TAB BAR ===== */
+        .tab-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 200;
+            background: var(--bg-tab);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-top: 1px solid var(--tab-border);
+            display: flex;
+            align-items: stretch;
+            justify-content: space-around;
+            height: calc(var(--tab-height) + var(--safe-bottom));
+            padding-bottom: var(--safe-bottom);
+            transition: background 0.4s, border-color 0.4s;
+        }
+
+        .tab-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2px;
+            padding: 6px 0;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+            transition: color 0.15s;
+            position: relative;
+            color: var(--text-muted);
+            text-decoration: none;
+        }
+        .tab-item.active { color: var(--accent); }
+
+        .tab-icon { font-size: 22px; line-height: 1; }
+        .tab-label { font-size: 10px; font-weight: 600; letter-spacing: 0.3px; }
+
+        .tab-badge {
+            position: absolute;
+            top: 4px;
+            right: calc(50% - 18px);
+            background: var(--red);
+            color: #fff;
+            font-size: 9px;
+            font-weight: 700;
+            min-width: 16px;
+            height: 16px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 4px;
+        }
+
+        /* ===== PAGE SECTIONS ===== */
+        .page-section {
+            display: none;
+            padding: 12px 16px;
+        }
+        .page-section.active { display: block; }
+
+        /* ===== CARDS ===== */
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            margin-bottom: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: background 0.4s, border-color 0.4s;
+        }
+
+        .card-header {
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .card-header h3 { font-size: 15px; font-weight: 700; }
+        .card-header .see-all {
+            font-size: 13px;
+            color: var(--accent);
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .card-body { padding: 12px 16px; }
+
+        /* ===== STAT ROW ===== */
+        .stat-row {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        .stat-mini {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 14px;
+            box-shadow: var(--shadow);
+            transition: background 0.4s, border-color 0.4s;
+        }
+        .stat-mini .label {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+        .stat-mini .value {
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--text);
+        }
+        .stat-mini.accent { border-left: 3px solid var(--accent); }
+        .stat-mini.green { border-left: 3px solid var(--green); }
+        .stat-mini.yellow { border-left: 3px solid var(--yellow); }
+        .stat-mini.red { border-left: 3px solid var(--red); }
+        .stat-mini.purple { border-left: 3px solid var(--purple); }
+
+        /* ===== DEAL / TASK / CONTACT CARDS ===== */
+        .item-card {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--border);
+            cursor: pointer;
+            transition: background 0.1s;
+        }
+        .item-card:last-child { border-bottom: none; }
+        .item-card:active { background: var(--accent-dim); }
+
+        .item-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .item-info { flex: 1; min-width: 0; }
+        .item-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .item-sub {
+            font-size: 12px;
+            color: var(--text-sec);
+            margin-top: 1px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .item-right {
+            text-align: right;
+            flex-shrink: 0;
+        }
+        .item-amount {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text);
+        }
+        .item-meta {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        /* ===== BADGES ===== */
+        .badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .badge-new { background: var(--accent-dim); color: var(--accent); }
+        .badge-contacted { background: var(--yellow-dim); color: var(--yellow); }
+        .badge-qualified { background: var(--green-dim); color: var(--green); }
+        .badge-proposal { background: var(--purple-dim); color: var(--purple); }
+        .badge-won { background: var(--green-dim); color: var(--green); }
+        .badge-lost { background: var(--red-dim); color: var(--red); }
+        .badge-prospect { background: var(--accent-dim); color: var(--accent); }
+        .badge-quoted { background: var(--yellow-dim); color: var(--yellow); }
+        .badge-negotiation { background: rgba(249,115,22,0.15); color: var(--accent); }
+        .badge-scheduled { background: var(--purple-dim); color: var(--purple); }
+        .badge-pending { background: var(--yellow-dim); color: var(--yellow); }
+        .badge-in-progress { background: var(--accent-dim); color: var(--accent); }
+        .badge-completed { background: rgba(100,100,120,0.15); color: var(--text-sec); }
+        .badge-overdue { background: var(--red-dim); color: var(--red); }
+        .badge-high { background: var(--red-dim); color: var(--red); }
+        .badge-normal { background: var(--accent-dim); color: var(--accent); }
+        .badge-low { background: rgba(100,100,120,0.15); color: var(--text-sec); }
+        .badge-active { background: var(--green-dim); color: var(--green); }
+        .badge-planned { background: var(--accent-dim); color: var(--accent); }
+
+        /* ===== SECTION TITLE ===== */
+        .section-title {
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            padding: 16px 0 8px;
+        }
+
+        /* ===== EMPTY STATE ===== */
+        .empty {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-muted);
+        }
+        .empty .icon { font-size: 40px; margin-bottom: 8px; opacity: 0.5; }
+        .empty p { font-size: 14px; }
+
+        /* ===== DETAIL VIEW ===== */
+        .detail-back {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--accent);
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            padding: 8px 0;
+            margin-bottom: 8px;
+        }
+
+        .detail-hero {
+            text-align: center;
+            padding: 20px 16px;
+        }
+        .detail-hero .name { font-size: 24px; font-weight: 800; }
+        .detail-hero .meta { font-size: 14px; color: var(--text-sec); margin-top: 4px; }
+
+        .detail-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1px;
+            background: var(--border);
+        }
+        .detail-field {
+            background: var(--bg-card);
+            padding: 12px 14px;
+        }
+        .detail-field .label {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+            margin-bottom: 2px;
+        }
+        .detail-field .val {
+            font-size: 14px;
+            color: var(--text);
+        }
+        .detail-field.full {
+            grid-column: 1 / -1;
+        }
+
+        /* ===== ACTION BUTTONS ===== */
+        .action-row {
+            display: flex;
+            gap: 8px;
+            padding: 12px 0;
+        }
+        .btn {
+            flex: 1;
+            padding: 10px 12px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 600;
+            border: 1px solid transparent;
+            cursor: pointer;
+            font-family: inherit;
+            text-align: center;
+            transition: all 0.15s;
+        }
+        .btn-primary { background: var(--accent); color: #fff; }
+        .btn-primary:active { background: var(--accent-hover); }
+        .btn-secondary { background: var(--bg-input); color: var(--text); border-color: var(--border); }
+        .btn-danger { background: var(--red-dim); color: var(--red); }
+        .btn-success { background: var(--green-dim); color: var(--green); }
+
+        /* ===== FORM ===== */
+        .form-group { margin-bottom: 14px; }
+        .form-group label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+        .form-control {
+            width: 100%;
+            padding: 10px 14px;
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: var(--text);
+            font-size: 15px;
+            font-family: inherit;
+            transition: border-color 0.15s;
+            -webkit-appearance: none;
+        }
+        .form-control:focus { outline: none; border-color: var(--accent); }
+        select.form-control {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%238888a0' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            padding-right: 36px;
+        }
+        textarea.form-control { resize: vertical; min-height: 80px; }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        /* ===== SEARCH BAR ===== */
+        .search-bar {
+            position: relative;
+            margin-bottom: 12px;
+        }
+        .search-bar input {
+            width: 100%;
+            padding: 10px 14px 10px 38px;
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: var(--text);
+            font-size: 15px;
+            font-family: inherit;
+            transition: border-color 0.15s;
+        }
+        .search-bar input:focus { outline: none; border-color: var(--accent); }
+        .search-bar::before {
+            content: '\1F50D';
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 14px;
+        }
+
+        /* ===== FILTER CHIPS ===== */
+        .chip-row {
+            display: flex;
+            gap: 6px;
+            overflow-x: auto;
+            padding-bottom: 8px;
+            margin-bottom: 8px;
+            -webkit-overflow-scrolling: touch;
+        }
+        .chip-row::-webkit-scrollbar { display: none; }
+
+        .chip {
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            white-space: nowrap;
+            cursor: pointer;
+            background: var(--bg-input);
+            color: var(--text-sec);
+            border: 1px solid var(--border);
+            transition: all 0.15s;
+        }
+        .chip.active {
+            background: var(--accent);
+            color: #fff;
+            border-color: var(--accent);
+        }
+
+        /* ===== SWIPE ACTIONS ===== */
+        .swipe-action {
+            display: flex;
+            gap: 8px;
+            padding: 8px 16px;
+        }
+        .swipe-action .btn { font-size: 12px; padding: 8px; }
+
+        /* ===== FLASH ===== */
+        .flash-msg {
+            position: fixed;
+            top: 70px;
+            left: 16px;
+            right: 16px;
+            z-index: 500;
+            padding: 12px 16px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            animation: slideDown 0.3s ease;
+        }
+        .flash-msg.success { background: var(--green-dim); color: var(--green); border: 1px solid rgba(34,197,94,0.3); }
+        .flash-msg.error { background: var(--red-dim); color: var(--red); border: 1px solid rgba(239,68,68,0.3); }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ===== MORE PAGE ===== */
+        .more-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--border);
+            cursor: pointer;
+            transition: background 0.1s;
+        }
+        .more-item:last-child { border-bottom: none; }
+        .more-item:active { background: var(--accent-dim); }
+        .more-icon { font-size: 22px; width: 32px; text-align: center; }
+        .more-label { font-size: 15px; font-weight: 500; color: var(--text); flex: 1; }
+        .more-arrow { color: var(--text-muted); font-size: 18px; }
+
+        /* ===== CAMPAIGN CARD ===== */
+        .campaign-status { display: flex; align-items: center; justify-content: space-between; margin-top: 8px; }
+        .campaign-metrics { display: flex; gap: 16px; margin-top: 6px; }
+        .campaign-metric { text-align: center; }
+        .campaign-metric .num { font-size: 18px; font-weight: 700; color: var(--text); }
+        .campaign-metric .lbl { font-size: 10px; color: var(--text-muted); text-transform: uppercase; }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-in {
+            animation: fadeUp 0.3s ease forwards;
+        }
+    </style>
+</head>
+<body class="light">
+
+<!-- ===== SPLASH SCREEN ===== -->
+<div id="splash">
+    <div class="splash-logo">
+        <div class="splash-dots" id="splash-dots">
+            <div class="splash-dot"></div>
+            <div class="splash-dot"></div>
+            <div class="splash-dot"></div>
+            <div class="splash-dot"></div>
+            <div class="splash-dot"></div>
+            <div class="splash-dot"></div>
+            <div class="splash-dot"></div>
+            <div class="splash-dot"></div>
+            <div class="splash-dot"></div>
+        </div>
+        <div class="splash-name">TIGER MARKETING</div>
+    </div>
+</div>
+
+<!-- ===== MAIN APP ===== -->
+<div id="app">
+    <!-- Header -->
+    <header class="app-header">
+        <div class="header-left">
+            <div class="header-logo-dots">
+                <div class="header-logo-dot"></div>
+                <div class="header-logo-dot"></div>
+                <div class="header-logo-dot"></div>
+                <div class="header-logo-dot"></div>
+                <div class="header-logo-dot"></div>
+                <div class="header-logo-dot"></div>
+                <div class="header-logo-dot"></div>
+                <div class="header-logo-dot"></div>
+                <div class="header-logo-dot"></div>
+            </div>
+            <span class="header-title" id="header-title">Dashboard</span>
+        </div>
+        <div class="header-actions">
+            <button class="theme-toggle-btn" id="theme-btn" onclick="toggleTheme()"></button>
+            <button class="add-btn" id="add-btn" onclick="handleAdd()">+</button>
+        </div>
+    </header>
+
+    <!-- Flash area -->
+    <div id="flash-area"></div>
+
+    <!-- PAGE: HOME / DASHBOARD -->
+    <div class="page-section active" id="page-home">
+        <div id="home-stats"></div>
+        <div class="section-title">Upcoming Tasks</div>
+        <div class="card" id="home-tasks"></div>
+        <div class="section-title">Recent Deals</div>
+        <div class="card" id="home-deals"></div>
+        <div class="section-title">New Leads</div>
+        <div class="card" id="home-leads"></div>
+    </div>
+
+    <!-- PAGE: DEALS -->
+    <div class="page-section" id="page-deals">
+        <div id="deal-stats"></div>
+        <div class="chip-row" id="deal-chips"></div>
+        <div id="deals-list"></div>
+    </div>
+
+    <!-- PAGE: TASKS -->
+    <div class="page-section" id="page-tasks">
+        <div class="chip-row" id="task-chips"></div>
+        <div id="tasks-list"></div>
+    </div>
+
+    <!-- PAGE: CONTACTS -->
+    <div class="page-section" id="page-contacts">
+        <div class="search-bar">
+            <input type="text" id="contact-search" placeholder="Search contacts..." oninput="renderContactsPage()">
+        </div>
+        <div class="chip-row" id="contact-chips"></div>
+        <div id="contacts-list"></div>
+    </div>
+
+    <!-- PAGE: MORE -->
+    <div class="page-section" id="page-more">
+        <div class="card">
+            <div class="more-item" onclick="showSubPage('campaigns')">
+                <span class="more-icon">&#x1F3AF;</span>
+                <span class="more-label">Campaigns</span>
+                <span class="more-arrow">&#x203A;</span>
+            </div>
+            <div class="more-item" onclick="showSubPage('territories')">
+                <span class="more-icon">&#x1F5FA;</span>
+                <span class="more-label">Territories</span>
+                <span class="more-arrow">&#x203A;</span>
+            </div>
+            <div class="more-item" onclick="showSubPage('stores')">
+                <span class="more-icon">&#x1F3EA;</span>
+                <span class="more-label">Top Stores</span>
+                <span class="more-arrow">&#x203A;</span>
+            </div>
+            <div class="more-item" onclick="showSubPage('competitors')">
+                <span class="more-icon">&#x1F3C1;</span>
+                <span class="more-label">Competitors</span>
+                <span class="more-arrow">&#x203A;</span>
+            </div>
+            <div class="more-item" onclick="showSubPage('interactions')">
+                <span class="more-icon">&#x1F4DE;</span>
+                <span class="more-label">Interactions</span>
+                <span class="more-arrow">&#x203A;</span>
+            </div>
+        </div>
+        <div class="section-title" style="margin-top:20px">Settings</div>
+        <div class="card">
+            <div class="more-item" onclick="toggleTheme()">
+                <span class="more-icon" id="more-theme-icon">&#9728;&#65039;</span>
+                <span class="more-label" id="more-theme-label">Switch to Dark Mode</span>
+                <span class="more-arrow">&#x203A;</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE: SUB-PAGES (campaigns, territories, etc.) -->
+    <div class="page-section" id="page-sub">
+        <div class="detail-back" id="sub-back" onclick="goBackFromSub()">&#8592; Back</div>
+        <div id="sub-content"></div>
+    </div>
+
+    <!-- PAGE: DETAIL VIEW -->
+    <div class="page-section" id="page-detail">
+        <div class="detail-back" id="detail-back" onclick="goBackFromDetail()">&#8592; Back</div>
+        <div id="detail-content"></div>
+    </div>
+
+    <!-- PAGE: FORM VIEW -->
+    <div class="page-section" id="page-form">
+        <div class="detail-back" onclick="goBackFromForm()">&#8592; Cancel</div>
+        <div id="form-content"></div>
+    </div>
+
+</div>
+
+<!-- ===== BOTTOM TAB BAR ===== -->
+<nav class="tab-bar" id="tab-bar" style="display:none">
+    <div class="tab-item active" data-tab="home" onclick="switchTab('home')">
+        <span class="tab-icon">&#x1F3E0;</span>
+        <span class="tab-label">Home</span>
+    </div>
+    <div class="tab-item" data-tab="deals" onclick="switchTab('deals')">
+        <span class="tab-icon">&#x1F4B0;</span>
+        <span class="tab-label">Deals</span>
+    </div>
+    <div class="tab-item" data-tab="tasks" onclick="switchTab('tasks')">
+        <span class="tab-icon">&#x2705;</span>
+        <span class="tab-label">Tasks</span>
+        <span class="tab-badge" id="task-tab-badge" style="display:none">0</span>
+    </div>
+    <div class="tab-item" data-tab="contacts" onclick="switchTab('contacts')">
+        <span class="tab-icon">&#x1F465;</span>
+        <span class="tab-label">Contacts</span>
+    </div>
+    <div class="tab-item" data-tab="more" onclick="switchTab('more')">
+        <span class="tab-icon">&#x2022;&#x2022;&#x2022;</span>
+        <span class="tab-label">More</span>
+    </div>
+</nav>
+
+<script>
+// ===== DATA LAYER (same as main CRM) =====
+const DB = {
+    get(key) { return JSON.parse(localStorage.getItem('tm_' + key) || '[]'); },
+    set(key, data) { localStorage.setItem('tm_' + key, JSON.stringify(data)); },
+    nextId(key) {
+        const items = this.get(key);
+        return items.length ? Math.max(...items.map(i => i.id)) + 1 : 1;
+    }
+};
+
+// Seed data (shared with main CRM)
+const SEED_VERSION = '4';
+function seedData() {
+    if (localStorage.getItem('tm_seeded') === SEED_VERSION) return;
+    ['stores','neighborhoods','zipcodes','contacts','deals','tasks','interactions','campaigns','competitors'].forEach(k => localStorage.removeItem('tm_' + k));
+
+    DB.set('stores', [
+        {id:1, rank:1, name:"Kroger", category:"Grocery/Supermarket", address:"300 North Dean Road", city:"Auburn", zip:"36830", neighborhood:"Near Moores Mill / Cloverleaf"},
+        {id:2, rank:2, name:"Publix", category:"Grocery/Supermarket", address:"138 South Gay Street", city:"Auburn", zip:"36830", neighborhood:"Downtown Auburn"},
+        {id:3, rank:3, name:"Auburn Hardware", category:"Hardware Store", address:"117 East Magnolia Avenue", city:"Auburn", zip:"36830", neighborhood:"Downtown Auburn"},
+        {id:4, rank:4, name:"Russell Building Supply", category:"Hardware Store", address:"141 Bragg Avenue", city:"Auburn", zip:"36830", neighborhood:"Near University Estates"},
+        {id:5, rank:5, name:"fab'rik", category:"Clothing Store", address:"140 North College Street", city:"Auburn", zip:"36830", neighborhood:"Downtown Auburn"},
+        {id:6, rank:6, name:"Elisabet Boutique", category:"Clothing Store", address:"124 North College Street", city:"Auburn", zip:"36830", neighborhood:"Downtown Auburn"},
+        {id:7, rank:7, name:"Ellie Clothing", category:"Clothing Store", address:"113 North College Street", city:"Auburn", zip:"36830", neighborhood:"Downtown Auburn"},
+        {id:8, rank:8, name:"Johnston & Malone Book Store", category:"Bookstore", address:"115 South College Street", city:"Auburn", zip:"36830", neighborhood:"Downtown Auburn"},
+        {id:9, rank:9, name:"Woodley Enterprises", category:"Computer Store", address:"557 Temple Street", city:"Auburn", zip:"36830", neighborhood:"Near Grove Hill"},
+        {id:10, rank:10, name:"Z&Z Tobacco & Spirits", category:"Liquor Store", address:"203 Opelika Road", city:"Auburn", zip:"36830", neighborhood:"Near Yarbrough Farms"}
+    ]);
+
+    DB.set('neighborhoods', [
+        {id:1, rank:1, name:"Moores Mill", zip:"36830", medianHome:553072, features:"Top 15% income. Golf course community, country club."},
+        {id:2, rank:2, name:"Cloverleaf / Windsor Forest", zip:"36830", medianHome:null, features:"2nd most expensive Auburn neighborhood."},
+        {id:3, rank:3, name:"Willow Creek Farms", zip:"36830", medianHome:null, features:"3rd most expensive. Upscale family."},
+        {id:4, rank:4, name:"Yarbrough Farms / AU Club", zip:"36830", medianHome:null, features:"Premium prices. Near AU campus."},
+        {id:5, rank:5, name:"Downtown Auburn", zip:"36830", medianHome:null, features:"Premium location. High demand."},
+        {id:6, rank:6, name:"University Estates", zip:"36830", medianHome:null, features:"Faculty and professional housing."},
+        {id:7, rank:7, name:"Granite Hills / Head Estates", zip:"36830", medianHome:null, features:"Established upscale area."},
+        {id:8, rank:8, name:"Grove Hill", zip:"36830", medianHome:null, features:"Homes $300K-$500K."},
+        {id:9, rank:9, name:"Stone Creek / Cobblestone", zip:"36832", medianHome:null, features:"9th most expensive."},
+        {id:10, rank:10, name:"Asheton Lakes", zip:"36830", medianHome:null, features:"HOA community with lake."}
+    ]);
+
+    DB.set('zipcodes', [
+        {id:1, rank:1, name:"Auburn (Primary)", zip:"36830", medianIncome:70188, avgIncome:103989, pctOver200k:12.9},
+        {id:2, rank:2, name:"Opelika (West)", zip:"36804", medianIncome:null, avgIncome:null, pctOver200k:null},
+        {id:3, rank:3, name:"Auburn (University)", zip:"36832", medianIncome:42717, avgIncome:69895, pctOver200k:6.0}
+    ]);
+
+    DB.set('contacts', [
+        {id:1, firstName:"Mike", lastName:"Henderson", company:"Henderson Properties", jobTitle:"Owner", email:"mike.henderson@gmail.com", phone:"334-555-1201", address:"1842 Moores Mill Road", city:"Auburn", state:"AL", zip:"36830", neighborhood:"Moores Mill", contactType:"Lead", leadSource:"Door Knock", leadStatus:"Contacted", interestServices:"Window Washing, Power Washing", propertyType:"Residential", estimatedValue:450, rating:4, assignedTo:"Jason", notes:"Large 2-story home, lots of windows.", createdDate:"2026-02-18T10:30:00Z", updatedDate:"2026-02-19T14:00:00Z"},
+        {id:2, firstName:"Sarah", lastName:"Collins", company:"", jobTitle:"Homeowner", email:"scollins88@yahoo.com", phone:"334-555-3347", address:"225 Cloverleaf Drive", city:"Auburn", state:"AL", zip:"36830", neighborhood:"Cloverleaf / Windsor Forest", contactType:"Prospect", leadSource:"Flyer", leadStatus:"Qualified", interestServices:"Window Washing, Gutter Cleaning", propertyType:"Residential", estimatedValue:350, rating:5, assignedTo:"Jason", notes:"Wants estimate this week.", createdDate:"2026-02-17T09:15:00Z", updatedDate:"2026-02-19T11:00:00Z"},
+        {id:3, firstName:"David", lastName:"Park", company:"Park Family Dental", jobTitle:"Dentist", email:"dpark@parkdental.com", phone:"334-555-7890", address:"540 North Dean Road", city:"Auburn", state:"AL", zip:"36830", neighborhood:"Moores Mill", contactType:"Prospect", leadSource:"Referral", leadStatus:"Proposal", interestServices:"Window Washing, Power Washing", propertyType:"Commercial", estimatedValue:800, rating:4, assignedTo:"Jason", notes:"Commercial office + home.", createdDate:"2026-02-15T16:45:00Z", updatedDate:"2026-02-18T10:00:00Z"},
+        {id:4, firstName:"Lisa", lastName:"Tran", company:"", jobTitle:"", email:"lisa.tran@auburn.edu", phone:"334-555-4412", address:"312 Yarbrough Farms Blvd", city:"Auburn", state:"AL", zip:"36830", neighborhood:"Yarbrough Farms / AU Club", contactType:"Lead", leadSource:"Nextdoor", leadStatus:"New", interestServices:"Power Washing", propertyType:"Residential", estimatedValue:275, rating:3, assignedTo:"Jason", notes:"Driveway and patio pressure washing.", createdDate:"2026-02-19T08:00:00Z", updatedDate:"2026-02-19T08:00:00Z"},
+        {id:5, firstName:"Robert", lastName:"James", company:"James Custom Homes", jobTitle:"Builder", email:"rjames@jamescustom.com", phone:"334-555-6621", address:"890 Willow Creek Lane", city:"Auburn", state:"AL", zip:"36830", neighborhood:"Willow Creek Farms", contactType:"Customer", leadSource:"Cold Call", leadStatus:"Won", interestServices:"Window Washing, Power Washing, Gutter Cleaning", propertyType:"Residential", estimatedValue:1200, rating:5, assignedTo:"Jason", notes:"Repeat customer. 5 properties.", createdDate:"2026-02-10T12:00:00Z", updatedDate:"2026-02-18T09:00:00Z"},
+        {id:6, firstName:"Karen", lastName:"Mitchell", company:"Auburn Realty Group", jobTitle:"Realtor", email:"karen@auburnrealty.com", phone:"334-555-9933", address:"102 South Gay Street", city:"Auburn", state:"AL", zip:"36830", neighborhood:"Downtown Auburn", contactType:"Referral", leadSource:"Referral", leadStatus:"Contacted", interestServices:"Window Washing", propertyType:"Commercial", estimatedValue:500, rating:3, assignedTo:"Jason", notes:"Windows for listings before showings.", createdDate:"2026-02-16T14:20:00Z", updatedDate:"2026-02-19T10:00:00Z"},
+        {id:7, firstName:"Tom", lastName:"Bradley", company:"", jobTitle:"Retired", email:"", phone:"334-555-2200", address:"445 Granite Hills Drive", city:"Auburn", state:"AL", zip:"36830", neighborhood:"Granite Hills / Head Estates", contactType:"Lead", leadSource:"Door Knock", leadStatus:"New", interestServices:"Window Washing, Christmas Lights", propertyType:"Residential", estimatedValue:600, rating:4, assignedTo:"Jason", notes:"Christmas lights install too.", createdDate:"2026-02-20T09:30:00Z", updatedDate:"2026-02-20T09:30:00Z"}
+    ]);
+
+    DB.set('deals', [
+        {id:1, name:"Henderson Home - Quarterly Windows", contactId:1, serviceType:"Window Washing", stage:"Quoted", amount:450, probability:70, closeDate:"2026-02-25", recurring:"Quarterly", notes:"Waiting on wife approval.", createdDate:"2026-02-18T14:00:00Z"},
+        {id:2, name:"Collins Residence - Windows + Gutters", contactId:2, serviceType:"Window Washing", stage:"Negotiation", amount:350, probability:85, closeDate:"2026-02-22", recurring:"Semi-Annual", notes:"Bundle gutters for discount.", createdDate:"2026-02-17T11:00:00Z"},
+        {id:3, name:"Park Dental Office - Monthly", contactId:3, serviceType:"Window Washing", stage:"Prospect", amount:800, probability:60, closeDate:"2026-03-01", recurring:"Monthly", notes:"Needs liability insurance proof.", createdDate:"2026-02-15T17:00:00Z"},
+        {id:4, name:"James Properties - Q1 Service", contactId:5, serviceType:"Window Washing", stage:"Won", amount:1200, probability:100, closeDate:"2026-02-15", recurring:"Quarterly", notes:"5 properties. Paid upfront.", createdDate:"2026-02-10T12:30:00Z"},
+        {id:5, name:"Tran Driveway Pressure Wash", contactId:4, serviceType:"Power Washing", stage:"Prospect", amount:275, probability:40, closeDate:"2026-03-05", recurring:"", notes:"One-time job.", createdDate:"2026-02-19T08:30:00Z"},
+        {id:6, name:"Auburn Realty - Listing Prep", contactId:6, serviceType:"Window Washing", stage:"Quoted", amount:500, probability:50, closeDate:"2026-02-28", recurring:"", notes:"$150-200 per home.", createdDate:"2026-02-16T15:00:00Z"}
+    ]);
+
+    DB.set('tasks', [
+        {id:1, description:"Follow up with Sarah Collins on estimate", taskType:"Follow Up", contactId:2, dealId:2, dueDate:"2026-02-21", priority:"High", assignedTo:"Jason", status:"Pending", createdDate:"2026-02-19T11:00:00Z"},
+        {id:2, description:"Send insurance docs to Park Dental", taskType:"Email", contactId:3, dealId:3, dueDate:"2026-02-22", priority:"High", assignedTo:"Jason", status:"Pending", createdDate:"2026-02-18T10:30:00Z"},
+        {id:3, description:"Door knock Granite Hills neighborhood", taskType:"Door Knock", contactId:null, dealId:null, dueDate:"2026-02-22", priority:"Normal", assignedTo:"Jason", status:"Pending", createdDate:"2026-02-20T09:00:00Z"},
+        {id:4, description:"Schedule James Properties Q1 service dates", taskType:"Phone Call", contactId:5, dealId:4, dueDate:"2026-02-20", priority:"High", assignedTo:"Jason", status:"In Progress", createdDate:"2026-02-18T09:00:00Z"},
+        {id:5, description:"Create flyer for Yarbrough Farms drop", taskType:"Other", contactId:null, dealId:null, dueDate:"2026-02-23", priority:"Normal", assignedTo:"Jason", status:"Pending", createdDate:"2026-02-19T12:00:00Z"},
+        {id:6, description:"Call Mike Henderson - check if wife approved quote", taskType:"Phone Call", contactId:1, dealId:1, dueDate:"2026-02-21", priority:"Normal", assignedTo:"Jason", status:"Pending", createdDate:"2026-02-19T14:30:00Z"},
+        {id:7, description:"Post before/after photos on Nextdoor", taskType:"Other", contactId:null, dealId:null, dueDate:"2026-02-24", priority:"Low", assignedTo:"Jason", status:"Pending", createdDate:"2026-02-20T08:00:00Z"}
+    ]);
+
+    DB.set('interactions', [
+        {id:1, contactId:1, type:"Door Knock", direction:"Outbound", subject:"Initial door knock - Moores Mill", notes:"Met Mike at the door.", outcome:"Left quote", followUpDate:"2026-02-21", createdDate:"2026-02-18T10:30:00Z"},
+        {id:2, contactId:2, type:"Phone Call", direction:"Inbound", subject:"Sarah called about flyer", notes:"Asked about pricing.", outcome:"Scheduled estimate", followUpDate:"2026-02-21", createdDate:"2026-02-17T14:00:00Z"},
+        {id:3, contactId:3, type:"Phone Call", direction:"Outbound", subject:"Referral follow-up - Park Dental", notes:"Very interested in monthly.", outcome:"Needs insurance docs", followUpDate:"2026-02-22", createdDate:"2026-02-15T17:00:00Z"},
+        {id:4, contactId:5, type:"In Person", direction:"Outbound", subject:"Q1 service agreement signing", notes:"Signed quarterly agreement.", outcome:"Deal closed", followUpDate:null, createdDate:"2026-02-10T13:00:00Z"},
+        {id:5, contactId:6, type:"Email", direction:"Outbound", subject:"Window cleaning for listings", notes:"Sent pricing sheet.", outcome:"Sent pricing", followUpDate:"2026-02-25", createdDate:"2026-02-16T15:30:00Z"},
+        {id:6, contactId:2, type:"Estimate Visit", direction:"Outbound", subject:"On-site estimate at Collins home", notes:"24 windows, 2 story.", outcome:"Quote delivered", followUpDate:"2026-02-21", createdDate:"2026-02-19T10:00:00Z"}
+    ]);
+
+    DB.set('campaigns', [
+        {id:1, name:"Moores Mill Door Knocking Blitz", campaignType:"Door Knocking", targetArea:"Moores Mill", budget:50, startDate:"2026-02-15", endDate:"2026-02-28", status:"Active", leadsGenerated:3, dealsWon:0, revenueGenerated:0, notes:"50 homes target.", createdDate:"2026-02-15T08:00:00Z"},
+        {id:2, name:"Nextdoor Auburn Launch", campaignType:"Nextdoor", targetArea:"All Auburn", budget:0, startDate:"2026-02-10", endDate:null, status:"Active", leadsGenerated:1, dealsWon:0, revenueGenerated:0, notes:"Free marketing.", createdDate:"2026-02-10T08:00:00Z"},
+        {id:3, name:"Yarbrough Farms Flyer Drop", campaignType:"Flyer Drop", targetArea:"Yarbrough Farms", budget:75, startDate:"2026-02-23", endDate:"2026-02-23", status:"Planned", leadsGenerated:0, dealsWon:0, revenueGenerated:0, notes:"200 flyers.", createdDate:"2026-02-19T12:00:00Z"}
+    ]);
+
+    DB.set('competitors', [
+        {id:1, name:"Sparkle Alabama", category:"Window, Pressure, Gutter", googleRating:4.8, reviewCount:50, threatLevel:"High", phone:"334-759-7080", website:"https://sparklealabama.com"},
+        {id:2, name:"Tiger Window Cleaning", category:"Window, Pressure, Soft Wash", googleRating:4.8, reviewCount:51, threatLevel:"Medium", phone:"303-746-0542", website:"https://www.twcauburn.com"},
+        {id:3, name:"Gibson Pressure Washing", category:"Pressure, Roof, Window", googleRating:4.9, reviewCount:90, threatLevel:"High", phone:"706-518-4886", website:"https://www.gibsonpressurewash.com"},
+        {id:4, name:"The Clear Difference", category:"Window, Gutter, Christmas Lights", googleRating:5.0, reviewCount:100, threatLevel:"High", phone:"334-377-9966", website:"https://thecleardifference.com"},
+        {id:5, name:"East Alabama Washing", category:"Pressure, Window, Exterior", googleRating:4.7, reviewCount:40, threatLevel:"Medium", phone:"334-319-5614", website:"https://www.eastalabamawashing.com"}
+    ]);
+
+    localStorage.setItem('tm_seeded', SEED_VERSION);
+}
+
+// ===== HELPERS =====
+function $(id) { return document.getElementById(id); }
+function fmt$(n) { return n ? '$' + Number(n).toLocaleString('en-US', {minimumFractionDigits:0, maximumFractionDigits:0}) : '-'; }
+function fmtDate(d) {
+    if (!d) return '-';
+    const dt = new Date(d);
+    return dt.toLocaleDateString('en-US', {month:'short', day:'numeric'});
+}
+function today() { return new Date().toISOString().split('T')[0]; }
+function now() { return new Date().toISOString(); }
+function badgeCls(val) { return 'badge badge-' + (val||'').toLowerCase().replace(/\s+/g,'-'); }
+
+function getContactName(contactId) {
+    if (!contactId) return '';
+    const c = DB.get('contacts').find(x => x.id == contactId);
+    return c ? (c.firstName + ' ' + c.lastName) : '';
+}
+
+function flash(msg, type) {
+    const el = $('flash-area');
+    el.innerHTML = '<div class="flash-msg ' + type + '">' + (type === 'success' ? '\u2705' : '\u274C') + ' ' + msg + '</div>';
+    setTimeout(() => el.innerHTML = '', 3000);
+}
+
+// ===== THEME =====
+let isDark = false;
+
+function initTheme() {
+    const saved = localStorage.getItem('tm_mobile_theme');
+    isDark = saved === 'dark';
+    applyTheme();
+}
+
+function toggleTheme() {
+    isDark = !isDark;
+    localStorage.setItem('tm_mobile_theme', isDark ? 'dark' : 'light');
+    applyTheme();
+}
+
+function applyTheme() {
+    document.body.className = isDark ? 'dark' : 'light';
+    $('theme-btn').textContent = isDark ? '\u2600\uFE0F' : '\uD83C\uDF19';
+    const moreIcon = $('more-theme-icon');
+    const moreLabel = $('more-theme-label');
+    if (moreIcon) moreIcon.textContent = isDark ? '\uD83C\uDF19' : '\u2600\uFE0F';
+    if (moreLabel) moreLabel.textContent = isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode';
+}
+
+// ===== SPLASH SCREEN =====
+function runSplash() {
+    const dots = document.querySelectorAll('#splash-dots .splash-dot');
+    const lightColors = ['#03244d', '#DD550C', '#0a3a6b', '#F26522', '#1565a8', '#c44a0a', '#ea580c', '#f97316', '#9333ea', '#22c55e', '#eab308', '#ef4444', '#06b6d4'];
+    const darkColors = ['#DD550C', '#0a3a6b', '#F26522', '#03244d', '#f97316', '#ea580c', '#fb923c', '#a855f7', '#22c55e', '#eab308', '#ef4444', '#06b6d4', '#fbbf24'];
+    const colors = isDark ? darkColors : lightColors;
+
+    let cycleCount = 0;
+    const maxCycles = 14; // ~2.8 seconds at 200ms intervals
+
+    const interval = setInterval(() => {
+        dots.forEach((dot, i) => {
+            const colorIdx = (cycleCount + i) % colors.length;
+            dot.style.background = colors[colorIdx];
+            if (isDark) {
+                dot.style.boxShadow = '0 0 10px ' + colors[colorIdx] + '99';
+            } else {
+                dot.style.boxShadow = 'none';
+            }
+            dot.classList.remove('animating');
+            void dot.offsetWidth; // trigger reflow
+            dot.classList.add('animating');
+        });
+        cycleCount++;
+
+        if (cycleCount >= maxCycles) {
+            clearInterval(interval);
+            // Settle back to final logo colors
+            setTimeout(() => {
+                dots.forEach((dot, i) => {
+                    if (isDark) {
+                        // 18-J final state
+                        dot.style.background = i % 2 === 0 ? '#DD550C' : '#0a3a6b';
+                        dot.style.boxShadow = i % 2 === 0 ? '0 0 10px rgba(221,85,12,0.6)' : '0 0 10px rgba(3,36,77,0.6)';
+                    } else {
+                        // 18-C final state
+                        dot.style.background = i % 2 === 0 ? '#03244d' : '#DD550C';
+                        dot.style.boxShadow = 'none';
+                    }
+                    dot.classList.remove('animating');
+                });
+                // Fade out splash
+                setTimeout(() => {
+                    $('splash').classList.add('fade-out');
+                    $('app').classList.add('visible');
+                    $('tab-bar').style.display = '';
+                    setTimeout(() => {
+                        $('splash').style.display = 'none';
+                    }, 500);
+                }, 400);
+            }, 300);
+        }
+    }, 200);
+}
+
+// ===== NAVIGATION =====
+let currentTab = 'home';
+let previousTab = 'home';
+let currentDetailType = null;
+let currentDetailId = null;
+let dealFilter = '';
+let taskFilter = '';
+let contactFilter = '';
+
+function switchTab(tab) {
+    currentTab = tab;
+    document.querySelectorAll('.page-section').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
+
+    $('page-' + tab).classList.add('active');
+    document.querySelector('[data-tab="' + tab + '"]').classList.add('active');
+
+    const titles = { home:'Dashboard', deals:'Deals', tasks:'Tasks', contacts:'Contacts', more:'More' };
+    $('header-title').textContent = titles[tab] || tab;
+
+    // Show/hide add button
+    $('add-btn').style.display = ['deals','tasks','contacts'].includes(tab) ? '' : 'none';
+
+    // Render page
+    switch(tab) {
+        case 'home': renderHome(); break;
+        case 'deals': renderDealsPage(); break;
+        case 'tasks': renderTasksPage(); break;
+        case 'contacts': renderContactsPage(); break;
+    }
+
+    window.scrollTo(0, 0);
+}
+
+function handleAdd() {
+    switch(currentTab) {
+        case 'deals': showDealForm(); break;
+        case 'tasks': showTaskForm(); break;
+        case 'contacts': showContactForm(); break;
+    }
+}
+
+function showSubPage(type) {
+    previousTab = currentTab;
+    document.querySelectorAll('.page-section').forEach(p => p.classList.remove('active'));
+    $('page-sub').classList.add('active');
+
+    const titles = { campaigns:'Campaigns', territories:'Territories', stores:'Top Stores', competitors:'Competitors', interactions:'Interactions' };
+    $('header-title').textContent = titles[type] || type;
+
+    renderSubPage(type);
+    window.scrollTo(0, 0);
+}
+
+function goBackFromSub() {
+    switchTab(previousTab || 'more');
+}
+
+function showDetail(type, id) {
+    previousTab = currentTab;
+    currentDetailType = type;
+    currentDetailId = id;
+    document.querySelectorAll('.page-section').forEach(p => p.classList.remove('active'));
+    $('page-detail').classList.add('active');
+
+    renderDetail(type, id);
+    window.scrollTo(0, 0);
+}
+
+function goBackFromDetail() {
+    switchTab(previousTab || 'home');
+}
+
+function goBackFromForm() {
+    switchTab(previousTab || 'home');
+}
+
+// ===== HOME / DASHBOARD =====
+function renderHome() {
+    const contacts = DB.get('contacts');
+    const deals = DB.get('deals');
+    const tasks = DB.get('tasks');
+
+    const newLeads = contacts.filter(c => c.leadStatus === 'New').length;
+    const activeDeals = deals.filter(d => !['Won','Lost'].includes(d.stage)).length;
+    const pipelineVal = deals.filter(d => !['Won','Lost'].includes(d.stage)).reduce((s,d) => s + (Number(d.amount)||0), 0);
+    const wonRevenue = deals.filter(d => d.stage === 'Won').reduce((s,d) => s + (Number(d.amount)||0), 0);
+    const openTasks = tasks.filter(t => t.status !== 'Completed').length;
+
+    $('home-stats').innerHTML = `
+        <div class="stat-row">
+            <div class="stat-mini accent"><div class="label">Contacts</div><div class="value">${contacts.length}</div></div>
+            <div class="stat-mini green"><div class="label">New Leads</div><div class="value">${newLeads}</div></div>
+        </div>
+        <div class="stat-row">
+            <div class="stat-mini yellow"><div class="label">Pipeline</div><div class="value">$${pipelineVal.toLocaleString()}</div></div>
+            <div class="stat-mini green"><div class="label">Won</div><div class="value">$${wonRevenue.toLocaleString()}</div></div>
+        </div>
+        <div class="stat-row">
+            <div class="stat-mini purple"><div class="label">Active Deals</div><div class="value">${activeDeals}</div></div>
+            <div class="stat-mini red"><div class="label">Open Tasks</div><div class="value">${openTasks}</div></div>
+        </div>
+    `;
+
+    // Upcoming tasks
+    const upcoming = tasks.filter(t => t.status !== 'Completed').sort((a,b) => (a.dueDate||'9').localeCompare(b.dueDate||'9')).slice(0,4);
+    if (upcoming.length === 0) {
+        $('home-tasks').innerHTML = '<div class="empty"><p>No open tasks</p></div>';
+    } else {
+        $('home-tasks').innerHTML = upcoming.map(t => {
+            const overdue = t.dueDate && t.dueDate < today();
+            const iconBg = overdue ? 'var(--red-dim)' : t.priority === 'High' ? 'var(--red-dim)' : 'var(--accent-dim)';
+            const icon = overdue ? '\u26A0\uFE0F' : t.priority === 'High' ? '\u{1F525}' : '\u2705';
+            return `<div class="item-card" onclick="showDetail('task',${t.id})">
+                <div class="item-icon" style="background:${iconBg}">${icon}</div>
+                <div class="item-info">
+                    <div class="item-title">${t.description}</div>
+                    <div class="item-sub">${t.taskType} ${getContactName(t.contactId) ? '- ' + getContactName(t.contactId) : ''}</div>
+                </div>
+                <div class="item-right">
+                    <div class="item-meta">${fmtDate(t.dueDate)}</div>
+                    <span class="${badgeCls(overdue ? 'overdue' : t.status)}">${overdue ? 'Overdue' : t.status}</span>
+                </div>
+            </div>`;
+        }).join('');
+    }
+
+    // Recent deals
+    const recentDeals = [...deals].sort((a,b) => (b.createdDate||'').localeCompare(a.createdDate||'')).slice(0,4);
+    if (recentDeals.length === 0) {
+        $('home-deals').innerHTML = '<div class="empty"><p>No deals yet</p></div>';
+    } else {
+        $('home-deals').innerHTML = recentDeals.map(d => {
+            const stageColors = {Prospect:'var(--accent-dim)',Quoted:'var(--yellow-dim)',Negotiation:'var(--accent-dim)',Scheduled:'var(--purple-dim)',Won:'var(--green-dim)',Lost:'var(--red-dim)'};
+            return `<div class="item-card" onclick="showDetail('deal',${d.id})">
+                <div class="item-icon" style="background:${stageColors[d.stage]||'var(--accent-dim)'}">\u{1F4B0}</div>
+                <div class="item-info">
+                    <div class="item-title">${d.name}</div>
+                    <div class="item-sub">${getContactName(d.contactId)} - ${d.serviceType||''}</div>
+                </div>
+                <div class="item-right">
+                    <div class="item-amount">${fmt$(d.amount)}</div>
+                    <span class="${badgeCls(d.stage)}">${d.stage}</span>
+                </div>
+            </div>`;
+        }).join('');
+    }
+
+    // New leads
+    const newContacts = contacts.filter(c => c.leadStatus === 'New').sort((a,b) => (b.createdDate||'').localeCompare(a.createdDate||'')).slice(0,4);
+    if (newContacts.length === 0) {
+        $('home-leads').innerHTML = '<div class="empty"><p>No new leads</p></div>';
+    } else {
+        $('home-leads').innerHTML = newContacts.map(c => `
+            <div class="item-card" onclick="showDetail('contact',${c.id})">
+                <div class="item-icon" style="background:var(--accent-dim)">\u{1F464}</div>
+                <div class="item-info">
+                    <div class="item-title">${c.firstName} ${c.lastName}</div>
+                    <div class="item-sub">${c.neighborhood||c.city||''} - ${c.interestServices||''}</div>
+                </div>
+                <div class="item-right">
+                    <div class="item-amount">${fmt$(c.estimatedValue)}</div>
+                    <div class="item-meta">${c.leadSource||''}</div>
+                </div>
+            </div>`).join('');
+    }
+
+    updateTaskBadge();
+}
+
+// ===== DEALS PAGE =====
+function renderDealsPage() {
+    const deals = DB.get('deals');
+    const stages = ['All','Prospect','Quoted','Negotiation','Scheduled','Won','Lost'];
+
+    // Stats
+    const active = deals.filter(d => !['Won','Lost'].includes(d.stage));
+    const pipeVal = active.reduce((s,d) => s + (Number(d.amount)||0), 0);
+    const wonVal = deals.filter(d => d.stage === 'Won').reduce((s,d) => s + (Number(d.amount)||0), 0);
+
+    $('deal-stats').innerHTML = `
+        <div class="stat-row">
+            <div class="stat-mini yellow"><div class="label">Pipeline</div><div class="value">$${pipeVal.toLocaleString()}</div></div>
+            <div class="stat-mini green"><div class="label">Won</div><div class="value">$${wonVal.toLocaleString()}</div></div>
+        </div>
+    `;
+
+    // Chips
+    $('deal-chips').innerHTML = stages.map(s => `<div class="chip ${(dealFilter === '' && s === 'All') || dealFilter === s ? 'active' : ''}" onclick="setDealFilter('${s === 'All' ? '' : s}')">${s}</div>`).join('');
+
+    // List
+    let filtered = dealFilter ? deals.filter(d => d.stage === dealFilter) : deals;
+    filtered.sort((a,b) => (b.createdDate||'').localeCompare(a.createdDate||''));
+
+    if (filtered.length === 0) {
+        $('deals-list').innerHTML = '<div class="card"><div class="empty"><div class="icon">\u{1F4B0}</div><p>No deals</p></div></div>';
+    } else {
+        $('deals-list').innerHTML = '<div class="card">' + filtered.map(d => {
+            const stageColors = {Prospect:'var(--accent-dim)',Quoted:'var(--yellow-dim)',Negotiation:'var(--accent-dim)',Scheduled:'var(--purple-dim)',Won:'var(--green-dim)',Lost:'var(--red-dim)'};
+            return `<div class="item-card" onclick="showDetail('deal',${d.id})">
+                <div class="item-icon" style="background:${stageColors[d.stage]||'var(--accent-dim)'}">\u{1F4B0}</div>
+                <div class="item-info">
+                    <div class="item-title">${d.name}</div>
+                    <div class="item-sub">${getContactName(d.contactId)} ${d.recurring ? '(' + d.recurring + ')' : ''}</div>
+                </div>
+                <div class="item-right">
+                    <div class="item-amount">${fmt$(d.amount)}</div>
+                    <span class="${badgeCls(d.stage)}">${d.stage}</span>
+                </div>
+            </div>`;
+        }).join('') + '</div>';
+    }
+}
+
+function setDealFilter(f) {
+    dealFilter = f;
+    renderDealsPage();
+}
+
+// ===== TASKS PAGE =====
+function renderTasksPage() {
+    const tasks = DB.get('tasks');
+    const filters = ['All','Pending','In Progress','Completed'];
+
+    $('task-chips').innerHTML = filters.map(f => `<div class="chip ${(taskFilter === '' && f === 'All') || taskFilter === f ? 'active' : ''}" onclick="setTaskFilter('${f === 'All' ? '' : f}')">${f}</div>`).join('');
+
+    let filtered = taskFilter ? tasks.filter(t => t.status === taskFilter) : tasks;
+    filtered.sort((a,b) => {
+        const aComp = a.status === 'Completed' ? 1 : 0;
+        const bComp = b.status === 'Completed' ? 1 : 0;
+        if (aComp !== bComp) return aComp - bComp;
+        return (a.dueDate||'9').localeCompare(b.dueDate||'9');
+    });
+
+    if (filtered.length === 0) {
+        $('tasks-list').innerHTML = '<div class="card"><div class="empty"><div class="icon">\u2705</div><p>No tasks</p></div></div>';
+    } else {
+        $('tasks-list').innerHTML = '<div class="card">' + filtered.map(t => {
+            const overdue = t.status !== 'Completed' && t.dueDate && t.dueDate < today();
+            const iconBg = t.status === 'Completed' ? 'rgba(100,100,120,0.15)' : overdue ? 'var(--red-dim)' : t.priority === 'High' ? 'var(--red-dim)' : 'var(--accent-dim)';
+            const icon = t.status === 'Completed' ? '\u2705' : overdue ? '\u26A0\uFE0F' : t.priority === 'High' ? '\u{1F525}' : '\u{1F4CB}';
+            return `<div class="item-card" onclick="showDetail('task',${t.id})" style="${t.status === 'Completed' ? 'opacity:0.5' : ''}">
+                <div class="item-icon" style="background:${iconBg}">${icon}</div>
+                <div class="item-info">
+                    <div class="item-title">${t.description}</div>
+                    <div class="item-sub">${t.taskType} ${getContactName(t.contactId) ? '- ' + getContactName(t.contactId) : ''}</div>
+                </div>
+                <div class="item-right">
+                    <div class="item-meta">${fmtDate(t.dueDate)}</div>
+                    <span class="${badgeCls(overdue ? 'overdue' : t.status)}">${overdue ? 'Overdue' : t.status}</span>
+                </div>
+            </div>`;
+        }).join('') + '</div>';
+    }
+
+    updateTaskBadge();
+}
+
+function setTaskFilter(f) {
+    taskFilter = f;
+    renderTasksPage();
+}
+
+// ===== CONTACTS PAGE =====
+function renderContactsPage() {
+    let contacts = DB.get('contacts');
+    const search = ($('contact-search')?.value || '').toLowerCase();
+    const statuses = ['All','New','Contacted','Qualified','Proposal','Won','Lost'];
+
+    $('contact-chips').innerHTML = statuses.map(s => `<div class="chip ${(contactFilter === '' && s === 'All') || contactFilter === s ? 'active' : ''}" onclick="setContactFilter('${s === 'All' ? '' : s}')">${s}</div>`).join('');
+
+    if (search) contacts = contacts.filter(c =>
+        (c.firstName + ' ' + c.lastName + ' ' + (c.company||'') + ' ' + (c.phone||'') + ' ' + (c.neighborhood||'')).toLowerCase().includes(search)
+    );
+    if (contactFilter) contacts = contacts.filter(c => c.leadStatus === contactFilter);
+    contacts.sort((a,b) => (b.createdDate||'').localeCompare(a.createdDate||''));
+
+    if (contacts.length === 0) {
+        $('contacts-list').innerHTML = '<div class="card"><div class="empty"><div class="icon">\u{1F465}</div><p>No contacts found</p></div></div>';
+    } else {
+        $('contacts-list').innerHTML = '<div class="card">' + contacts.map(c => {
+            const statusColors = {New:'var(--accent-dim)',Contacted:'var(--yellow-dim)',Qualified:'var(--green-dim)',Proposal:'var(--purple-dim)',Won:'var(--green-dim)',Lost:'var(--red-dim)'};
+            return `<div class="item-card" onclick="showDetail('contact',${c.id})">
+                <div class="item-icon" style="background:${statusColors[c.leadStatus]||'var(--accent-dim)'}">\u{1F464}</div>
+                <div class="item-info">
+                    <div class="item-title">${c.firstName} ${c.lastName}</div>
+                    <div class="item-sub">${c.company||c.neighborhood||c.city||''} ${c.phone ? '- ' + c.phone : ''}</div>
+                </div>
+                <div class="item-right">
+                    <div class="item-amount">${fmt$(c.estimatedValue)}</div>
+                    <span class="${badgeCls(c.leadStatus)}">${c.leadStatus||'-'}</span>
+                </div>
+            </div>`;
+        }).join('') + '</div>';
+    }
+}
+
+function setContactFilter(f) {
+    contactFilter = f;
+    renderContactsPage();
+}
+
+// ===== DETAIL VIEW =====
+function renderDetail(type, id) {
+    switch(type) {
+        case 'contact': renderContactDetail(id); break;
+        case 'deal': renderDealDetail(id); break;
+        case 'task': renderTaskDetail(id); break;
+    }
+}
+
+function renderContactDetail(id) {
+    const c = DB.get('contacts').find(x => x.id == id);
+    if (!c) { goBackFromDetail(); return; }
+
+    $('header-title').textContent = c.firstName + ' ' + c.lastName;
+    const stars = c.rating ? '\u2B50'.repeat(c.rating) : '-';
+    const deals = DB.get('deals').filter(d => d.contactId == c.id);
+    const tasks = DB.get('tasks').filter(t => t.contactId == c.id);
+
+    $('detail-content').innerHTML = `
+        <div class="detail-hero">
+            <div class="name">${c.firstName} ${c.lastName}</div>
+            <div class="meta">${c.company||''} ${c.jobTitle ? '- ' + c.jobTitle : ''}</div>
+            <div style="margin-top:8px"><span class="${badgeCls(c.leadStatus)}">${c.leadStatus||'-'}</span> <span class="${badgeCls(c.contactType)}">${c.contactType||'-'}</span></div>
+        </div>
+        <div class="action-row">
+            <button class="btn btn-primary" onclick="showContactForm(${c.id})">Edit</button>
+            <button class="btn btn-secondary" onclick="showDealForm(null,${c.id})">+ Deal</button>
+            <button class="btn btn-secondary" onclick="showTaskForm(null,${c.id})">+ Task</button>
+        </div>
+        <div class="card" style="border-radius:14px;overflow:hidden">
+            <div class="detail-grid">
+                <div class="detail-field"><div class="label">Phone</div><div class="val">${c.phone ? '<a href="tel:' + c.phone + '">' + c.phone + '</a>' : '-'}</div></div>
+                <div class="detail-field"><div class="label">Email</div><div class="val">${c.email||'-'}</div></div>
+                <div class="detail-field full"><div class="label">Address</div><div class="val">${c.address||'-'}, ${c.city||''} ${c.state||''} ${c.zip||''}</div></div>
+                <div class="detail-field"><div class="label">Neighborhood</div><div class="val">${c.neighborhood||'-'}</div></div>
+                <div class="detail-field"><div class="label">Source</div><div class="val">${c.leadSource||'-'}</div></div>
+                <div class="detail-field"><div class="label">Services</div><div class="val">${c.interestServices||'-'}</div></div>
+                <div class="detail-field"><div class="label">Est. Value</div><div class="val">${fmt$(c.estimatedValue)}</div></div>
+                <div class="detail-field"><div class="label">Property</div><div class="val">${c.propertyType||'-'}</div></div>
+                <div class="detail-field"><div class="label">Rating</div><div class="val">${stars}</div></div>
+                ${c.notes ? '<div class="detail-field full"><div class="label">Notes</div><div class="val">' + c.notes + '</div></div>' : ''}
+            </div>
+        </div>
+        ${deals.length > 0 ? '<div class="section-title">Deals (' + deals.length + ')</div><div class="card">' + deals.map(d => `<div class="item-card" onclick="showDetail(\'deal\',${d.id})"><div class="item-info"><div class="item-title">${d.name}</div></div><div class="item-right"><div class="item-amount">${fmt$(d.amount)}</div><span class="${badgeCls(d.stage)}">${d.stage}</span></div></div>`).join('') + '</div>' : ''}
+        ${tasks.length > 0 ? '<div class="section-title">Tasks (' + tasks.length + ')</div><div class="card">' + tasks.map(t => `<div class="item-card" onclick="showDetail(\'task\',${t.id})"><div class="item-info"><div class="item-title">${t.description}</div></div><div class="item-right"><div class="item-meta">${fmtDate(t.dueDate)}</div><span class="${badgeCls(t.status)}">${t.status}</span></div></div>`).join('') + '</div>' : ''}
+        <div class="action-row">
+            <button class="btn btn-danger" onclick="deleteContact(${c.id})">Delete Contact</button>
+        </div>
+    `;
+}
+
+function renderDealDetail(id) {
+    const d = DB.get('deals').find(x => x.id == id);
+    if (!d) { goBackFromDetail(); return; }
+
+    $('header-title').textContent = d.name;
+
+    $('detail-content').innerHTML = `
+        <div class="detail-hero">
+            <div class="name">${d.name}</div>
+            <div class="meta">${getContactName(d.contactId)} - ${d.serviceType||''}</div>
+            <div style="margin-top:8px"><span class="${badgeCls(d.stage)}">${d.stage}</span></div>
+        </div>
+        <div class="action-row">
+            <button class="btn btn-primary" onclick="showDealForm(${d.id})">Edit</button>
+            <button class="btn btn-secondary" onclick="showTaskForm(null,${d.contactId},${d.id})">+ Task</button>
+        </div>
+        <div class="card" style="border-radius:14px;overflow:hidden">
+            <div class="detail-grid">
+                <div class="detail-field"><div class="label">Amount</div><div class="val" style="font-size:20px;font-weight:700">${fmt$(d.amount)}</div></div>
+                <div class="detail-field"><div class="label">Probability</div><div class="val">${d.probability ? d.probability + '%' : '-'}</div></div>
+                <div class="detail-field"><div class="label">Close Date</div><div class="val">${fmtDate(d.closeDate)}</div></div>
+                <div class="detail-field"><div class="label">Recurring</div><div class="val">${d.recurring||'No'}</div></div>
+                <div class="detail-field"><div class="label">Service</div><div class="val">${d.serviceType||'-'}</div></div>
+                <div class="detail-field"><div class="label">Contact</div><div class="val">${getContactName(d.contactId)||'-'}</div></div>
+                ${d.notes ? '<div class="detail-field full"><div class="label">Notes</div><div class="val">' + d.notes + '</div></div>' : ''}
+            </div>
+        </div>
+        <div class="action-row">
+            <button class="btn btn-danger" onclick="deleteDeal(${d.id})">Delete Deal</button>
+        </div>
+    `;
+}
+
+function renderTaskDetail(id) {
+    const t = DB.get('tasks').find(x => x.id == id);
+    if (!t) { goBackFromDetail(); return; }
+
+    $('header-title').textContent = 'Task';
+    const overdue = t.status !== 'Completed' && t.dueDate && t.dueDate < today();
+
+    $('detail-content').innerHTML = `
+        <div class="detail-hero">
+            <div class="name" style="font-size:18px">${t.description}</div>
+            <div style="margin-top:8px">
+                <span class="${badgeCls(t.priority)}">${t.priority}</span>
+                <span class="${badgeCls(overdue ? 'overdue' : t.status)}">${overdue ? 'Overdue' : t.status}</span>
+            </div>
+        </div>
+        ${t.status !== 'Completed' ? '<div class="action-row"><button class="btn btn-success" onclick="completeTask(' + t.id + ')" style="flex:2">\u2705 Mark Complete</button><button class="btn btn-primary" onclick="showTaskForm(' + t.id + ')">Edit</button></div>' : ''}
+        <div class="card" style="border-radius:14px;overflow:hidden">
+            <div class="detail-grid">
+                <div class="detail-field"><div class="label">Type</div><div class="val">${t.taskType||'-'}</div></div>
+                <div class="detail-field"><div class="label">Due Date</div><div class="val">${fmtDate(t.dueDate)}</div></div>
+                <div class="detail-field"><div class="label">Contact</div><div class="val">${getContactName(t.contactId)||'-'}</div></div>
+                <div class="detail-field"><div class="label">Assigned</div><div class="val">${t.assignedTo||'-'}</div></div>
+            </div>
+        </div>
+        <div class="action-row">
+            <button class="btn btn-danger" onclick="deleteTask(${t.id})">Delete Task</button>
+        </div>
+    `;
+}
+
+// ===== SUB PAGES =====
+function renderSubPage(type) {
+    switch(type) {
+        case 'campaigns': renderCampaignsSub(); break;
+        case 'territories': renderTerritoriesSub(); break;
+        case 'stores': renderStoresSub(); break;
+        case 'competitors': renderCompetitorsSub(); break;
+        case 'interactions': renderInteractionsSub(); break;
+    }
+}
+
+function renderCampaignsSub() {
+    const campaigns = DB.get('campaigns');
+    $('sub-content').innerHTML = campaigns.map(c => `
+        <div class="card">
+            <div class="card-body">
+                <div style="display:flex;justify-content:space-between;align-items:start">
+                    <div>
+                        <div style="font-size:16px;font-weight:700">${c.name}</div>
+                        <div style="font-size:13px;color:var(--text-sec);margin-top:2px">${c.campaignType} - ${c.targetArea||''}</div>
+                    </div>
+                    <span class="${badgeCls(c.status)}">${c.status}</span>
+                </div>
+                <div class="campaign-metrics">
+                    <div class="campaign-metric"><div class="num">${c.leadsGenerated||0}</div><div class="lbl">Leads</div></div>
+                    <div class="campaign-metric"><div class="num">${c.dealsWon||0}</div><div class="lbl">Won</div></div>
+                    <div class="campaign-metric"><div class="num">${fmt$(c.budget)}</div><div class="lbl">Budget</div></div>
+                    <div class="campaign-metric"><div class="num">${fmt$(c.revenueGenerated)}</div><div class="lbl">Revenue</div></div>
+                </div>
+            </div>
+        </div>
+    `).join('') || '<div class="card"><div class="empty"><p>No campaigns</p></div></div>';
+}
+
+function renderTerritoriesSub() {
+    const neighborhoods = DB.get('neighborhoods');
+    $('sub-content').innerHTML = '<div class="section-title">Wealthy Neighborhoods</div><div class="card">' + neighborhoods.map(n => `
+        <div class="item-card">
+            <div class="item-icon" style="background:var(--accent-dim);font-size:14px;font-weight:700">#${n.rank}</div>
+            <div class="item-info">
+                <div class="item-title">${n.name}</div>
+                <div class="item-sub">${n.features||''}</div>
+            </div>
+            <div class="item-right">
+                <div class="item-meta">${n.zip}</div>
+                ${n.medianHome ? '<div class="item-amount">' + fmt$(n.medianHome) + '</div>' : ''}
+            </div>
+        </div>`).join('') + '</div>';
+}
+
+function renderStoresSub() {
+    const stores = DB.get('stores');
+    $('sub-content').innerHTML = '<div class="section-title">Top Neighborhood Stores</div><div class="card">' + stores.map(s => `
+        <div class="item-card">
+            <div class="item-icon" style="background:var(--accent-dim);font-size:14px;font-weight:700">#${s.rank}</div>
+            <div class="item-info">
+                <div class="item-title">${s.name}</div>
+                <div class="item-sub">${s.category} - ${s.neighborhood}</div>
+            </div>
+        </div>`).join('') + '</div>';
+}
+
+function renderCompetitorsSub() {
+    const competitors = DB.get('competitors');
+    $('sub-content').innerHTML = '<div class="section-title">Local Competitors</div><div class="card">' + competitors.map(c => {
+        const tColor = c.threatLevel === 'High' ? 'var(--red)' : c.threatLevel === 'Medium' ? 'var(--yellow)' : 'var(--green)';
+        return `<div class="item-card">
+            <div class="item-icon" style="background:var(--accent-dim)">\u{1F3C1}</div>
+            <div class="item-info">
+                <div class="item-title">${c.name}</div>
+                <div class="item-sub">${c.category} ${c.phone ? '- ' + c.phone : ''}</div>
+            </div>
+            <div class="item-right">
+                <div class="item-amount">${c.googleRating ? c.googleRating + '\u2B50' : '-'}</div>
+                <div class="item-meta" style="color:${tColor};font-weight:700">${c.threatLevel}</div>
+            </div>
+        </div>`;
+    }).join('') + '</div>';
+}
+
+function renderInteractionsSub() {
+    const interactions = DB.get('interactions').sort((a,b) => (b.createdDate||'').localeCompare(a.createdDate||''));
+    $('sub-content').innerHTML = '<div class="section-title">Communication Log</div><div class="card">' + interactions.map(i => `
+        <div class="item-card">
+            <div class="item-icon" style="background:var(--accent-dim)">\u{1F4DE}</div>
+            <div class="item-info">
+                <div class="item-title">${i.subject||i.type}</div>
+                <div class="item-sub">${getContactName(i.contactId)} - ${i.direction} ${i.type}</div>
+            </div>
+            <div class="item-right">
+                <div class="item-meta">${fmtDate(i.createdDate)}</div>
+                <div class="item-meta">${i.outcome||''}</div>
+            </div>
+        </div>`).join('') + '</div>';
+}
+
+// ===== FORMS =====
+function showContactForm(editId) {
+    previousTab = currentTab;
+    document.querySelectorAll('.page-section').forEach(p => p.classList.remove('active'));
+    $('page-form').classList.add('active');
+    $('header-title').textContent = editId ? 'Edit Contact' : 'New Contact';
+
+    const c = editId ? DB.get('contacts').find(x => x.id == editId) : null;
+
+    $('form-content').innerHTML = `
+        <form onsubmit="saveContact(event)">
+            <input type="hidden" id="fc-id" value="${c ? c.id : ''}">
+            <div class="form-row">
+                <div class="form-group"><label>First Name</label><input class="form-control" id="fc-first" value="${c ? c.firstName : ''}" required></div>
+                <div class="form-group"><label>Last Name</label><input class="form-control" id="fc-last" value="${c ? c.lastName : ''}" required></div>
+            </div>
+            <div class="form-group"><label>Company</label><input class="form-control" id="fc-company" value="${c ? c.company||'' : ''}"></div>
+            <div class="form-group"><label>Phone</label><input class="form-control" id="fc-phone" value="${c ? c.phone||'' : ''}" type="tel"></div>
+            <div class="form-group"><label>Email</label><input class="form-control" id="fc-email" value="${c ? c.email||'' : ''}" type="email"></div>
+            <div class="form-group"><label>Address</label><input class="form-control" id="fc-address" value="${c ? c.address||'' : ''}"></div>
+            <div class="form-row">
+                <div class="form-group"><label>City</label><input class="form-control" id="fc-city" value="${c ? c.city||'Auburn' : 'Auburn'}"></div>
+                <div class="form-group"><label>State</label><input class="form-control" id="fc-state" value="${c ? c.state||'AL' : 'AL'}"></div>
+            </div>
+            <div class="form-row">
+                <div class="form-group"><label>Neighborhood</label>
+                    <select class="form-control" id="fc-neighborhood">
+                        <option value="">Select...</option>
+                        <option ${c && c.neighborhood === 'Moores Mill' ? 'selected' : ''}>Moores Mill</option>
+                        <option ${c && c.neighborhood === 'Cloverleaf / Windsor Forest' ? 'selected' : ''}>Cloverleaf / Windsor Forest</option>
+                        <option ${c && c.neighborhood === 'Willow Creek Farms' ? 'selected' : ''}>Willow Creek Farms</option>
+                        <option ${c && c.neighborhood === 'Yarbrough Farms / AU Club' ? 'selected' : ''}>Yarbrough Farms / AU Club</option>
+                        <option ${c && c.neighborhood === 'Downtown Auburn' ? 'selected' : ''}>Downtown Auburn</option>
+                        <option ${c && c.neighborhood === 'University Estates' ? 'selected' : ''}>University Estates</option>
+                        <option ${c && c.neighborhood === 'Granite Hills / Head Estates' ? 'selected' : ''}>Granite Hills / Head Estates</option>
+                        <option ${c && c.neighborhood === 'Grove Hill' ? 'selected' : ''}>Grove Hill</option>
+                    </select>
+                </div>
+                <div class="form-group"><label>Status</label>
+                    <select class="form-control" id="fc-status">
+                        ${['New','Contacted','Qualified','Proposal','Won','Lost'].map(s => '<option' + (c && c.leadStatus === s ? ' selected' : '') + '>' + s + '</option>').join('')}
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group"><label>Type</label>
+                    <select class="form-control" id="fc-type">
+                        ${['Lead','Prospect','Customer','Referral'].map(t => '<option' + (c && c.contactType === t ? ' selected' : '') + '>' + t + '</option>').join('')}
+                    </select>
+                </div>
+                <div class="form-group"><label>Source</label>
+                    <select class="form-control" id="fc-source">
+                        ${['Door Knock','Flyer','Google','Referral','Facebook','Nextdoor','Cold Call','Website','Yard Sign','Other'].map(s => '<option' + (c && c.leadSource === s ? ' selected' : '') + '>' + s + '</option>').join('')}
+                    </select>
+                </div>
+            </div>
+            <div class="form-group"><label>Services</label><input class="form-control" id="fc-services" value="${c ? c.interestServices||'' : ''}" placeholder="Window Washing, Power Washing..."></div>
+            <div class="form-row">
+                <div class="form-group"><label>Est. Value ($)</label><input class="form-control" id="fc-value" value="${c ? c.estimatedValue||'' : ''}" type="number"></div>
+                <div class="form-group"><label>Rating (1-5)</label>
+                    <select class="form-control" id="fc-rating">
+                        <option value="">-</option>
+                        ${[1,2,3,4,5].map(r => '<option' + (c && c.rating == r ? ' selected' : '') + '>' + r + '</option>').join('')}
+                    </select>
+                </div>
+            </div>
+            <div class="form-group"><label>Notes</label><textarea class="form-control" id="fc-notes" rows="3">${c ? c.notes||'' : ''}</textarea></div>
+            <div class="action-row">
+                <button type="submit" class="btn btn-primary" style="flex:2">Save Contact</button>
+                <button type="button" class="btn btn-secondary" onclick="goBackFromForm()">Cancel</button>
+            </div>
+        </form>
+    `;
+    window.scrollTo(0, 0);
+}
+
+function showDealForm(editId, contactId) {
+    previousTab = currentTab;
+    document.querySelectorAll('.page-section').forEach(p => p.classList.remove('active'));
+    $('page-form').classList.add('active');
+    $('header-title').textContent = editId ? 'Edit Deal' : 'New Deal';
+
+    const d = editId ? DB.get('deals').find(x => x.id == editId) : null;
+    const contacts = DB.get('contacts');
+    const selContactId = d ? d.contactId : contactId;
+
+    $('form-content').innerHTML = `
+        <form onsubmit="saveDeal(event)">
+            <input type="hidden" id="fd-id" value="${d ? d.id : ''}">
+            <div class="form-group"><label>Deal Name</label><input class="form-control" id="fd-name" value="${d ? d.name : ''}" required></div>
+            <div class="form-group"><label>Contact</label>
+                <select class="form-control" id="fd-contact">
+                    <option value="">-- Select --</option>
+                    ${contacts.map(c => '<option value="' + c.id + '"' + (c.id == selContactId ? ' selected' : '') + '>' + c.firstName + ' ' + c.lastName + '</option>').join('')}
+                </select>
+            </div>
+            <div class="form-row">
+                <div class="form-group"><label>Service</label>
+                    <select class="form-control" id="fd-service">
+                        ${['Window Washing','Power Washing','Gutter Cleaning','Roof Cleaning','Christmas Lights','Other'].map(s => '<option' + (d && d.serviceType === s ? ' selected' : '') + '>' + s + '</option>').join('')}
+                    </select>
+                </div>
+                <div class="form-group"><label>Stage</label>
+                    <select class="form-control" id="fd-stage">
+                        ${['Prospect','Quoted','Negotiation','Scheduled','Won','Lost'].map(s => '<option' + (d && d.stage === s ? ' selected' : '') + '>' + s + '</option>').join('')}
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group"><label>Amount ($)</label><input class="form-control" id="fd-amount" value="${d ? d.amount||'' : ''}" type="number"></div>
+                <div class="form-group"><label>Probability (%)</label><input class="form-control" id="fd-prob" value="${d ? d.probability||'' : ''}" type="number" min="0" max="100"></div>
+            </div>
+            <div class="form-row">
+                <div class="form-group"><label>Close Date</label><input class="form-control" id="fd-close" value="${d ? d.closeDate||'' : ''}" type="date"></div>
+                <div class="form-group"><label>Recurring</label>
+                    <select class="form-control" id="fd-recurring">
+                        <option value="">No</option>
+                        ${['Monthly','Quarterly','Semi-Annual','Annual'].map(r => '<option' + (d && d.recurring === r ? ' selected' : '') + '>' + r + '</option>').join('')}
+                    </select>
+                </div>
+            </div>
+            <div class="form-group"><label>Notes</label><textarea class="form-control" id="fd-notes" rows="3">${d ? d.notes||'' : ''}</textarea></div>
+            <div class="action-row">
+                <button type="submit" class="btn btn-primary" style="flex:2">Save Deal</button>
+                <button type="button" class="btn btn-secondary" onclick="goBackFromForm()">Cancel</button>
+            </div>
+        </form>
+    `;
+    window.scrollTo(0, 0);
+}
+
+function showTaskForm(editId, contactId, dealId) {
+    previousTab = currentTab;
+    document.querySelectorAll('.page-section').forEach(p => p.classList.remove('active'));
+    $('page-form').classList.add('active');
+    $('header-title').textContent = editId ? 'Edit Task' : 'New Task';
+
+    const t = editId ? DB.get('tasks').find(x => x.id == editId) : null;
+    const contacts = DB.get('contacts');
+    const deals = DB.get('deals');
+    const selContactId = t ? t.contactId : contactId;
+    const selDealId = t ? t.dealId : dealId;
+
+    $('form-content').innerHTML = `
+        <form onsubmit="saveTask(event)">
+            <input type="hidden" id="ft-id" value="${t ? t.id : ''}">
+            <div class="form-group"><label>Description</label><input class="form-control" id="ft-desc" value="${t ? t.description : ''}" required></div>
+            <div class="form-row">
+                <div class="form-group"><label>Type</label>
+                    <select class="form-control" id="ft-type">
+                        ${['Follow Up','Estimate','Phone Call','Email','Door Knock','Job Scheduled','Invoice','Other'].map(tt => '<option' + (t && t.taskType === tt ? ' selected' : '') + '>' + tt + '</option>').join('')}
+                    </select>
+                </div>
+                <div class="form-group"><label>Priority</label>
+                    <select class="form-control" id="ft-priority">
+                        ${['Normal','High','Low'].map(p => '<option' + (t && t.priority === p ? ' selected' : '') + '>' + p + '</option>').join('')}
+                    </select>
+                </div>
+            </div>
+            <div class="form-group"><label>Contact</label>
+                <select class="form-control" id="ft-contact">
+                    <option value="">-- None --</option>
+                    ${contacts.map(c => '<option value="' + c.id + '"' + (c.id == selContactId ? ' selected' : '') + '>' + c.firstName + ' ' + c.lastName + '</option>').join('')}
+                </select>
+            </div>
+            <div class="form-row">
+                <div class="form-group"><label>Due Date</label><input class="form-control" id="ft-due" value="${t ? t.dueDate||'' : ''}" type="date"></div>
+                <div class="form-group"><label>Assigned To</label><input class="form-control" id="ft-assigned" value="${t ? t.assignedTo||'Jason' : 'Jason'}"></div>
+            </div>
+            <div class="action-row">
+                <button type="submit" class="btn btn-primary" style="flex:2">Save Task</button>
+                <button type="button" class="btn btn-secondary" onclick="goBackFromForm()">Cancel</button>
+            </div>
+        </form>
+    `;
+    window.scrollTo(0, 0);
+}
+
+// ===== CRUD OPERATIONS =====
+function saveContact(e) {
+    e.preventDefault();
+    const contacts = DB.get('contacts');
+    const id = $('fc-id').value;
+    const data = {
+        firstName: $('fc-first').value, lastName: $('fc-last').value, company: $('fc-company').value,
+        phone: $('fc-phone').value, email: $('fc-email').value, address: $('fc-address').value,
+        city: $('fc-city').value, state: $('fc-state').value, neighborhood: $('fc-neighborhood').value,
+        leadStatus: $('fc-status').value, contactType: $('fc-type').value, leadSource: $('fc-source').value,
+        interestServices: $('fc-services').value,
+        estimatedValue: $('fc-value').value ? parseFloat($('fc-value').value) : null,
+        rating: $('fc-rating').value ? parseInt($('fc-rating').value) : null,
+        notes: $('fc-notes').value, assignedTo: 'Jason', updatedDate: now()
+    };
+    if (id) {
+        const idx = contacts.findIndex(c => c.id == id);
+        if (idx >= 0) contacts[idx] = { ...contacts[idx], ...data };
+    } else {
+        data.id = DB.nextId('contacts');
+        data.createdDate = now();
+        contacts.push(data);
+    }
+    DB.set('contacts', contacts);
+    flash(id ? 'Contact updated!' : 'Contact created!', 'success');
+    switchTab('contacts');
+}
+
+function saveDeal(e) {
+    e.preventDefault();
+    const deals = DB.get('deals');
+    const id = $('fd-id').value;
+    const data = {
+        name: $('fd-name').value,
+        contactId: $('fd-contact').value ? parseInt($('fd-contact').value) : null,
+        serviceType: $('fd-service').value, stage: $('fd-stage').value,
+        amount: $('fd-amount').value ? parseFloat($('fd-amount').value) : null,
+        probability: $('fd-prob').value ? parseInt($('fd-prob').value) : null,
+        closeDate: $('fd-close').value || null, recurring: $('fd-recurring').value || null,
+        notes: $('fd-notes').value, updatedDate: now()
+    };
+    if (id) {
+        const idx = deals.findIndex(d => d.id == id);
+        if (idx >= 0) deals[idx] = { ...deals[idx], ...data };
+    } else {
+        data.id = DB.nextId('deals');
+        data.createdDate = now();
+        deals.push(data);
+    }
+    DB.set('deals', deals);
+    flash(id ? 'Deal updated!' : 'Deal created!', 'success');
+    switchTab('deals');
+}
+
+function saveTask(e) {
+    e.preventDefault();
+    const tasks = DB.get('tasks');
+    const id = $('ft-id').value;
+    const data = {
+        description: $('ft-desc').value, taskType: $('ft-type').value,
+        contactId: $('ft-contact').value ? parseInt($('ft-contact').value) : null,
+        dueDate: $('ft-due').value || null, priority: $('ft-priority').value,
+        assignedTo: $('ft-assigned').value, status: 'Pending', updatedDate: now()
+    };
+    if (id) {
+        const idx = tasks.findIndex(t => t.id == id);
+        if (idx >= 0) { data.status = tasks[idx].status; tasks[idx] = { ...tasks[idx], ...data }; }
+    } else {
+        data.id = DB.nextId('tasks');
+        data.createdDate = now();
+        tasks.push(data);
+    }
+    DB.set('tasks', tasks);
+    flash(id ? 'Task updated!' : 'Task created!', 'success');
+    switchTab('tasks');
+}
+
+function completeTask(id) {
+    const tasks = DB.get('tasks');
+    const idx = tasks.findIndex(t => t.id == id);
+    if (idx >= 0) {
+        tasks[idx].status = 'Completed';
+        tasks[idx].completedDate = now();
+        DB.set('tasks', tasks);
+        flash('Task completed!', 'success');
+        switchTab('tasks');
+    }
+}
+
+function deleteContact(id) {
+    if (!confirm('Delete this contact?')) return;
+    DB.set('contacts', DB.get('contacts').filter(c => c.id != id));
+    flash('Contact deleted.', 'success');
+    switchTab('contacts');
+}
+
+function deleteDeal(id) {
+    if (!confirm('Delete this deal?')) return;
+    DB.set('deals', DB.get('deals').filter(d => d.id != id));
+    flash('Deal deleted.', 'success');
+    switchTab('deals');
+}
+
+function deleteTask(id) {
+    if (!confirm('Delete this task?')) return;
+    DB.set('tasks', DB.get('tasks').filter(t => t.id != id));
+    flash('Task deleted.', 'success');
+    switchTab('tasks');
+}
+
+function updateTaskBadge() {
+    const tasks = DB.get('tasks');
+    const pending = tasks.filter(t => t.status !== 'Completed').length;
+    const badge = $('task-tab-badge');
+    if (pending > 0) {
+        badge.textContent = pending;
+        badge.style.display = '';
+    } else {
+        badge.style.display = 'none';
+    }
+}
+
+// ===== INIT =====
+seedData();
+initTheme();
+runSplash();
+renderHome();
+updateTaskBadge();
+</script>
+</body>
+</html>
