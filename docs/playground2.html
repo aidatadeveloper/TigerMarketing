@@ -1,0 +1,1158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Tiger Marketing - Mobile Playground</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* ===== RESET ===== */
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        html { font-size: 16px; }
+        body {
+            font-family: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            min-height: 100vh; overflow-x: hidden;
+            transition: background 0.3s, color 0.3s;
+        }
+        a { text-decoration: none; color: inherit; }
+
+        /* ===== DESIGN PICKER (top bar) ===== */
+        .picker-bar {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 9999;
+            background: #111; color: #fff;
+            display: flex; align-items: center; gap: 8px;
+            padding: 8px 12px; font-size: 13px;
+            overflow-x: auto; white-space: nowrap;
+            -webkit-overflow-scrolling: touch;
+        }
+        .picker-bar::-webkit-scrollbar { display: none; }
+        .picker-label { font-weight: 700; color: #f97316; flex-shrink: 0; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; }
+        .picker-btn {
+            flex-shrink: 0; padding: 6px 14px;
+            border-radius: 20px; border: 1px solid #333;
+            background: #1a1a1a; color: #999;
+            font-size: 12px; font-weight: 600; cursor: pointer;
+            font-family: inherit; transition: all 0.2s;
+        }
+        .picker-btn.active { background: #f97316; color: #fff; border-color: #f97316; }
+        .picker-btn:active { transform: scale(0.95); }
+
+        /* ===== DARK/LIGHT TOGGLE ===== */
+        .mode-toggle {
+            position: fixed; top: 46px; right: 12px; z-index: 9998;
+            width: 36px; height: 36px; border-radius: 50%;
+            background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.2);
+            color: #fff; font-size: 16px;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; backdrop-filter: blur(10px);
+        }
+
+        body { padding-top: 42px; }
+
+        /* ===== ALL DESIGNS HIDDEN BY DEFAULT ===== */
+        .design { display: none; }
+        .design.active { display: block; }
+
+        /* ===== THEME VARS ===== */
+        body.light {
+            --bg: #fafaf8; --bg2: #fff; --bg3: #f5f5f0; --bg4: #eee;
+            --text: #1c1917; --text2: #57534e; --text3: #a8a29e;
+            --accent: #ea580c; --accent2: #c2410c; --accent-bg: rgba(234,88,12,0.1);
+            --green: #16a34a; --green-bg: rgba(22,163,74,0.1);
+            --yellow: #ca8a04; --yellow-bg: rgba(202,138,4,0.1);
+            --red: #dc2626; --red-bg: rgba(220,38,38,0.1);
+            --purple: #9333ea; --purple-bg: rgba(147,51,234,0.1);
+            --border: #e7e5e4; --shadow: 0 1px 3px rgba(0,0,0,0.08);
+            background: var(--bg); color: var(--text);
+        }
+        body.dark {
+            --bg: #0f0f17; --bg2: #1c1c2e; --bg3: #22223a; --bg4: #2a2a44;
+            --text: #f0ece8; --text2: #9a9aaa; --text3: #5e5e78;
+            --accent: #f97316; --accent2: #fb923c; --accent-bg: rgba(249,115,22,0.15);
+            --green: #22c55e; --green-bg: rgba(34,197,94,0.15);
+            --yellow: #eab308; --yellow-bg: rgba(234,179,8,0.15);
+            --red: #ef4444; --red-bg: rgba(239,68,68,0.15);
+            --purple: #a855f7; --purple-bg: rgba(168,85,247,0.15);
+            --border: #2a2a44; --shadow: 0 2px 8px rgba(0,0,0,0.3);
+            background: var(--bg); color: var(--text);
+        }
+
+        /* ===== SHARED COMPONENTS ===== */
+        .badge { display: inline-block; padding: 3px 10px; border-radius: 12px; font-size: 11px; font-weight: 600; }
+        .badge-green { background: var(--green-bg); color: var(--green); }
+        .badge-yellow { background: var(--yellow-bg); color: var(--yellow); }
+        .badge-red { background: var(--red-bg); color: var(--red); }
+        .badge-purple { background: var(--purple-bg); color: var(--purple); }
+        .badge-accent { background: var(--accent-bg); color: var(--accent); }
+
+        /* =========================================================
+           DESIGN 1: BOTTOM NAV - iOS style
+           ========================================================= */
+        #d1 .d1-header {
+            position: sticky; top: 42px; z-index: 100;
+            background: var(--bg2); border-bottom: 1px solid var(--border);
+            padding: 16px; display: flex; align-items: center; justify-content: space-between;
+        }
+        #d1 .d1-header h1 { font-size: 20px; font-weight: 800; }
+        #d1 .d1-header .tiger { color: var(--accent); }
+        #d1 .d1-body { padding: 12px; padding-bottom: 80px; }
+        #d1 .d1-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+        #d1 .d1-stat {
+            background: var(--bg2); border: 1px solid var(--border);
+            border-radius: 14px; padding: 16px;
+            box-shadow: var(--shadow);
+        }
+        #d1 .d1-stat .num { font-size: 26px; font-weight: 800; }
+        #d1 .d1-stat .lbl { font-size: 11px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; }
+        #d1 .d1-stat.hi .num { color: var(--accent); }
+        #d1 .d1-card {
+            background: var(--bg2); border: 1px solid var(--border);
+            border-radius: 14px; margin-bottom: 12px; overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+        #d1 .d1-card-head { padding: 14px 16px; font-weight: 700; font-size: 14px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        #d1 .d1-row {
+            padding: 14px 16px; border-bottom: 1px solid var(--border);
+            display: flex; align-items: center; gap: 12px;
+        }
+        #d1 .d1-row:last-child { border-bottom: none; }
+        #d1 .d1-row .avatar {
+            width: 40px; height: 40px; border-radius: 50%;
+            background: var(--accent-bg); color: var(--accent);
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 700; font-size: 15px; flex-shrink: 0;
+        }
+        #d1 .d1-row .info { flex: 1; }
+        #d1 .d1-row .name { font-weight: 600; font-size: 15px; }
+        #d1 .d1-row .sub { font-size: 12px; color: var(--text2); margin-top: 2px; }
+        #d1 .d1-row .amt { font-weight: 700; font-size: 15px; color: var(--accent); }
+
+        #d1 .bottom-nav {
+            position: fixed; bottom: 0; left: 0; right: 0; z-index: 200;
+            background: var(--bg2); border-top: 1px solid var(--border);
+            display: flex; justify-content: space-around; padding: 6px 0 env(safe-area-inset-bottom, 8px);
+        }
+        #d1 .bottom-nav .bnav {
+            display: flex; flex-direction: column; align-items: center; gap: 2px;
+            padding: 6px 12px; border-radius: 10px; font-size: 10px; color: var(--text3); font-weight: 600;
+            cursor: pointer; transition: all 0.2s;
+        }
+        #d1 .bottom-nav .bnav .ico { font-size: 22px; }
+        #d1 .bottom-nav .bnav.active { color: var(--accent); }
+
+        /* =========================================================
+           DESIGN 2: SWIPE CARDS
+           ========================================================= */
+        #d2 .d2-header {
+            position: sticky; top: 42px; z-index: 100;
+            background: var(--bg2); padding: 16px;
+            border-bottom: 1px solid var(--border);
+            text-align: center;
+        }
+        #d2 .d2-header h1 { font-size: 18px; font-weight: 800; }
+        #d2 .d2-header .sub { font-size: 12px; color: var(--text3); }
+        #d2 .d2-tabs {
+            display: flex; gap: 0; background: var(--bg3); margin: 12px; border-radius: 10px; overflow: hidden;
+        }
+        #d2 .d2-tab {
+            flex: 1; text-align: center; padding: 10px; font-size: 13px; font-weight: 600;
+            color: var(--text3); cursor: pointer; transition: all 0.2s;
+        }
+        #d2 .d2-tab.active { background: var(--accent); color: #fff; border-radius: 10px; }
+        #d2 .d2-body { padding: 0 12px 20px; }
+        #d2 .d2-contact-card {
+            background: var(--bg2); border: 1px solid var(--border);
+            border-radius: 20px; padding: 24px 20px; margin-bottom: 14px;
+            box-shadow: var(--shadow); position: relative;
+        }
+        #d2 .d2-contact-card .top { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
+        #d2 .d2-contact-card .avatar {
+            width: 52px; height: 52px; border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            color: #fff; display: flex; align-items: center; justify-content: center;
+            font-size: 20px; font-weight: 700;
+        }
+        #d2 .d2-contact-card .cname { font-size: 18px; font-weight: 700; }
+        #d2 .d2-contact-card .csub { font-size: 13px; color: var(--text2); }
+        #d2 .d2-contact-card .details { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        #d2 .d2-contact-card .detail-item { background: var(--bg3); border-radius: 10px; padding: 10px; }
+        #d2 .d2-contact-card .detail-item .dlbl { font-size: 10px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.5px; }
+        #d2 .d2-contact-card .detail-item .dval { font-size: 14px; font-weight: 600; margin-top: 2px; }
+        #d2 .d2-actions {
+            display: flex; gap: 10px; margin-top: 14px;
+        }
+        #d2 .d2-act {
+            flex: 1; padding: 12px; border-radius: 12px; text-align: center;
+            font-size: 12px; font-weight: 700; cursor: pointer; border: none;
+            font-family: inherit;
+        }
+        #d2 .d2-act.call { background: var(--green-bg); color: var(--green); }
+        #d2 .d2-act.email { background: var(--accent-bg); color: var(--accent); }
+        #d2 .d2-act.note { background: var(--purple-bg); color: var(--purple); }
+
+        /* =========================================================
+           DESIGN 3: ACTIVITY FEED
+           ========================================================= */
+        #d3 .d3-header {
+            position: sticky; top: 42px; z-index: 100;
+            background: var(--bg2); padding: 14px 16px;
+            border-bottom: 1px solid var(--border);
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        #d3 .d3-header h1 { font-size: 18px; font-weight: 800; }
+        #d3 .d3-chips {
+            display: flex; gap: 8px; padding: 12px 16px;
+            overflow-x: auto; -webkit-overflow-scrolling: touch;
+        }
+        #d3 .d3-chips::-webkit-scrollbar { display: none; }
+        #d3 .d3-chip {
+            flex-shrink: 0; padding: 8px 16px; border-radius: 20px;
+            background: var(--bg3); font-size: 13px; font-weight: 600;
+            color: var(--text2); cursor: pointer; border: 1px solid var(--border);
+        }
+        #d3 .d3-chip.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+        #d3 .d3-feed { padding: 0 12px 20px; }
+        #d3 .d3-item {
+            display: flex; gap: 12px; padding: 14px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        #d3 .d3-item:last-child { border-bottom: none; }
+        #d3 .d3-item .dot {
+            width: 10px; height: 10px; border-radius: 50%;
+            margin-top: 6px; flex-shrink: 0;
+        }
+        #d3 .d3-item .body { flex: 1; }
+        #d3 .d3-item .headline { font-size: 14px; font-weight: 600; line-height: 1.4; }
+        #d3 .d3-item .headline strong { color: var(--accent); }
+        #d3 .d3-item .meta { font-size: 12px; color: var(--text3); margin-top: 4px; display: flex; gap: 12px; }
+        #d3 .d3-item .preview {
+            background: var(--bg3); border-radius: 10px; padding: 10px;
+            margin-top: 8px; font-size: 13px; color: var(--text2);
+        }
+
+        /* =========================================================
+           DESIGN 4: BIG TILES DASHBOARD
+           ========================================================= */
+        #d4 .d4-header {
+            position: sticky; top: 42px; z-index: 100;
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            color: #fff; padding: 20px 16px;
+        }
+        #d4 .d4-header h1 { font-size: 22px; font-weight: 800; }
+        #d4 .d4-header .sub { font-size: 13px; opacity: 0.8; }
+        #d4 .d4-body { padding: 12px; }
+        #d4 .d4-tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+        #d4 .d4-tile {
+            background: var(--bg2); border: 1px solid var(--border);
+            border-radius: 16px; padding: 20px 16px;
+            text-align: center; box-shadow: var(--shadow);
+            cursor: pointer; transition: all 0.2s;
+        }
+        #d4 .d4-tile:active { transform: scale(0.97); }
+        #d4 .d4-tile .ico { font-size: 28px; margin-bottom: 8px; }
+        #d4 .d4-tile .num { font-size: 24px; font-weight: 800; }
+        #d4 .d4-tile .lbl { font-size: 11px; color: var(--text3); text-transform: uppercase; margin-top: 4px; letter-spacing: 0.5px; }
+        #d4 .d4-big-tile {
+            background: var(--bg2); border: 1px solid var(--border);
+            border-radius: 16px; padding: 20px; margin-bottom: 14px;
+            box-shadow: var(--shadow);
+        }
+        #d4 .d4-big-tile h3 { font-size: 16px; font-weight: 700; margin-bottom: 12px; }
+        #d4 .d4-pipeline { display: flex; gap: 3px; height: 12px; border-radius: 6px; overflow: hidden; margin-bottom: 10px; }
+        #d4 .d4-pipeline div { height: 100%; }
+        #d4 .d4-legend { display: flex; flex-wrap: wrap; gap: 10px; }
+        #d4 .d4-legend span { font-size: 12px; color: var(--text2); display: flex; align-items: center; gap: 4px; }
+        #d4 .d4-legend .ldot { width: 8px; height: 8px; border-radius: 50%; }
+        #d4 .d4-quick-actions {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px;
+        }
+        #d4 .d4-qa {
+            background: var(--accent); color: #fff;
+            border-radius: 14px; padding: 16px; text-align: center;
+            font-weight: 700; font-size: 14px; cursor: pointer;
+            border: none; font-family: inherit;
+        }
+        #d4 .d4-qa.secondary { background: var(--bg3); color: var(--text); }
+
+        /* =========================================================
+           DESIGN 5: KANBAN PIPELINE
+           ========================================================= */
+        #d5 .d5-header {
+            position: sticky; top: 42px; z-index: 100;
+            background: var(--bg2); padding: 14px 16px;
+            border-bottom: 1px solid var(--border);
+        }
+        #d5 .d5-header h1 { font-size: 18px; font-weight: 800; }
+        #d5 .d5-scroll {
+            display: flex; gap: 12px; padding: 12px;
+            overflow-x: auto; -webkit-overflow-scrolling: touch;
+            scroll-snap-type: x mandatory;
+        }
+        #d5 .d5-scroll::-webkit-scrollbar { display: none; }
+        #d5 .d5-col {
+            min-width: 280px; flex-shrink: 0;
+            background: var(--bg3); border-radius: 16px;
+            padding: 14px; scroll-snap-align: start;
+        }
+        #d5 .d5-col-head {
+            display: flex; align-items: center; justify-content: space-between;
+            margin-bottom: 12px;
+        }
+        #d5 .d5-col-head .title { font-size: 14px; font-weight: 700; }
+        #d5 .d5-col-head .count {
+            background: var(--bg4); padding: 2px 10px; border-radius: 10px;
+            font-size: 12px; font-weight: 700;
+        }
+        #d5 .d5-card {
+            background: var(--bg2); border: 1px solid var(--border);
+            border-radius: 12px; padding: 14px; margin-bottom: 10px;
+            box-shadow: var(--shadow);
+        }
+        #d5 .d5-card:last-child { margin-bottom: 0; }
+        #d5 .d5-card .cname { font-size: 14px; font-weight: 700; }
+        #d5 .d5-card .ccontact { font-size: 12px; color: var(--text2); margin-top: 2px; }
+        #d5 .d5-card .cbottom { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; }
+        #d5 .d5-card .camt { font-weight: 700; color: var(--accent); }
+        #d5 .d5-card .cdate { font-size: 11px; color: var(--text3); }
+
+        /* =========================================================
+           DESIGN 6: MINIMAL LIST
+           ========================================================= */
+        #d6 .d6-header {
+            position: sticky; top: 42px; z-index: 100;
+            background: var(--bg2); padding: 14px 16px;
+            border-bottom: 1px solid var(--border);
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        #d6 .d6-header h1 { font-size: 18px; font-weight: 800; }
+        #d6 .d6-search {
+            margin: 12px; padding: 12px 16px;
+            background: var(--bg3); border: 1px solid var(--border);
+            border-radius: 12px; font-size: 15px; width: calc(100% - 24px);
+            color: var(--text); font-family: inherit;
+            outline: none;
+        }
+        #d6 .d6-search:focus { border-color: var(--accent); }
+        #d6 .d6-section-label {
+            padding: 8px 16px; font-size: 11px; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 1px; color: var(--text3);
+            background: var(--bg);
+        }
+        #d6 .d6-list-item {
+            display: flex; align-items: center; gap: 14px;
+            padding: 14px 16px; background: var(--bg2);
+            border-bottom: 1px solid var(--border);
+        }
+        #d6 .d6-list-item .avatar {
+            width: 44px; height: 44px; border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 700; font-size: 16px; flex-shrink: 0;
+        }
+        #d6 .d6-list-item .info { flex: 1; }
+        #d6 .d6-list-item .name { font-weight: 600; font-size: 15px; }
+        #d6 .d6-list-item .detail { font-size: 13px; color: var(--text2); margin-top: 1px; }
+        #d6 .d6-list-item .right { text-align: right; }
+        #d6 .d6-list-item .amt { font-weight: 700; font-size: 15px; }
+        #d6 .d6-list-item .time { font-size: 11px; color: var(--text3); }
+        #d6 .d6-fab {
+            position: fixed; bottom: 24px; right: 16px;
+            width: 56px; height: 56px; border-radius: 50%;
+            background: var(--accent); color: #fff;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 28px; box-shadow: 0 4px 16px rgba(249,115,22,0.4);
+            cursor: pointer; border: none; z-index: 200;
+        }
+
+        /* =========================================================
+           DESIGN 7: SPLIT PANEL (stats top, list bottom)
+           ========================================================= */
+        #d7 .d7-top {
+            background: linear-gradient(180deg, #1c1917, #292524);
+            color: #fff; padding: 16px; padding-top: 58px;
+            position: relative;
+        }
+        #d7 .d7-top h1 { font-size: 18px; font-weight: 800; margin-bottom: 14px; }
+        #d7 .d7-top .tiger { color: var(--accent); }
+        #d7 .d7-metrics { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 4px; }
+        #d7 .d7-metrics::-webkit-scrollbar { display: none; }
+        #d7 .d7-metric {
+            flex-shrink: 0; background: rgba(255,255,255,0.08);
+            border-radius: 14px; padding: 16px 20px; min-width: 120px;
+            backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1);
+        }
+        #d7 .d7-metric .num { font-size: 22px; font-weight: 800; }
+        #d7 .d7-metric .lbl { font-size: 10px; opacity: 0.6; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; }
+        #d7 .d7-metric.hi .num { color: #f97316; }
+        #d7 .d7-bottom {
+            background: var(--bg); border-radius: 20px 20px 0 0;
+            margin-top: -10px; position: relative; z-index: 10;
+            min-height: 60vh; padding: 16px;
+        }
+        #d7 .d7-section { font-size: 16px; font-weight: 700; margin-bottom: 12px; display: flex; justify-content: space-between; }
+        #d7 .d7-section .see-all { font-size: 13px; color: var(--accent); font-weight: 600; }
+        #d7 .d7-task {
+            background: var(--bg2); border: 1px solid var(--border);
+            border-radius: 14px; padding: 14px; margin-bottom: 10px;
+            display: flex; align-items: center; gap: 12px;
+        }
+        #d7 .d7-task .check {
+            width: 24px; height: 24px; border-radius: 50%;
+            border: 2px solid var(--border); flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; font-size: 14px;
+        }
+        #d7 .d7-task .check.done { background: var(--green); border-color: var(--green); color: #fff; }
+        #d7 .d7-task .body { flex: 1; }
+        #d7 .d7-task .ttitle { font-weight: 600; font-size: 14px; }
+        #d7 .d7-task .tmeta { font-size: 12px; color: var(--text3); margin-top: 2px; }
+
+        /* =========================================================
+           DESIGN 8: FLOATING MENU
+           ========================================================= */
+        #d8 .d8-header {
+            position: sticky; top: 42px; z-index: 100;
+            background: var(--bg2); padding: 14px 16px;
+            border-bottom: 1px solid var(--border);
+            text-align: center;
+        }
+        #d8 .d8-header h1 { font-size: 18px; font-weight: 800; display: inline; }
+        #d8 .d8-body { padding: 12px; padding-bottom: 100px; }
+        #d8 .d8-summary-strip {
+            display: flex; gap: 8px; overflow-x: auto; margin-bottom: 14px;
+            padding-bottom: 4px;
+        }
+        #d8 .d8-summary-strip::-webkit-scrollbar { display: none; }
+        #d8 .d8-sum {
+            flex-shrink: 0; background: var(--bg2); border: 1px solid var(--border);
+            border-radius: 14px; padding: 14px 18px; min-width: 110px;
+            text-align: center;
+        }
+        #d8 .d8-sum .num { font-size: 20px; font-weight: 800; }
+        #d8 .d8-sum .lbl { font-size: 10px; color: var(--text3); text-transform: uppercase; }
+        #d8 .d8-group { margin-bottom: 16px; }
+        #d8 .d8-group-title {
+            font-size: 13px; font-weight: 700; color: var(--text3);
+            text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;
+        }
+        #d8 .d8-deal {
+            background: var(--bg2); border: 1px solid var(--border);
+            border-radius: 14px; padding: 14px; margin-bottom: 8px;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        #d8 .d8-deal .dleft .dname { font-weight: 600; font-size: 14px; }
+        #d8 .d8-deal .dleft .dcontact { font-size: 12px; color: var(--text2); }
+        #d8 .d8-deal .dright { text-align: right; }
+        #d8 .d8-deal .dright .damt { font-weight: 700; font-size: 16px; color: var(--accent); }
+        #d8 .d8-deal .dright .dprob { font-size: 11px; color: var(--text3); }
+
+        /* FAB with radial menu */
+        #d8 .d8-fab-wrap { position: fixed; bottom: 24px; right: 16px; z-index: 300; }
+        #d8 .d8-fab {
+            width: 56px; height: 56px; border-radius: 50%;
+            background: var(--accent); color: #fff;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 24px; cursor: pointer; border: none;
+            box-shadow: 0 4px 16px rgba(249,115,22,0.4);
+            transition: transform 0.3s;
+        }
+        #d8 .d8-fab.open { transform: rotate(45deg); }
+        #d8 .d8-fab-menu {
+            position: absolute; bottom: 64px; right: 0;
+            display: none; flex-direction: column; gap: 8px; align-items: flex-end;
+        }
+        #d8 .d8-fab-menu.open { display: flex; }
+        #d8 .d8-fab-item {
+            display: flex; align-items: center; gap: 8px;
+            background: var(--bg2); border: 1px solid var(--border);
+            border-radius: 12px; padding: 10px 14px;
+            font-size: 13px; font-weight: 600; white-space: nowrap;
+            box-shadow: var(--shadow); cursor: pointer;
+        }
+        #d8 .d8-fab-item .fico { font-size: 18px; }
+
+        /* =========================================================
+           DESIGN 9: TAB STRIP
+           ========================================================= */
+        #d9 .d9-header {
+            position: sticky; top: 42px; z-index: 100;
+            background: var(--bg2);
+        }
+        #d9 .d9-header .top-row { padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; }
+        #d9 .d9-header h1 { font-size: 18px; font-weight: 800; }
+        #d9 .d9-tabs {
+            display: flex; overflow-x: auto; border-bottom: 2px solid var(--border);
+            -webkit-overflow-scrolling: touch;
+        }
+        #d9 .d9-tabs::-webkit-scrollbar { display: none; }
+        #d9 .d9-tab {
+            flex-shrink: 0; padding: 10px 18px;
+            font-size: 13px; font-weight: 600; color: var(--text3);
+            cursor: pointer; position: relative; white-space: nowrap;
+        }
+        #d9 .d9-tab.active { color: var(--accent); }
+        #d9 .d9-tab.active::after {
+            content: ''; position: absolute; bottom: -2px; left: 0; right: 0;
+            height: 2px; background: var(--accent);
+        }
+        #d9 .d9-tab .tbadge {
+            background: var(--red); color: #fff; font-size: 9px;
+            padding: 1px 5px; border-radius: 8px; margin-left: 4px;
+            vertical-align: top;
+        }
+        #d9 .d9-panel { padding: 12px; }
+        #d9 .d9-campaign {
+            background: var(--bg2); border: 1px solid var(--border);
+            border-radius: 14px; padding: 16px; margin-bottom: 10px;
+            box-shadow: var(--shadow);
+        }
+        #d9 .d9-campaign .ctop { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+        #d9 .d9-campaign .cname { font-weight: 700; font-size: 15px; }
+        #d9 .d9-campaign .ctype { font-size: 12px; color: var(--text2); }
+        #d9 .d9-campaign .cbar { height: 6px; background: var(--bg3); border-radius: 3px; overflow: hidden; margin-bottom: 8px; }
+        #d9 .d9-campaign .cbar-fill { height: 100%; background: var(--accent); border-radius: 3px; }
+        #d9 .d9-campaign .cstats { display: flex; gap: 16px; }
+        #d9 .d9-campaign .cstat { font-size: 12px; color: var(--text2); }
+        #d9 .d9-campaign .cstat strong { color: var(--text); }
+
+        /* =========================================================
+           DESIGN 10: COMMAND CENTER
+           ========================================================= */
+        #d10 .d10-bg {
+            background: #0a0a0f; color: #e0e0e0; min-height: 100vh;
+            padding-top: 42px;
+        }
+        #d10 .d10-header {
+            padding: 16px; border-bottom: 1px solid #1a1a2e;
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        #d10 .d10-header h1 { font-size: 16px; font-weight: 800; color: #f97316; text-transform: uppercase; letter-spacing: 2px; }
+        #d10 .d10-header .live { font-size: 11px; color: #22c55e; display: flex; align-items: center; gap: 4px; }
+        #d10 .d10-header .live-dot { width: 6px; height: 6px; border-radius: 50%; background: #22c55e; animation: pulse10 2s infinite; }
+        @keyframes pulse10 { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+        #d10 .d10-body { padding: 12px; }
+        #d10 .d10-hero {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            border: 1px solid #2a2a4e; border-radius: 16px;
+            padding: 20px; margin-bottom: 14px; text-align: center;
+        }
+        #d10 .d10-hero .big { font-size: 42px; font-weight: 800; color: #f97316; }
+        #d10 .d10-hero .big small { font-size: 20px; color: #888; }
+        #d10 .d10-hero .sub { font-size: 12px; color: #666; text-transform: uppercase; letter-spacing: 2px; margin-top: 4px; }
+        #d10 .d10-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+        #d10 .d10-cell {
+            background: #12121e; border: 1px solid #1a1a2e;
+            border-radius: 12px; padding: 14px; text-align: center;
+        }
+        #d10 .d10-cell .num { font-size: 22px; font-weight: 800; }
+        #d10 .d10-cell .lbl { font-size: 10px; color: #555; text-transform: uppercase; letter-spacing: 1px; margin-top: 2px; }
+        #d10 .d10-cell.orange .num { color: #f97316; }
+        #d10 .d10-cell.green .num { color: #22c55e; }
+        #d10 .d10-cell.red .num { color: #ef4444; }
+        #d10 .d10-cell.purple .num { color: #a855f7; }
+        #d10 .d10-alert-list { margin-bottom: 14px; }
+        #d10 .d10-alert {
+            display: flex; align-items: center; gap: 10px;
+            background: #12121e; border: 1px solid #1a1a2e;
+            border-radius: 12px; padding: 12px; margin-bottom: 8px;
+            border-left: 3px solid var(--red, #ef4444);
+        }
+        #d10 .d10-alert .aico { font-size: 18px; }
+        #d10 .d10-alert .abody { flex: 1; }
+        #d10 .d10-alert .atitle { font-size: 13px; font-weight: 600; }
+        #d10 .d10-alert .atime { font-size: 11px; color: #555; }
+        #d10 .d10-alert.green-alert { border-left-color: #22c55e; }
+        #d10 .d10-alert.orange-alert { border-left-color: #f97316; }
+        #d10 .d10-targets {
+            background: #12121e; border: 1px solid #1a1a2e;
+            border-radius: 12px; padding: 14px;
+        }
+        #d10 .d10-targets h3 { font-size: 13px; font-weight: 700; color: #f97316; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
+        #d10 .d10-target {
+            display: flex; align-items: center; gap: 10px; margin-bottom: 10px;
+        }
+        #d10 .d10-target .tname { flex: 1; font-size: 13px; }
+        #d10 .d10-target .tbar { flex: 2; height: 6px; background: #1a1a2e; border-radius: 3px; overflow: hidden; }
+        #d10 .d10-target .tbar-fill { height: 100%; border-radius: 3px; }
+        #d10 .d10-target .tval { font-size: 12px; font-weight: 700; width: 36px; text-align: right; }
+    </style>
+</head>
+<body class="dark">
+
+<!-- DESIGN PICKER -->
+<div class="picker-bar">
+    <span class="picker-label">Design</span>
+    <button class="picker-btn active" onclick="showDesign(1)">1</button>
+    <button class="picker-btn" onclick="showDesign(2)">2</button>
+    <button class="picker-btn" onclick="showDesign(3)">3</button>
+    <button class="picker-btn" onclick="showDesign(4)">4</button>
+    <button class="picker-btn" onclick="showDesign(5)">5</button>
+    <button class="picker-btn" onclick="showDesign(6)">6</button>
+    <button class="picker-btn" onclick="showDesign(7)">7</button>
+    <button class="picker-btn" onclick="showDesign(8)">8</button>
+    <button class="picker-btn" onclick="showDesign(9)">9</button>
+    <button class="picker-btn" onclick="showDesign(10)">10</button>
+    <a href="playground.html" style="color:#f97316;font-size:12px;font-weight:600;flex-shrink:0;margin-left:auto;">V1</a>
+    <a href="index.html" style="color:#f97316;font-size:12px;font-weight:600;flex-shrink:0;">CRM</a>
+</div>
+
+<!-- DARK/LIGHT TOGGLE -->
+<button class="mode-toggle" onclick="toggleMode()">&#9728;&#65039;</button>
+
+<!-- ===== DESIGN 1: BOTTOM NAV ===== -->
+<div id="d1" class="design active">
+    <div class="d1-header">
+        <h1><span class="tiger">Tiger</span> Marketing</h1>
+        <span class="badge badge-accent">Auburn, AL</span>
+    </div>
+    <div class="d1-body">
+        <div class="d1-stats">
+            <div class="d1-stat hi"><div class="num">$1,875</div><div class="lbl">Pipeline</div></div>
+            <div class="d1-stat"><div class="num">7</div><div class="lbl">Contacts</div></div>
+            <div class="d1-stat"><div class="num">5</div><div class="lbl">Active Deals</div></div>
+            <div class="d1-stat"><div class="num" style="color:var(--red)">2</div><div class="lbl">Overdue</div></div>
+        </div>
+
+        <div class="d1-card">
+            <div class="d1-card-head">Recent Deals <span class="badge badge-accent">5</span></div>
+            <div class="d1-row"><div class="avatar">LT</div><div class="info"><div class="name">Tran Driveway Wash</div><div class="sub">Lisa Tran - Power Washing</div></div><div class="amt">$275</div></div>
+            <div class="d1-row"><div class="avatar">MH</div><div class="info"><div class="name">Henderson Quarterly</div><div class="sub">Mike Henderson - Windows</div></div><div class="amt">$450</div></div>
+            <div class="d1-row"><div class="avatar">SC</div><div class="info"><div class="name">Collins Windows + Gutters</div><div class="sub">Sarah Collins - Windows</div></div><div class="amt">$350</div></div>
+            <div class="d1-row"><div class="avatar">KM</div><div class="info"><div class="name">Auburn Realty Listing</div><div class="sub">Karen Mitchell - Windows</div></div><div class="amt">$500</div></div>
+            <div class="d1-row"><div class="avatar" style="background:var(--green-bg);color:var(--green)">RJ</div><div class="info"><div class="name">James Properties Q1</div><div class="sub">Robert James - Windows</div></div><div class="amt" style="color:var(--green)">$1,200</div></div>
+        </div>
+
+        <div class="d1-card">
+            <div class="d1-card-head">Upcoming Tasks <span class="badge badge-red">2 overdue</span></div>
+            <div class="d1-row"><div class="avatar" style="background:var(--red-bg);color:var(--red)">!</div><div class="info"><div class="name">Schedule James Q1 dates</div><div class="sub">Due Feb 20 - HIGH</div></div></div>
+            <div class="d1-row"><div class="avatar" style="background:var(--red-bg);color:var(--red)">!</div><div class="info"><div class="name">Follow up Sarah Collins</div><div class="sub">Due Feb 21 - HIGH</div></div></div>
+            <div class="d1-row"><div class="avatar" style="background:var(--accent-bg);color:var(--accent)">&#128222;</div><div class="info"><div class="name">Call Mike Henderson</div><div class="sub">Due Feb 21 - Normal</div></div></div>
+        </div>
+    </div>
+    <div class="bottom-nav">
+        <div class="bnav active"><span class="ico">&#x1F4CA;</span>Home</div>
+        <div class="bnav"><span class="ico">&#x1F465;</span>Contacts</div>
+        <div class="bnav"><span class="ico">&#x1F4B0;</span>Deals</div>
+        <div class="bnav"><span class="ico">&#x2705;</span>Tasks</div>
+        <div class="bnav"><span class="ico">&#x2699;&#65039;</span>More</div>
+    </div>
+</div>
+
+<!-- ===== DESIGN 2: SWIPE CARDS ===== -->
+<div id="d2" class="design">
+    <div class="d2-header">
+        <h1>Tiger Marketing</h1>
+        <div class="sub">Contact Cards</div>
+    </div>
+    <div class="d2-tabs">
+        <div class="d2-tab active">Contacts</div>
+        <div class="d2-tab">Deals</div>
+        <div class="d2-tab">Tasks</div>
+    </div>
+    <div class="d2-body">
+        <div class="d2-contact-card">
+            <div class="top">
+                <div class="avatar">TB</div>
+                <div><div class="cname">Tom Bradley</div><div class="csub">Moores Mill - New Lead</div></div>
+            </div>
+            <div class="details">
+                <div class="detail-item"><div class="dlbl">Source</div><div class="dval">Door Knock</div></div>
+                <div class="detail-item"><div class="dlbl">Interest</div><div class="dval">Windows</div></div>
+                <div class="detail-item"><div class="dlbl">Value</div><div class="dval" style="color:var(--accent)">$400</div></div>
+                <div class="detail-item"><div class="dlbl">Status</div><div class="dval"><span class="badge badge-accent">New</span></div></div>
+            </div>
+            <div class="d2-actions">
+                <button class="d2-act call">&#128222; Call</button>
+                <button class="d2-act email">&#9993; Email</button>
+                <button class="d2-act note">&#128221; Note</button>
+            </div>
+        </div>
+
+        <div class="d2-contact-card">
+            <div class="top">
+                <div class="avatar">LT</div>
+                <div><div class="cname">Lisa Tran</div><div class="csub">Willow Creek - New Lead</div></div>
+            </div>
+            <div class="details">
+                <div class="detail-item"><div class="dlbl">Source</div><div class="dval">Nextdoor</div></div>
+                <div class="detail-item"><div class="dlbl">Interest</div><div class="dval">Power Wash</div></div>
+                <div class="detail-item"><div class="dlbl">Value</div><div class="dval" style="color:var(--accent)">$275</div></div>
+                <div class="detail-item"><div class="dlbl">Status</div><div class="dval"><span class="badge badge-accent">New</span></div></div>
+            </div>
+            <div class="d2-actions">
+                <button class="d2-act call">&#128222; Call</button>
+                <button class="d2-act email">&#9993; Email</button>
+                <button class="d2-act note">&#128221; Note</button>
+            </div>
+        </div>
+
+        <div class="d2-contact-card">
+            <div class="top">
+                <div class="avatar" style="background:var(--green-bg);color:var(--green)">RJ</div>
+                <div><div class="cname">Robert James</div><div class="csub">James Properties - Customer</div></div>
+            </div>
+            <div class="details">
+                <div class="detail-item"><div class="dlbl">Source</div><div class="dval">Referral</div></div>
+                <div class="detail-item"><div class="dlbl">Interest</div><div class="dval">Windows</div></div>
+                <div class="detail-item"><div class="dlbl">Revenue</div><div class="dval" style="color:var(--green)">$1,200</div></div>
+                <div class="detail-item"><div class="dlbl">Status</div><div class="dval"><span class="badge badge-green">Won</span></div></div>
+            </div>
+            <div class="d2-actions">
+                <button class="d2-act call">&#128222; Call</button>
+                <button class="d2-act email">&#9993; Email</button>
+                <button class="d2-act note">&#128221; Note</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ===== DESIGN 3: ACTIVITY FEED ===== -->
+<div id="d3" class="design">
+    <div class="d3-header">
+        <h1>&#x1F42F; Activity Feed</h1>
+        <span style="font-size:12px;color:var(--text3)">Today</span>
+    </div>
+    <div class="d3-chips">
+        <div class="d3-chip active">All</div>
+        <div class="d3-chip">Deals</div>
+        <div class="d3-chip">Tasks</div>
+        <div class="d3-chip">Calls</div>
+        <div class="d3-chip">Campaigns</div>
+    </div>
+    <div class="d3-feed">
+        <div class="d3-item">
+            <div class="dot" style="background:var(--green)"></div>
+            <div class="body">
+                <div class="headline"><strong>Robert James</strong> deal marked as WON</div>
+                <div class="meta"><span>James Properties Q1</span><span>$1,200</span></div>
+                <div class="preview">Quarterly window washing contract signed. Starts March 1st.</div>
+            </div>
+        </div>
+        <div class="d3-item">
+            <div class="dot" style="background:var(--red)"></div>
+            <div class="body">
+                <div class="headline">OVERDUE: Schedule <strong>James Q1</strong> dates</div>
+                <div class="meta"><span>Due Feb 20</span><span>High Priority</span></div>
+            </div>
+        </div>
+        <div class="d3-item">
+            <div class="dot" style="background:var(--accent)"></div>
+            <div class="body">
+                <div class="headline"><strong>Sarah Collins</strong> moved to Negotiation</div>
+                <div class="meta"><span>Windows + Gutters</span><span>$350 - 85%</span></div>
+                <div class="preview">Wants gutters added to window job. Needs revised quote by Friday.</div>
+            </div>
+        </div>
+        <div class="d3-item">
+            <div class="dot" style="background:var(--purple)"></div>
+            <div class="body">
+                <div class="headline">New campaign: <strong>Moores Mill Door Knocking</strong></div>
+                <div class="meta"><span>Budget $50</span><span>3 leads generated</span></div>
+            </div>
+        </div>
+        <div class="d3-item">
+            <div class="dot" style="background:var(--yellow)"></div>
+            <div class="body">
+                <div class="headline"><strong>Mike Henderson</strong> quote sent - $450</div>
+                <div class="meta"><span>Window Washing</span><span>70% probability</span></div>
+                <div class="preview">Quarterly home window washing. Henderson interested in adding gutters next quarter.</div>
+            </div>
+        </div>
+        <div class="d3-item">
+            <div class="dot" style="background:var(--accent)"></div>
+            <div class="body">
+                <div class="headline"><strong>Karen Mitchell</strong> - Auburn Realty quoted</div>
+                <div class="meta"><span>Listing Prep</span><span>$500 - 50%</span></div>
+            </div>
+        </div>
+        <div class="d3-item">
+            <div class="dot" style="background:var(--green)"></div>
+            <div class="body">
+                <div class="headline"><strong>Tom Bradley</strong> added as new lead</div>
+                <div class="meta"><span>Door Knock</span><span>Moores Mill</span></div>
+                <div class="preview">Interested in window washing. Large home, estimated $400+ value.</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ===== DESIGN 4: BIG TILES ===== -->
+<div id="d4" class="design">
+    <div class="d4-header">
+        <h1>&#x1F42F; Tiger Marketing</h1>
+        <div class="sub">Auburn, AL - Dashboard</div>
+    </div>
+    <div class="d4-body">
+        <div class="d4-quick-actions">
+            <button class="d4-qa">+ Add Contact</button>
+            <button class="d4-qa secondary">+ New Deal</button>
+        </div>
+        <div class="d4-tiles">
+            <div class="d4-tile"><div class="ico">&#x1F465;</div><div class="num">7</div><div class="lbl">Contacts</div></div>
+            <div class="d4-tile"><div class="ico">&#x1F4B0;</div><div class="num">5</div><div class="lbl">Deals</div></div>
+            <div class="d4-tile"><div class="ico">&#x1F4B5;</div><div class="num" style="color:var(--accent)">$1,875</div><div class="lbl">Pipeline</div></div>
+            <div class="d4-tile"><div class="ico">&#x2705;</div><div class="num" style="color:var(--green)">$1,200</div><div class="lbl">Won</div></div>
+            <div class="d4-tile"><div class="ico">&#x1F4CB;</div><div class="num">6</div><div class="lbl">Open Tasks</div></div>
+            <div class="d4-tile"><div class="ico">&#x26A0;&#65039;</div><div class="num" style="color:var(--red)">2</div><div class="lbl">Overdue</div></div>
+        </div>
+        <div class="d4-big-tile">
+            <h3>Deal Pipeline</h3>
+            <div class="d4-pipeline">
+                <div style="width:33%;background:var(--accent)"></div>
+                <div style="width:33%;background:var(--yellow)"></div>
+                <div style="width:17%;background:var(--purple)"></div>
+                <div style="width:17%;background:var(--green)"></div>
+            </div>
+            <div class="d4-legend">
+                <span><span class="ldot" style="background:var(--accent)"></span> Prospect (2)</span>
+                <span><span class="ldot" style="background:var(--yellow)"></span> Quoted (2)</span>
+                <span><span class="ldot" style="background:var(--purple)"></span> Negotiation (1)</span>
+                <span><span class="ldot" style="background:var(--green)"></span> Won (1)</span>
+            </div>
+        </div>
+        <div class="d4-tiles">
+            <div class="d4-tile"><div class="ico">&#x1F3AF;</div><div class="num">3</div><div class="lbl">Campaigns</div></div>
+            <div class="d4-tile"><div class="ico">&#x1F3C1;</div><div class="num">8</div><div class="lbl">Competitors</div></div>
+        </div>
+    </div>
+</div>
+
+<!-- ===== DESIGN 5: KANBAN PIPELINE ===== -->
+<div id="d5" class="design">
+    <div class="d5-header">
+        <h1>&#x1F42F; Deal Pipeline</h1>
+    </div>
+    <div class="d5-scroll">
+        <div class="d5-col" style="border-top: 3px solid var(--accent);">
+            <div class="d5-col-head"><span class="title">Prospect</span><span class="count">2</span></div>
+            <div class="d5-card">
+                <div class="cname">Tran Driveway Wash</div>
+                <div class="ccontact">Lisa Tran - Power Washing</div>
+                <div class="cbottom"><span class="camt">$275</span><span class="cdate">40%</span></div>
+            </div>
+            <div class="d5-card">
+                <div class="cname">Bradley Window Quote</div>
+                <div class="ccontact">Tom Bradley - Windows</div>
+                <div class="cbottom"><span class="camt">$400</span><span class="cdate">30%</span></div>
+            </div>
+        </div>
+        <div class="d5-col" style="border-top: 3px solid var(--yellow);">
+            <div class="d5-col-head"><span class="title">Quoted</span><span class="count">2</span></div>
+            <div class="d5-card">
+                <div class="cname">Henderson Quarterly</div>
+                <div class="ccontact">Mike Henderson - Windows</div>
+                <div class="cbottom"><span class="camt">$450</span><span class="cdate">70%</span></div>
+            </div>
+            <div class="d5-card">
+                <div class="cname">Auburn Realty Listing</div>
+                <div class="ccontact">Karen Mitchell - Windows</div>
+                <div class="cbottom"><span class="camt">$500</span><span class="cdate">50%</span></div>
+            </div>
+        </div>
+        <div class="d5-col" style="border-top: 3px solid var(--purple);">
+            <div class="d5-col-head"><span class="title">Negotiation</span><span class="count">1</span></div>
+            <div class="d5-card">
+                <div class="cname">Collins Windows + Gutters</div>
+                <div class="ccontact">Sarah Collins - Windows</div>
+                <div class="cbottom"><span class="camt">$350</span><span class="cdate">85%</span></div>
+            </div>
+        </div>
+        <div class="d5-col" style="border-top: 3px solid var(--green);">
+            <div class="d5-col-head"><span class="title">Won</span><span class="count">1</span></div>
+            <div class="d5-card">
+                <div class="cname">James Properties Q1</div>
+                <div class="ccontact">Robert James - Windows</div>
+                <div class="cbottom"><span class="camt" style="color:var(--green)">$1,200</span><span class="cdate">100%</span></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ===== DESIGN 6: MINIMAL LIST ===== -->
+<div id="d6" class="design">
+    <div class="d6-header">
+        <h1>&#x1F42F; Contacts</h1>
+        <span style="font-size:13px;color:var(--text3)">7 total</span>
+    </div>
+    <input class="d6-search" placeholder="Search contacts...">
+    <div class="d6-section-label">New Leads</div>
+    <div class="d6-list-item">
+        <div class="avatar" style="background:var(--accent-bg);color:var(--accent)">TB</div>
+        <div class="info"><div class="name">Tom Bradley</div><div class="detail">Moores Mill - Door Knock</div></div>
+        <div class="right"><div class="amt" style="color:var(--accent)">$400</div><div class="time">Today</div></div>
+    </div>
+    <div class="d6-list-item">
+        <div class="avatar" style="background:var(--accent-bg);color:var(--accent)">LT</div>
+        <div class="info"><div class="name">Lisa Tran</div><div class="detail">Willow Creek - Nextdoor</div></div>
+        <div class="right"><div class="amt" style="color:var(--accent)">$275</div><div class="time">Yesterday</div></div>
+    </div>
+    <div class="d6-section-label">Active</div>
+    <div class="d6-list-item">
+        <div class="avatar" style="background:var(--yellow-bg);color:var(--yellow)">MH</div>
+        <div class="info"><div class="name">Mike Henderson</div><div class="detail">Window Washing - Quoted</div></div>
+        <div class="right"><div class="amt">$450</div><div class="time">2d ago</div></div>
+    </div>
+    <div class="d6-list-item">
+        <div class="avatar" style="background:var(--purple-bg);color:var(--purple)">SC</div>
+        <div class="info"><div class="name">Sarah Collins</div><div class="detail">Windows + Gutters - Negotiation</div></div>
+        <div class="right"><div class="amt">$350</div><div class="time">3d ago</div></div>
+    </div>
+    <div class="d6-list-item">
+        <div class="avatar" style="background:var(--yellow-bg);color:var(--yellow)">KM</div>
+        <div class="info"><div class="name">Karen Mitchell</div><div class="detail">Auburn Realty - Quoted</div></div>
+        <div class="right"><div class="amt">$500</div><div class="time">4d ago</div></div>
+    </div>
+    <div class="d6-section-label">Customers</div>
+    <div class="d6-list-item">
+        <div class="avatar" style="background:var(--green-bg);color:var(--green)">RJ</div>
+        <div class="info"><div class="name">Robert James</div><div class="detail">James Properties - Recurring</div></div>
+        <div class="right"><div class="amt" style="color:var(--green)">$1,200</div><div class="time">Won</div></div>
+    </div>
+    <button class="d6-fab">+</button>
+</div>
+
+<!-- ===== DESIGN 7: SPLIT PANEL ===== -->
+<div id="d7" class="design">
+    <div class="d7-top">
+        <h1><span class="tiger">Tiger</span> Marketing</h1>
+        <div class="d7-metrics">
+            <div class="d7-metric hi"><div class="num">$1,875</div><div class="lbl">Pipeline</div></div>
+            <div class="d7-metric"><div class="num">7</div><div class="lbl">Contacts</div></div>
+            <div class="d7-metric"><div class="num">5</div><div class="lbl">Deals</div></div>
+            <div class="d7-metric" style="border-color:rgba(239,68,68,0.3)"><div class="num" style="color:#ef4444">2</div><div class="lbl">Overdue</div></div>
+            <div class="d7-metric"><div class="num" style="color:#22c55e">$1,200</div><div class="lbl">Won</div></div>
+        </div>
+    </div>
+    <div class="d7-bottom">
+        <div class="d7-section">Today's Tasks <span class="see-all">See All</span></div>
+        <div class="d7-task">
+            <div class="check" onclick="this.classList.toggle('done')">&#10003;</div>
+            <div class="body"><div class="ttitle">Schedule James Q1 dates</div><div class="tmeta">Due Feb 20 - <span style="color:var(--red)">HIGH - OVERDUE</span></div></div>
+        </div>
+        <div class="d7-task">
+            <div class="check" onclick="this.classList.toggle('done')">&#10003;</div>
+            <div class="body"><div class="ttitle">Follow up Sarah Collins</div><div class="tmeta">Due Feb 21 - <span style="color:var(--red)">HIGH</span></div></div>
+        </div>
+        <div class="d7-task">
+            <div class="check" onclick="this.classList.toggle('done')">&#10003;</div>
+            <div class="body"><div class="ttitle">Call Mike Henderson</div><div class="tmeta">Due Feb 21 - Normal</div></div>
+        </div>
+        <div class="d7-task">
+            <div class="check" onclick="this.classList.toggle('done')">&#10003;</div>
+            <div class="body"><div class="ttitle">Send insurance to Park Ave</div><div class="tmeta">Due Feb 22 - <span style="color:var(--red)">HIGH</span></div></div>
+        </div>
+        <div class="d7-task">
+            <div class="check" onclick="this.classList.toggle('done')">&#10003;</div>
+            <div class="body"><div class="ttitle">Door knock Granite Hills</div><div class="tmeta">Due Feb 22 - Normal</div></div>
+        </div>
+    </div>
+</div>
+
+<!-- ===== DESIGN 8: FLOATING MENU ===== -->
+<div id="d8" class="design">
+    <div class="d8-header">
+        <h1>&#x1F42F; Tiger Deals</h1>
+    </div>
+    <div class="d8-body">
+        <div class="d8-summary-strip">
+            <div class="d8-sum"><div class="num" style="color:var(--accent)">$1,875</div><div class="lbl">Pipeline</div></div>
+            <div class="d8-sum"><div class="num" style="color:var(--green)">$1,200</div><div class="lbl">Won</div></div>
+            <div class="d8-sum"><div class="num">5</div><div class="lbl">Active</div></div>
+            <div class="d8-sum"><div class="num">67%</div><div class="lbl">Win Rate</div></div>
+        </div>
+
+        <div class="d8-group">
+            <div class="d8-group-title">Prospect</div>
+            <div class="d8-deal"><div class="dleft"><div class="dname">Tran Driveway Wash</div><div class="dcontact">Lisa Tran - Power Washing</div></div><div class="dright"><div class="damt">$275</div><div class="dprob">40% prob</div></div></div>
+        </div>
+
+        <div class="d8-group">
+            <div class="d8-group-title">Quoted</div>
+            <div class="d8-deal"><div class="dleft"><div class="dname">Henderson Quarterly</div><div class="dcontact">Mike Henderson - Windows</div></div><div class="dright"><div class="damt">$450</div><div class="dprob">70% prob</div></div></div>
+            <div class="d8-deal"><div class="dleft"><div class="dname">Auburn Realty Listing</div><div class="dcontact">Karen Mitchell - Windows</div></div><div class="dright"><div class="damt">$500</div><div class="dprob">50% prob</div></div></div>
+        </div>
+
+        <div class="d8-group">
+            <div class="d8-group-title">Negotiation</div>
+            <div class="d8-deal"><div class="dleft"><div class="dname">Collins Windows + Gutters</div><div class="dcontact">Sarah Collins - Windows</div></div><div class="dright"><div class="damt">$350</div><div class="dprob">85% prob</div></div></div>
+        </div>
+
+        <div class="d8-group">
+            <div class="d8-group-title">&#10003; Won</div>
+            <div class="d8-deal" style="border-left:3px solid var(--green)"><div class="dleft"><div class="dname">James Properties Q1</div><div class="dcontact">Robert James - Windows</div></div><div class="dright"><div class="damt" style="color:var(--green)">$1,200</div><div class="dprob">Closed</div></div></div>
+        </div>
+    </div>
+
+    <div class="d8-fab-wrap">
+        <div class="d8-fab-menu" id="fab-menu">
+            <div class="d8-fab-item"><span class="fico">&#x1F465;</span> New Contact</div>
+            <div class="d8-fab-item"><span class="fico">&#x1F4B0;</span> New Deal</div>
+            <div class="d8-fab-item"><span class="fico">&#x2705;</span> New Task</div>
+            <div class="d8-fab-item"><span class="fico">&#x1F4DE;</span> Log Call</div>
+        </div>
+        <button class="d8-fab" id="fab-btn" onclick="toggleFab()">+</button>
+    </div>
+</div>
+
+<!-- ===== DESIGN 9: TAB STRIP ===== -->
+<div id="d9" class="design">
+    <div class="d9-header">
+        <div class="top-row">
+            <h1>&#x1F42F; Marketing</h1>
+            <span class="badge badge-accent">3 Active</span>
+        </div>
+        <div class="d9-tabs">
+            <div class="d9-tab active">Campaigns</div>
+            <div class="d9-tab">Territories</div>
+            <div class="d9-tab">Competitors <span class="tbadge">8</span></div>
+            <div class="d9-tab">Stores</div>
+        </div>
+    </div>
+    <div class="d9-panel">
+        <div class="d9-campaign">
+            <div class="ctop"><span class="cname">Moores Mill Door Knocking</span><span class="badge badge-green">Active</span></div>
+            <div class="ctype">Door Knocking - Moores Mill</div>
+            <div class="cbar"><div class="cbar-fill" style="width:60%"></div></div>
+            <div class="cstats">
+                <div class="cstat">Budget: <strong>$50</strong></div>
+                <div class="cstat">Leads: <strong>3</strong></div>
+                <div class="cstat">ROI: <strong style="color:var(--green)">+$1,200</strong></div>
+            </div>
+        </div>
+        <div class="d9-campaign">
+            <div class="ctop"><span class="cname">Nextdoor Auburn Launch</span><span class="badge badge-green">Active</span></div>
+            <div class="ctype">Nextdoor - All Auburn</div>
+            <div class="cbar"><div class="cbar-fill" style="width:30%"></div></div>
+            <div class="cstats">
+                <div class="cstat">Budget: <strong>$0</strong></div>
+                <div class="cstat">Leads: <strong>1</strong></div>
+                <div class="cstat">ROI: <strong>$275</strong></div>
+            </div>
+        </div>
+        <div class="d9-campaign">
+            <div class="ctop"><span class="cname">Yarbrough Farms Flyer Drop</span><span class="badge badge-yellow">Planned</span></div>
+            <div class="ctype">Flyer Drop - Yarbrough Farms</div>
+            <div class="cbar"><div class="cbar-fill" style="width:0%"></div></div>
+            <div class="cstats">
+                <div class="cstat">Budget: <strong>$75</strong></div>
+                <div class="cstat">Leads: <strong>0</strong></div>
+                <div class="cstat">Target: <strong>10 homes</strong></div>
+            </div>
+        </div>
+        <div class="d9-campaign">
+            <div class="ctop"><span class="cname">Google Ads - Auburn</span><span class="badge badge-purple">Draft</span></div>
+            <div class="ctype">Google Ads - Auburn/Opelika</div>
+            <div class="cbar"><div class="cbar-fill" style="width:0%"></div></div>
+            <div class="cstats">
+                <div class="cstat">Budget: <strong>$200/mo</strong></div>
+                <div class="cstat">Keywords: <strong>12</strong></div>
+                <div class="cstat">Est. Leads: <strong>5-10/mo</strong></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ===== DESIGN 10: COMMAND CENTER ===== -->
+<div id="d10" class="design">
+    <div class="d10-bg">
+        <div class="d10-header">
+            <h1>TIGER CMD</h1>
+            <div class="live"><div class="live-dot"></div> LIVE</div>
+        </div>
+        <div class="d10-body">
+            <div class="d10-hero">
+                <div class="big"><small>$</small>1,875</div>
+                <div class="sub">Total Pipeline Value</div>
+            </div>
+            <div class="d10-grid">
+                <div class="d10-cell orange"><div class="num">7</div><div class="lbl">Contacts</div></div>
+                <div class="d10-cell green"><div class="num">5</div><div class="lbl">Active Deals</div></div>
+                <div class="d10-cell red"><div class="num">2</div><div class="lbl">Overdue</div></div>
+                <div class="d10-cell purple"><div class="num">3</div><div class="lbl">Campaigns</div></div>
+            </div>
+            <div class="d10-alert-list">
+                <div class="d10-alert">
+                    <div class="aico">&#x1F6A8;</div>
+                    <div class="abody"><div class="atitle">Schedule James Q1 dates</div><div class="atime">OVERDUE - Due Feb 20</div></div>
+                </div>
+                <div class="d10-alert">
+                    <div class="aico">&#x1F6A8;</div>
+                    <div class="abody"><div class="atitle">Follow up Sarah Collins</div><div class="atime">Due Tomorrow - HIGH</div></div>
+                </div>
+                <div class="d10-alert green-alert">
+                    <div class="aico">&#x2705;</div>
+                    <div class="abody"><div class="atitle">James Properties Q1 - WON</div><div class="atime">$1,200 closed today</div></div>
+                </div>
+                <div class="d10-alert orange-alert">
+                    <div class="aico">&#x1F4E5;</div>
+                    <div class="abody"><div class="atitle">New lead: Tom Bradley</div><div class="atime">Moores Mill - Door Knock</div></div>
+                </div>
+            </div>
+            <div class="d10-targets">
+                <h3>Monthly Targets</h3>
+                <div class="d10-target">
+                    <div class="tname">Revenue</div>
+                    <div class="tbar"><div class="tbar-fill" style="width:48%;background:#f97316"></div></div>
+                    <div class="tval" style="color:#f97316">48%</div>
+                </div>
+                <div class="d10-target">
+                    <div class="tname">Contacts</div>
+                    <div class="tbar"><div class="tbar-fill" style="width:70%;background:#22c55e"></div></div>
+                    <div class="tval" style="color:#22c55e">70%</div>
+                </div>
+                <div class="d10-target">
+                    <div class="tname">Deals</div>
+                    <div class="tbar"><div class="tbar-fill" style="width:50%;background:#a855f7"></div></div>
+                    <div class="tval" style="color:#a855f7">50%</div>
+                </div>
+                <div class="d10-target">
+                    <div class="tname">Doors</div>
+                    <div class="tbar"><div class="tbar-fill" style="width:30%;background:#eab308"></div></div>
+                    <div class="tval" style="color:#eab308">30%</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function showDesign(n) {
+    document.querySelectorAll('.design').forEach(d => d.classList.remove('active'));
+    document.querySelectorAll('.picker-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('d' + n).classList.add('active');
+    document.querySelectorAll('.picker-btn')[n-1].classList.add('active');
+    window.scrollTo(0, 0);
+    localStorage.setItem('pg2_design', n);
+}
+
+function toggleMode() {
+    const btn = document.querySelector('.mode-toggle');
+    if (document.body.classList.contains('dark')) {
+        document.body.classList.remove('dark');
+        document.body.classList.add('light');
+        btn.textContent = '\uD83C\uDF19';
+        localStorage.setItem('pg2_mode', 'light');
+    } else {
+        document.body.classList.remove('light');
+        document.body.classList.add('dark');
+        btn.textContent = '\u2600\uFE0F';
+        localStorage.setItem('pg2_mode', 'dark');
+    }
+}
+
+function toggleFab() {
+    document.getElementById('fab-btn').classList.toggle('open');
+    document.getElementById('fab-menu').classList.toggle('open');
+}
+
+// Restore saved state
+(function() {
+    const mode = localStorage.getItem('pg2_mode');
+    if (mode === 'light') toggleMode();
+    const design = localStorage.getItem('pg2_design');
+    if (design) showDesign(parseInt(design));
+})();
+</script>
+</body>
+</html>
