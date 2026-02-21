@@ -12,11 +12,11 @@ const DB = {
 };
 
 // Seed reference data on first load (version bumps force re-seed)
-const SEED_VERSION = '2';
+const SEED_VERSION = '3';
 function seedData() {
     if (localStorage.getItem('tm_seeded') === SEED_VERSION) return;
     // Clear old data on version bump
-    ['stores','neighborhoods','zipcodes','contacts','deals','tasks','interactions','campaigns'].forEach(k => localStorage.removeItem('tm_' + k));
+    ['stores','neighborhoods','zipcodes','contacts','deals','tasks','interactions','campaigns','competitors'].forEach(k => localStorage.removeItem('tm_' + k));
 
     DB.set('stores', [
         {id:1, rank:1, name:"Kroger", category:"Grocery/Supermarket", address:"300 North Dean Road", city:"Auburn", zip:"36830", neighborhood:"Near Moores Mill / Cloverleaf"},
@@ -96,6 +96,17 @@ function seedData() {
         {id:1, name:"Moores Mill Door Knocking Blitz", campaignType:"Door Knocking", targetArea:"Moores Mill", budget:50, startDate:"2026-02-15", endDate:"2026-02-28", status:"Active", leadsGenerated:3, dealsWon:0, revenueGenerated:0, notes:"Hitting every house on Moores Mill Road and side streets. 50 homes target.", createdDate:"2026-02-15T08:00:00Z", updatedDate:"2026-02-19T18:00:00Z"},
         {id:2, name:"Nextdoor Auburn Launch", campaignType:"Nextdoor", targetArea:"All Auburn neighborhoods", budget:0, startDate:"2026-02-10", endDate:null, status:"Active", leadsGenerated:1, dealsWon:0, revenueGenerated:0, notes:"Posting before/after photos, offering neighbor discounts. Free marketing.", createdDate:"2026-02-10T08:00:00Z", updatedDate:"2026-02-19T08:00:00Z"},
         {id:3, name:"Yarbrough Farms Flyer Drop", campaignType:"Flyer Drop", targetArea:"Yarbrough Farms / AU Club", budget:75, startDate:"2026-02-23", endDate:"2026-02-23", status:"Planned", leadsGenerated:0, dealsWon:0, revenueGenerated:0, notes:"200 flyers, color printed. Drop on a Saturday morning.", createdDate:"2026-02-19T12:00:00Z", updatedDate:"2026-02-19T12:00:00Z"}
+    ]);
+
+    DB.set('competitors', [
+        {id:1, name:"Sparkle Alabama", category:"Window Cleaning, Pressure Washing, Gutter Cleaning", owner:"", phone:"334-759-7080", email:"customerservice@sparklealabama.com", website:"https://sparklealabama.com", address:"500 N. 26th Street, Unit 405", city:"Opelika", zip:"36801", googleRating:4.8, reviewCount:50, yearEstablished:2016, socialMedia:{facebook:"facebook.com/sparklealabama", instagram:"instagram.com/sparklealabama"}, services:"Window Cleaning (pure water method), Pressure Washing, Soft Washing, Gutter Cleaning", serviceArea:"Auburn, Opelika, Lake Martin, Montgomery, Pike Road, Birmingham", pricing:"Free estimates, no published prices", seoKeywords:"window cleaning, gutter cleaning, pressure washing, residential, commercial, Alabama, pure water cleaning", adStrategy:"SEO-focused website with blog content. Free estimates as main CTA. Licensed & insured messaging. Pure water method as differentiator.", socialStrategy:"Active on Facebook and Instagram. Before/after photos. Local community engagement.", strengths:"Established since 2016, strong brand, wide service area, pure water method differentiator, professional website", weaknesses:"Covers huge area (Birmingham to Montgomery) - may be spread thin locally", threatLevel:"High", notes:"Biggest established competitor in Auburn/Opelika. Professional operation with good online presence."},
+        {id:2, name:"Tiger Window Cleaning (TWC)", category:"Window Cleaning, Pressure Washing, Soft Washing", owner:"Jack (Auburn student)", phone:"303-746-0542", email:"info@twcauburn.com", website:"https://www.twcauburn.com", address:"100 North Gay St, Box 104", city:"Auburn", zip:"36830", googleRating:4.8, reviewCount:51, yearEstablished:2023, socialMedia:{instagram:"@twc_auburn (223 followers, 24 posts)"}, services:"Interior/Exterior Window Cleaning, Screen Cleaning, Pressure Washing, Soft Washing, Driveway/Concrete Cleaning", serviceArea:"Within 1 hour of downtown Auburn", pricing:"Free estimates, same-day estimates available", seoKeywords:"professional window cleaning Auburn AL, same-day service, 4.8 star rating, Auburn students, licensed bonded insured", adStrategy:"SEO-optimized site highlighting 4.8 star Google rating and 51+ reviews. Student-owned angle. Same-day service as differentiator. 100% satisfaction guarantee.", socialStrategy:"Instagram @twc_auburn with 223 followers. Showcases work, student-led brand. Faith/values-based messaging.", strengths:"Student-run (low overhead), same-day estimates, strong Google reviews, satisfaction guarantee, downtown Auburn address", weaknesses:"Small team of students, may lose workers to graduation, limited track record (est. 2023)", threatLevel:"Medium", notes:"Direct competitor with similar name vibe. Student-run keeps costs low. Watch their growth."},
+        {id:3, name:"Auburn House Wash", category:"Pressure Washing, Soft Washing, Roof Cleaning", owner:"", phone:"334-826-9274", email:"sales@auburnhousewash.com", website:"https://auburnhousewash.com", address:"221 Lee Rd 10, Suite 1", city:"Auburn", zip:"36830", googleRating:4.5, reviewCount:30, yearEstablished:null, socialMedia:{facebook:"Yes", instagram:"Yes", twitter:"Yes"}, services:"Soft House Washing, Roof Cleaning (no-pressure), Hard Surface Cleaning, Decks/Fences, Gutter Cleaning, Concrete, Commercial Building Wash", serviceArea:"Auburn, Montgomery, Columbus, Lake Martin", pricing:"Instant quote tool on website, free estimates", seoKeywords:"pressure washing, soft washing, roof cleaning, Auburn, Montgomery, Columbus, Lake Martin, mold removal, mildew removal, algae removal", adStrategy:"Instant quote popup on website. Strong SEO with service-area pages. Three-Year Streak Free Guarantee for roof cleaning. Community outreach program.", socialStrategy:"Active on Facebook, Twitter, Instagram. Mixed Yelp reviews (negative review about washing in rain).", strengths:"Instant quote tool, 3-year roof guarantee, wide commercial offerings, community outreach", weaknesses:"Mixed reviews on Yelp (rain washing complaint, grass dying), covers too wide an area", threatLevel:"Medium", notes:"Watch their pricing and instant quote tool - good idea to copy. Roof cleaning specialty."},
+        {id:4, name:"Gibson Pressure Washing LLC", category:"Pressure Washing, Roof Cleaning, Window Cleaning", owner:"", phone:"706-518-4886", email:"", website:"https://www.gibsonpressurewash.com", address:"1813 Jollit Avenue", city:"Opelika", zip:"36801", googleRating:4.9, reviewCount:90, yearEstablished:null, socialMedia:{facebook:"Yes", youtube:"Yes", instagram:"Yes"}, services:"House Washing (soft wash), Roof Cleaning, Driveway/Concrete, Window Cleaning, Pool Deck, Deck/Fence, Gutter Cleaning/Brightening, Commercial (dumpster pad, building, parking lot, HOA, truck wash)", serviceArea:"Auburn, Opelika, Lake Martin, Montgomery, LaGrange GA", pricing:"15% OFF first-time customers, free estimates", seoKeywords:"pressure washing Auburn, roof cleaning, house washing, exterior cleaning, soft washing, driveway washing", adStrategy:"15% first-time customer discount as lead magnet. Before/after project gallery. Strong local SEO with area-specific pages. Free estimate CTA.", socialStrategy:"Active on Facebook, YouTube, Instagram. Before/after project photos. Video content on YouTube.", strengths:"Highest review count (90+), 4.9 rating, 15% new customer discount, wide commercial services, video marketing", weaknesses:"Based in Opelika not Auburn, 706 area code (GA number)", threatLevel:"High", notes:"Top-rated competitor. Their 15% first-time discount is smart. Study their before/after gallery approach."},
+        {id:5, name:"East Alabama Washing LLC", category:"Pressure Washing, Window Washing, Exterior Cleaning", owner:"Matt Harrison (AU alumnus)", phone:"334-319-5614", email:"", website:"https://www.eastalabamawashing.com", address:"", city:"Auburn", zip:"", googleRating:4.7, reviewCount:40, yearEstablished:2009, socialMedia:{}, services:"Pressure Washing, Roof/Gutter Cleaning, Concrete Cleaning, Wood Deck/Fencing, Window Washing, Commercial Exterior", serviceArea:"Auburn, Opelika, Lake Martin, surrounding areas", pricing:"Free estimates", seoKeywords:"exterior cleaning, pressure washing, Auburn Alabama, Opelika, residential, commercial", adStrategy:"Wix-based website. Established brand (since 2009). Highlights major clients (Auburn University, City of Auburn). Over 1 million sq ft serviced.", socialStrategy:"LinkedIn presence (Matt Harrison). Limited social media compared to competitors.", strengths:"Longest established (2009), AU alumnus connection, major institutional clients (Auburn University, City of Auburn), 1M+ sq ft serviced", weaknesses:"Wix website (harder to load/SEO), limited social media, older brand feel", threatLevel:"Medium", notes:"The OG competitor. Has institutional contracts. Matt Harrison is an AU alum - network advantage."},
+        {id:6, name:"The Clear Difference", category:"Window Cleaning, Gutter Cleaning, Pressure Washing, Christmas Lights", owner:"Marshall Brown", phone:"334-377-9966", email:"marshall@thecleardifference.com", website:"https://thecleardifference.com", address:"", city:"Auburn", zip:"", googleRating:5.0, reviewCount:100, yearEstablished:null, socialMedia:{facebook:"Yes", instagram:"Yes", linkedin:"Yes", pinterest:"Yes", twitter:"Yes", youtube:"Yes"}, services:"Gutter Cleaning, Gutter Guard Installation, Window Cleaning, Dryer Vent Cleaning, Landscape Lighting, Christmas Light Installation, Pressure Washing, Roof Cleaning, House Washing", serviceArea:"Auburn, Opelika, Dadeville", pricing:"Free estimates, responds within an hour", seoKeywords:"gutter cleaning Auburn Opelika, window cleaning, dryer vent cleaning, Christmas lights, gutter guard installation, roof cleaning", adStrategy:"100+ 5-star Google reviews prominently displayed. Satisfaction guaranteed. Fast response time (within 1 hour). Before/after photo documentation. Diverse service menu including Christmas lights and dryer vents.", socialStrategy:"Most social channels of any competitor - Facebook, Instagram, LinkedIn, Pinterest, Twitter, YouTube. Wide content distribution.", strengths:"Perfect 5.0 Google rating, 100+ reviews, fastest response time, widest service menu (Christmas lights, dryer vents, landscape lighting), most social channels", weaknesses:"Jack of all trades - may not specialize deeply in any one service", threatLevel:"High", notes:"WATCH THIS ONE CLOSELY. Perfect rating, most reviews, widest service range. Christmas lights and dryer vents are smart upsells we should consider."},
+        {id:7, name:"Rolling Suds", category:"Pressure Washing, Window Cleaning", owner:"Franchise", phone:"", email:"", website:"https://www.rollingsudspowerwashing.com", address:"", city:"Auburn", zip:"", googleRating:4.5, reviewCount:25, yearEstablished:1990, socialMedia:{}, services:"Pressure Washing, Soft Washing, Window Cleaning, House Washing, Driveway Cleaning", serviceArea:"Auburn AL and surrounding areas", pricing:"Free estimates", seoKeywords:"pressure washing near me Auburn AL, home power washing service, window washing Auburn", adStrategy:"National franchise SEO - area-specific landing pages for every ZIP code and service combination. Corporate marketing support. 500K+ satisfied customers claim.", socialStrategy:"Corporate social media, not locally managed.", strengths:"National brand recognition, franchise marketing support, established since 1990, area-specific SEO pages for every zip code", weaknesses:"Franchise model = higher prices, not locally owned, generic feel, corporate not personal", threatLevel:"Low", notes:"Franchise competitor. Their SEO strategy of zip-code specific pages is worth studying. Higher prices than local operators."},
+        {id:8, name:"CSI Restoration and Cleaning", category:"Pressure Washing, Window Cleaning, Restoration", owner:"", phone:"", email:"", website:"https://csi-restorationandcleaning.com", address:"", city:"Opelika", zip:"", googleRating:4.6, reviewCount:35, yearEstablished:1976, socialMedia:{}, services:"Window/Gutter Cleaning, Pressure Washing, Restoration Services, Commercial Cleaning", serviceArea:"Auburn, Opelika", pricing:"", seoKeywords:"restoration cleaning Opelika, pressure washing, commercial cleaning", adStrategy:"Longevity as trust signal (since 1976). Licensed and bonded. Dual focus on cleaning + restoration.", socialStrategy:"Minimal social media presence.", strengths:"Oldest company in market (since 1976), licensed and bonded, restoration services as differentiator", weaknesses:"Dated brand, minimal online presence, Opelika-focused", threatLevel:"Low", notes:"Legacy competitor. Not aggressive in marketing but has decades of trust. Restoration niche."}
     ]);
 
     localStorage.setItem('tm_seeded', SEED_VERSION);
@@ -188,7 +199,9 @@ function showPage(page, opts) {
         'campaigns': ['Campaigns', 'Marketing campaigns'],
         'campaign-form': ['New Campaign', 'Create a campaign'],
         'territories': ['Territories', 'Auburn area intel'],
-        'stores': ['Top Stores', 'Neighborhood store targets']
+        'stores': ['Top Stores', 'Neighborhood store targets'],
+        'competitors': ['Competitors', 'Local competition intel'],
+        'competitor-detail': ['Competitor Details', '']
     };
 
     const [title, subtitle] = titles[page] || [page, ''];
@@ -225,6 +238,8 @@ function showPage(page, opts) {
         case 'campaign-form': initCampaignForm(opts); break;
         case 'territories': renderTerritories(); break;
         case 'stores': renderStores(); break;
+        case 'competitors': renderCompetitors(); break;
+        case 'competitor-detail': renderCompetitorDetail(opts); break;
     }
 
     updateNavCounts();
@@ -921,6 +936,98 @@ function renderStores() {
             <td>${s.address}, ${s.city} ${s.zip}</td>
             <td>${s.neighborhood}</td>
         </tr>`).join('');
+}
+
+// ===== COMPETITORS =====
+function threatColor(level) {
+    if (level === 'High') return 'var(--red)';
+    if (level === 'Medium') return 'var(--yellow)';
+    return 'var(--green)';
+}
+
+function renderCompetitors() {
+    const competitors = DB.get('competitors');
+    const tbody = $('competitors-table').querySelector('tbody');
+    if (competitors.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="8" class="text-center text-muted">No competitors tracked yet</td></tr>';
+        return;
+    }
+    tbody.innerHTML = competitors.map(c => `
+        <tr onclick="showPage('competitor-detail',{id:${c.id}})" style="cursor:pointer">
+            <td><strong><a>${c.name}</a></strong></td>
+            <td>${c.category.split(',').slice(0,2).join(', ')}</td>
+            <td>${c.phone||'-'}</td>
+            <td>${c.website ? '<a href="'+c.website+'" target="_blank" onclick="event.stopPropagation()">Site</a>' : '-'}</td>
+            <td>${c.googleRating ? c.googleRating + ' (' + (c.reviewCount||'?') + ')' : '-'}</td>
+            <td>${c.socialMedia && c.socialMedia.facebook ? 'FB ' : ''}${c.socialMedia && c.socialMedia.instagram ? 'IG ' : ''}${c.socialMedia && c.socialMedia.youtube ? 'YT' : ''}</td>
+            <td><span style="color:${threatColor(c.threatLevel)};font-weight:bold">${c.threatLevel||'-'}</span></td>
+            <td>${c.yearEstablished||'-'}</td>
+        </tr>`).join('');
+}
+
+function renderCompetitorDetail(opts) {
+    if (!opts || !opts.id) { showPage('competitors'); return; }
+    const competitors = DB.get('competitors');
+    const c = competitors.find(x => x.id == opts.id);
+    if (!c) { showPage('competitors'); return; }
+
+    $('page-title').textContent = c.name;
+    $('page-subtitle').textContent = c.category;
+
+    const social = c.socialMedia || {};
+    const socialLinks = Object.entries(social).map(([k,v]) => k + ': ' + v).join(' | ') || 'None found';
+
+    $('competitor-detail-content').innerHTML = `
+        <div class="card">
+            <div class="card-header"><h3>Company Info</h3></div>
+            <div class="card-body">
+                <div class="form-grid">
+                    <div class="form-group"><label>Phone</label><div>${c.phone||'-'}</div></div>
+                    <div class="form-group"><label>Email</label><div>${c.email||'-'}</div></div>
+                    <div class="form-group"><label>Website</label><div>${c.website ? '<a href="'+c.website+'" target="_blank">'+c.website+'</a>' : '-'}</div></div>
+                    <div class="form-group"><label>Address</label><div>${c.address ? c.address + ', ' + c.city + ' ' + c.zip : c.city||'-'}</div></div>
+                    <div class="form-group"><label>Google Rating</label><div>${c.googleRating ? c.googleRating + ' stars (' + (c.reviewCount||'?') + ' reviews)' : '-'}</div></div>
+                    <div class="form-group"><label>Est.</label><div>${c.yearEstablished||'Unknown'}</div></div>
+                    <div class="form-group"><label>Threat Level</label><div style="color:${threatColor(c.threatLevel)};font-weight:bold;font-size:18px">${c.threatLevel||'-'}</div></div>
+                    <div class="form-group"><label>Owner</label><div>${c.owner||'Unknown'}</div></div>
+                </div>
+            </div>
+        </div>
+        <div class="card mt-4">
+            <div class="card-header"><h3>Services & Coverage</h3></div>
+            <div class="card-body">
+                <div class="form-grid">
+                    <div class="form-group full-width"><label>Services</label><div>${c.services||'-'}</div></div>
+                    <div class="form-group full-width"><label>Service Area</label><div>${c.serviceArea||'-'}</div></div>
+                    <div class="form-group full-width"><label>Pricing</label><div>${c.pricing||'-'}</div></div>
+                </div>
+            </div>
+        </div>
+        <div class="card mt-4">
+            <div class="card-header"><h3>Marketing & Ads Intel</h3></div>
+            <div class="card-body">
+                <div class="form-grid">
+                    <div class="form-group full-width"><label>SEO Keywords</label><div style="font-size:13px;color:var(--accent)">${c.seoKeywords||'-'}</div></div>
+                    <div class="form-group full-width"><label>Ad Strategy</label><div>${c.adStrategy||'-'}</div></div>
+                    <div class="form-group full-width"><label>Social Media</label><div>${socialLinks}</div></div>
+                    <div class="form-group full-width"><label>Social Strategy</label><div>${c.socialStrategy||'-'}</div></div>
+                </div>
+            </div>
+        </div>
+        <div class="card mt-4">
+            <div class="card-header"><h3>Competitive Analysis</h3></div>
+            <div class="card-body">
+                <div class="form-grid">
+                    <div class="form-group full-width"><label style="color:var(--green)">Strengths</label><div>${c.strengths||'-'}</div></div>
+                    <div class="form-group full-width"><label style="color:var(--red)">Weaknesses</label><div>${c.weaknesses||'-'}</div></div>
+                    <div class="form-group full-width"><label>Notes</label><div>${c.notes||'-'}</div></div>
+                </div>
+            </div>
+        </div>
+        <div class="flex gap-2 mt-4">
+            <button class="btn btn-secondary" onclick="showPage('competitors')">Back to Competitors</button>
+        </div>
+    `;
 }
 
 // ===== INIT =====

@@ -49,6 +49,9 @@
             <a class="nav-item" onclick="showPage('stores')" data-page="stores">
                 <span class="icon">&#x1F3EA;</span> Top Stores
             </a>
+            <a class="nav-item" onclick="showPage('competitors')" data-page="competitors">
+                <span class="icon">&#x1F3C1;</span> Competitors
+            </a>
         </nav>
     </aside>
 
@@ -383,6 +386,19 @@
                     <div class="card-header"><h3>Top 10 Neighborhood Stores</h3></div>
                     <div class="table-wrap"><table id="stores-table"><thead><tr><th>#</th><th>Store</th><th>Category</th><th>Address</th><th>Neighborhood</th></tr></thead><tbody></tbody></table></div>
                 </div>
+            </div>
+
+            <!-- ===== COMPETITORS PAGE ===== -->
+            <div id="page-competitors" class="page-content" style="display:none">
+                <div class="card">
+                    <div class="card-header"><h3>Local Competitors - Auburn/Opelika</h3></div>
+                    <div class="table-wrap"><table id="competitors-table"><thead><tr><th>Company</th><th>Category</th><th>Phone</th><th>Website</th><th>Rating</th><th>Social</th><th>Threat</th><th>Est.</th></tr></thead><tbody></tbody></table></div>
+                </div>
+            </div>
+
+            <!-- ===== COMPETITOR DETAIL ===== -->
+            <div id="page-competitor-detail" class="page-content" style="display:none">
+                <div id="competitor-detail-content"></div>
             </div>
 
         </div>
