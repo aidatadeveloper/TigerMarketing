@@ -11,9 +11,12 @@ const DB = {
     }
 };
 
-// Seed reference data on first load
+// Seed reference data on first load (version bumps force re-seed)
+const SEED_VERSION = '2';
 function seedData() {
-    if (localStorage.getItem('tm_seeded')) return;
+    if (localStorage.getItem('tm_seeded') === SEED_VERSION) return;
+    // Clear old data on version bump
+    ['stores','neighborhoods','zipcodes','contacts','deals','tasks','interactions','campaigns'].forEach(k => localStorage.removeItem('tm_' + k));
 
     DB.set('stores', [
         {id:1, rank:1, name:"Kroger", category:"Grocery/Supermarket", address:"300 North Dean Road", city:"Auburn", zip:"36830", neighborhood:"Near Moores Mill / Cloverleaf"},
@@ -50,7 +53,52 @@ function seedData() {
         {id:6, rank:6, name:"Salem", zip:"36874", medianIncome:null, avgIncome:null, pctOver200k:null, features:"Growing area. 5yr home value up 39.7%."}
     ]);
 
-    localStorage.setItem('tm_seeded', '1');
+    // Seed sample CRM data so dashboard isn't empty
+    DB.set('contacts', [
+        {id:1, firstName:"Mike", lastName:"Henderson", company:"Henderson Properties", jobTitle:"Owner", email:"mike.henderson@gmail.com", phone:"334-555-1201", address:"1842 Moores Mill Road", city:"Auburn", state:"AL", zip:"36830", neighborhood:"Moores Mill", contactType:"Lead", leadSource:"Door Knock", leadStatus:"Contacted", interestServices:"Window Washing, Power Washing", propertyType:"Residential", estimatedValue:450, rating:4, assignedTo:"Jason", notes:"Large 2-story home, lots of windows. Wife interested in quarterly service.", createdDate:"2026-02-18T10:30:00Z", updatedDate:"2026-02-19T14:00:00Z"},
+        {id:2, firstName:"Sarah", lastName:"Collins", company:"", jobTitle:"Homeowner", email:"scollins88@yahoo.com", phone:"334-555-3347", address:"225 Cloverleaf Drive", city:"Auburn", state:"AL", zip:"36830", neighborhood:"Cloverleaf / Windsor Forest", contactType:"Prospect", leadSource:"Flyer", leadStatus:"Qualified", interestServices:"Window Washing, Gutter Cleaning", propertyType:"Residential", estimatedValue:350, rating:5, assignedTo:"Jason", notes:"Wants estimate this week. 4BR home, second floor windows need extension pole.", createdDate:"2026-02-17T09:15:00Z", updatedDate:"2026-02-19T11:00:00Z"},
+        {id:3, firstName:"David", lastName:"Park", company:"Park Family Dental", jobTitle:"Dentist", email:"dpark@parkdental.com", phone:"334-555-7890", address:"540 North Dean Road", city:"Auburn", state:"AL", zip:"36830", neighborhood:"Moores Mill", contactType:"Prospect", leadSource:"Referral", leadStatus:"Proposal", interestServices:"Window Washing, Power Washing", propertyType:"Commercial", estimatedValue:800, rating:4, assignedTo:"Jason", notes:"Commercial office + home. Referred by Mike Henderson. Wants monthly office windows.", createdDate:"2026-02-15T16:45:00Z", updatedDate:"2026-02-18T10:00:00Z"},
+        {id:4, firstName:"Lisa", lastName:"Tran", company:"", jobTitle:"", email:"lisa.tran@auburn.edu", phone:"334-555-4412", address:"312 Yarbrough Farms Blvd", city:"Auburn", state:"AL", zip:"36830", neighborhood:"Yarbrough Farms / AU Club", contactType:"Lead", leadSource:"Nextdoor", leadStatus:"New", interestServices:"Power Washing", propertyType:"Residential", estimatedValue:275, rating:3, assignedTo:"Jason", notes:"Saw Nextdoor post. Driveway and patio need pressure washing.", createdDate:"2026-02-19T08:00:00Z", updatedDate:"2026-02-19T08:00:00Z"},
+        {id:5, firstName:"Robert", lastName:"James", company:"James Custom Homes", jobTitle:"Builder", email:"rjames@jamescustom.com", phone:"334-555-6621", address:"890 Willow Creek Lane", city:"Auburn", state:"AL", zip:"36830", neighborhood:"Willow Creek Farms", contactType:"Customer", leadSource:"Cold Call", leadStatus:"Won", interestServices:"Window Washing, Power Washing, Gutter Cleaning", propertyType:"Residential", estimatedValue:1200, rating:5, assignedTo:"Jason", notes:"Repeat customer. 5 properties. Quarterly schedule locked in.", createdDate:"2026-02-10T12:00:00Z", updatedDate:"2026-02-18T09:00:00Z"},
+        {id:6, firstName:"Karen", lastName:"Mitchell", company:"Auburn Realty Group", jobTitle:"Realtor", email:"karen@auburnrealty.com", phone:"334-555-9933", address:"102 South Gay Street", city:"Auburn", state:"AL", zip:"36830", neighborhood:"Downtown Auburn", contactType:"Referral", leadSource:"Referral", leadStatus:"Contacted", interestServices:"Window Washing", propertyType:"Commercial", estimatedValue:500, rating:3, assignedTo:"Jason", notes:"Wants windows cleaned for listings before showings. Could be recurring.", createdDate:"2026-02-16T14:20:00Z", updatedDate:"2026-02-19T10:00:00Z"},
+        {id:7, firstName:"Tom", lastName:"Bradley", company:"", jobTitle:"Retired", email:"", phone:"334-555-2200", address:"445 Granite Hills Drive", city:"Auburn", state:"AL", zip:"36830", neighborhood:"Granite Hills / Head Estates", contactType:"Lead", leadSource:"Door Knock", leadStatus:"New", interestServices:"Window Washing, Christmas Lights", propertyType:"Residential", estimatedValue:600, rating:4, assignedTo:"Jason", notes:"Interested in Christmas lights install too. Large ranch home.", createdDate:"2026-02-20T09:30:00Z", updatedDate:"2026-02-20T09:30:00Z"}
+    ]);
+
+    DB.set('deals', [
+        {id:1, name:"Henderson Home - Quarterly Windows", contactId:1, serviceType:"Window Washing", stage:"Quoted", amount:450, probability:70, closeDate:"2026-02-25", recurring:"Quarterly", notes:"Sent quote $450/visit. Waiting on wife approval.", createdDate:"2026-02-18T14:00:00Z", updatedDate:"2026-02-19T14:00:00Z"},
+        {id:2, name:"Collins Residence - Windows + Gutters", contactId:2, serviceType:"Window Washing", stage:"Negotiation", amount:350, probability:85, closeDate:"2026-02-22", recurring:"Semi-Annual", notes:"She wants to bundle gutters with windows for discount.", createdDate:"2026-02-17T11:00:00Z", updatedDate:"2026-02-19T11:00:00Z"},
+        {id:3, name:"Park Dental Office - Monthly", contactId:3, serviceType:"Window Washing", stage:"Prospect", amount:800, probability:60, closeDate:"2026-03-01", recurring:"Monthly", notes:"Commercial job. 2400 sq ft office, ground floor only. Needs liability insurance proof.", createdDate:"2026-02-15T17:00:00Z", updatedDate:"2026-02-18T10:00:00Z"},
+        {id:4, name:"James Properties - Q1 Service", contactId:5, serviceType:"Window Washing", stage:"Won", amount:1200, probability:100, closeDate:"2026-02-15", recurring:"Quarterly", notes:"Locked in. 5 properties, $240 each. Paid upfront.", createdDate:"2026-02-10T12:30:00Z", updatedDate:"2026-02-15T09:00:00Z"},
+        {id:5, name:"Tran Driveway Pressure Wash", contactId:4, serviceType:"Power Washing", stage:"Prospect", amount:275, probability:40, closeDate:"2026-03-05", recurring:"", notes:"One-time job. Long driveway + back patio.", createdDate:"2026-02-19T08:30:00Z", updatedDate:"2026-02-19T08:30:00Z"},
+        {id:6, name:"Auburn Realty - Listing Prep", contactId:6, serviceType:"Window Washing", stage:"Quoted", amount:500, probability:50, closeDate:"2026-02-28", recurring:"", notes:"Per-listing basis. $150-200 per home.", createdDate:"2026-02-16T15:00:00Z", updatedDate:"2026-02-19T10:00:00Z"}
+    ]);
+
+    DB.set('tasks', [
+        {id:1, description:"Follow up with Sarah Collins on estimate", taskType:"Follow Up", contactId:2, dealId:2, dueDate:"2026-02-21", priority:"High", assignedTo:"Jason", status:"Pending", createdDate:"2026-02-19T11:00:00Z"},
+        {id:2, description:"Send insurance docs to Park Dental", taskType:"Email", contactId:3, dealId:3, dueDate:"2026-02-22", priority:"High", assignedTo:"Jason", status:"Pending", createdDate:"2026-02-18T10:30:00Z"},
+        {id:3, description:"Door knock Granite Hills neighborhood", taskType:"Door Knock", contactId:null, dealId:null, dueDate:"2026-02-22", priority:"Normal", assignedTo:"Jason", status:"Pending", createdDate:"2026-02-20T09:00:00Z"},
+        {id:4, description:"Schedule James Properties Q1 service dates", taskType:"Phone Call", contactId:5, dealId:4, dueDate:"2026-02-20", priority:"High", assignedTo:"Jason", status:"In Progress", createdDate:"2026-02-18T09:00:00Z"},
+        {id:5, description:"Create flyer for Yarbrough Farms drop", taskType:"Other", contactId:null, dealId:null, dueDate:"2026-02-23", priority:"Normal", assignedTo:"Jason", status:"Pending", createdDate:"2026-02-19T12:00:00Z"},
+        {id:6, description:"Call Mike Henderson - check if wife approved quote", taskType:"Phone Call", contactId:1, dealId:1, dueDate:"2026-02-21", priority:"Normal", assignedTo:"Jason", status:"Pending", createdDate:"2026-02-19T14:30:00Z"},
+        {id:7, description:"Post before/after photos on Nextdoor", taskType:"Other", contactId:null, dealId:null, dueDate:"2026-02-24", priority:"Low", assignedTo:"Jason", status:"Pending", createdDate:"2026-02-20T08:00:00Z"}
+    ]);
+
+    DB.set('interactions', [
+        {id:1, contactId:1, type:"Door Knock", direction:"Outbound", subject:"Initial door knock - Moores Mill", notes:"Met Mike at the door. Showed interest immediately. Wife was home too. Left business card and flyer.", outcome:"Left quote", followUpDate:"2026-02-21", createdDate:"2026-02-18T10:30:00Z"},
+        {id:2, contactId:2, type:"Phone Call", direction:"Inbound", subject:"Sarah called about flyer", notes:"Got our flyer in mailbox. Asked about pricing for windows + gutters. Gave ballpark, scheduling estimate visit.", outcome:"Scheduled estimate", followUpDate:"2026-02-21", createdDate:"2026-02-17T14:00:00Z"},
+        {id:3, contactId:3, type:"Phone Call", direction:"Outbound", subject:"Referral follow-up - Park Dental", notes:"Mike Henderson referred. David very interested in monthly office cleaning. Needs proof of liability insurance before signing.", outcome:"Needs insurance docs", followUpDate:"2026-02-22", createdDate:"2026-02-15T17:00:00Z"},
+        {id:4, contactId:5, type:"In Person", direction:"Outbound", subject:"Q1 service agreement signing", notes:"Met at his office. Signed quarterly agreement for all 5 properties. Paid $1200 upfront for Q1.", outcome:"Deal closed", followUpDate:null, createdDate:"2026-02-10T13:00:00Z"},
+        {id:5, contactId:6, type:"Email", direction:"Outbound", subject:"Window cleaning for listings", notes:"Sent pricing sheet for per-listing window cleaning. $150 small home, $200 large.", outcome:"Sent pricing", followUpDate:"2026-02-25", createdDate:"2026-02-16T15:30:00Z"},
+        {id:6, contactId:2, type:"Estimate Visit", direction:"Outbound", subject:"On-site estimate at Collins home", notes:"Counted 24 windows, 2 story. Gutters need cleaning badly. Quoted $350 for both.", outcome:"Quote delivered", followUpDate:"2026-02-21", createdDate:"2026-02-19T10:00:00Z"}
+    ]);
+
+    DB.set('campaigns', [
+        {id:1, name:"Moores Mill Door Knocking Blitz", campaignType:"Door Knocking", targetArea:"Moores Mill", budget:50, startDate:"2026-02-15", endDate:"2026-02-28", status:"Active", leadsGenerated:3, dealsWon:0, revenueGenerated:0, notes:"Hitting every house on Moores Mill Road and side streets. 50 homes target.", createdDate:"2026-02-15T08:00:00Z", updatedDate:"2026-02-19T18:00:00Z"},
+        {id:2, name:"Nextdoor Auburn Launch", campaignType:"Nextdoor", targetArea:"All Auburn neighborhoods", budget:0, startDate:"2026-02-10", endDate:null, status:"Active", leadsGenerated:1, dealsWon:0, revenueGenerated:0, notes:"Posting before/after photos, offering neighbor discounts. Free marketing.", createdDate:"2026-02-10T08:00:00Z", updatedDate:"2026-02-19T08:00:00Z"},
+        {id:3, name:"Yarbrough Farms Flyer Drop", campaignType:"Flyer Drop", targetArea:"Yarbrough Farms / AU Club", budget:75, startDate:"2026-02-23", endDate:"2026-02-23", status:"Planned", leadsGenerated:0, dealsWon:0, revenueGenerated:0, notes:"200 flyers, color printed. Drop on a Saturday morning.", createdDate:"2026-02-19T12:00:00Z", updatedDate:"2026-02-19T12:00:00Z"}
+    ]);
+
+    localStorage.setItem('tm_seeded', SEED_VERSION);
 }
 
 // ===== HELPERS =====
