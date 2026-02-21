@@ -4,9 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tiger Marketing CRM</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="tiger-light">
 <div class="app-layout">
     <!-- Sidebar -->
     <aside class="sidebar" id="sidebar">
@@ -53,6 +56,15 @@
                 <span class="icon">&#x1F3C1;</span> Competitors
             </a>
         </nav>
+        <div class="sidebar-toggle">
+            <span class="toggle-icons">&#9728;&#65039;</span>
+            <label class="toggle-switch">
+                <input type="checkbox" id="theme-toggle" onchange="toggleCRMTheme()">
+                <span class="toggle-slider"></span>
+            </label>
+            <span class="toggle-icons">&#127769;</span>
+            <span class="toggle-label" id="theme-label">Light</span>
+        </div>
     </aside>
 
     <!-- Main Content -->
@@ -408,6 +420,25 @@
 <!-- Overlay for mobile sidebar -->
 <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
 
+<script>
+function toggleCRMTheme() {
+    const isDark = document.getElementById('theme-toggle').checked;
+    document.body.className = isDark ? 'tiger-dark' : 'tiger-light';
+    document.getElementById('theme-label').textContent = isDark ? 'Dark' : 'Light';
+    localStorage.setItem('tm_theme', isDark ? 'tiger-dark' : 'tiger-light');
+}
+// Restore saved theme
+(function() {
+    const saved = localStorage.getItem('tm_theme');
+    if (saved === 'tiger-dark') {
+        document.body.className = 'tiger-dark';
+        const toggle = document.getElementById('theme-toggle');
+        if (toggle) toggle.checked = true;
+        const label = document.getElementById('theme-label');
+        if (label) label.textContent = 'Dark';
+    }
+})();
+</script>
 <script src="app.js"></script>
 </body>
 </html>

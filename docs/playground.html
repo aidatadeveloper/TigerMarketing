@@ -4,35 +4,79 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tiger Marketing - Theme Playground</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        /* ===== THEME SWITCHER BAR ===== */
+        /* ===== TOGGLE BAR ===== */
         .theme-bar {
             position: fixed; top: 0; left: 0; right: 0; z-index: 9999;
-            display: flex; align-items: center; gap: 8px;
+            display: flex; align-items: center; gap: 12px;
             padding: 10px 20px;
-            background: #111; border-bottom: 2px solid #333;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            overflow-x: auto; -webkit-overflow-scrolling: touch;
+            background: var(--header-bg);
+            border-bottom: 1px solid var(--border);
+            font-family: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            transition: background 0.4s, border-color 0.4s;
         }
-        .theme-bar .label { color: #aaa; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; white-space: nowrap; margin-right: 8px; }
-        .theme-btn {
-            padding: 8px 16px; border-radius: 20px; border: 2px solid transparent;
-            font-size: 13px; font-weight: 600; cursor: pointer; white-space: nowrap;
-            transition: all 0.2s;
+        .theme-bar .label {
+            color: var(--text-muted);
+            font-size: 13px; font-weight: 600;
+            letter-spacing: 0.3px;
         }
-        .theme-btn:hover { transform: scale(1.05); }
-        .theme-btn.active { border-color: #fff; box-shadow: 0 0 12px rgba(255,255,255,0.3); }
-        .theme-btn[data-theme="tiger-light"] { background: linear-gradient(135deg, #f97316, #ea580c); color: #fff; }
-        .theme-btn[data-theme="tiger-dark"] { background: linear-gradient(135deg, #1a1a2e, #16213e); color: #f97316; }
-        .theme-btn[data-theme="tiger-navy"] { background: linear-gradient(135deg, #0c1d3d, #1e3a5f); color: #f59e0b; }
-        .theme-btn[data-theme="tiger-midnight"] { background: linear-gradient(135deg, #0a0a0a, #1a1a1a); color: #ff6b00; }
-        .theme-btn[data-theme="tiger-clean"] { background: linear-gradient(135deg, #ffffff, #f8f9fa); color: #ea580c; border: 1px solid #ddd; }
-        .back-link { color: #f97316; text-decoration: none; font-size: 13px; margin-left: auto; white-space: nowrap; }
+
+        /* Toggle Switch */
+        .toggle-wrap {
+            display: flex; align-items: center; gap: 10px;
+        }
+        .toggle-icon { font-size: 18px; }
+        .toggle-switch {
+            position: relative;
+            width: 52px; height: 28px;
+            cursor: pointer;
+        }
+        .toggle-switch input { display: none; }
+        .toggle-slider {
+            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: #e7e5e4;
+            border-radius: 28px;
+            transition: background 0.3s;
+        }
+        .toggle-slider::before {
+            content: '';
+            position: absolute;
+            top: 3px; left: 3px;
+            width: 22px; height: 22px;
+            background: #fff;
+            border-radius: 50%;
+            transition: transform 0.3s;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+        .toggle-switch input:checked + .toggle-slider {
+            background: #f97316;
+        }
+        .toggle-switch input:checked + .toggle-slider::before {
+            transform: translateX(24px);
+        }
+        .theme-name {
+            font-size: 13px; font-weight: 600;
+            color: var(--text-secondary);
+            min-width: 80px;
+        }
+
+        .back-link {
+            color: var(--accent); text-decoration: none;
+            font-size: 13px; margin-left: auto; white-space: nowrap;
+            font-weight: 500;
+        }
         .back-link:hover { text-decoration: underline; }
 
         /* ===== BASE RESET ===== */
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { padding-top: 56px; min-height: 100vh; transition: background 0.4s, color 0.4s; }
+        body {
+            padding-top: 50px; min-height: 100vh;
+            transition: background 0.4s, color 0.4s;
+            font-family: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
         a { cursor: pointer; text-decoration: none; }
 
         /* ===== THEME 1: TIGER LIGHT (twcauburn.com inspired) ===== */
@@ -71,7 +115,6 @@
             --nav-active-border: #ea580c;
             --table-hover: rgba(234, 88, 12, 0.04);
             --stat-border-radius: 16px;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: var(--bg);
             color: var(--text);
         }
@@ -112,136 +155,12 @@
             --nav-active-border: #f97316;
             --table-hover: rgba(249, 115, 22, 0.04);
             --stat-border-radius: 12px;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: var(--bg);
-            color: var(--text);
-        }
-
-        /* ===== THEME 3: TIGER NAVY (Auburn colors) ===== */
-        body.tiger-navy {
-            --bg: #0a1628;
-            --bg-alt: #0f1f3d;
-            --bg-card: #132844;
-            --bg-sidebar: #060e1f;
-            --bg-input: #1a3355;
-            --border: #1e3a5f;
-            --border-hover: #2a5080;
-            --text: #e8edf5;
-            --text-secondary: #8899bb;
-            --text-muted: #4a6080;
-            --text-sidebar: #e8edf5;
-            --text-sidebar-muted: #4a6080;
-            --accent: #f59e0b;
-            --accent-hover: #fbbf24;
-            --accent-light: rgba(245, 158, 11, 0.15);
-            --accent-glow: rgba(245, 158, 11, 0.2);
-            --green: #22c55e;
-            --green-bg: rgba(34, 197, 94, 0.15);
-            --yellow: #f59e0b;
-            --yellow-bg: rgba(245, 158, 11, 0.15);
-            --red: #ef4444;
-            --red-bg: rgba(239, 68, 68, 0.15);
-            --purple: #818cf8;
-            --purple-bg: rgba(129, 140, 248, 0.15);
-            --orange: #fb923c;
-            --orange-bg: rgba(251, 146, 60, 0.15);
-            --card-shadow: 0 2px 12px rgba(0,0,0,0.4);
-            --header-bg: #0f1f3d;
-            --header-border: #1e3a5f;
-            --nav-active-bg: rgba(245, 158, 11, 0.1);
-            --nav-active-color: #f59e0b;
-            --nav-active-border: #f59e0b;
-            --table-hover: rgba(245, 158, 11, 0.04);
-            --stat-border-radius: 12px;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: var(--bg);
-            color: var(--text);
-        }
-
-        /* ===== THEME 4: TIGER MIDNIGHT (pure dark + glowing orange) ===== */
-        body.tiger-midnight {
-            --bg: #050505;
-            --bg-alt: #0d0d0d;
-            --bg-card: #111111;
-            --bg-sidebar: #080808;
-            --bg-input: #1a1a1a;
-            --border: #222222;
-            --border-hover: #333333;
-            --text: #e5e5e5;
-            --text-secondary: #888888;
-            --text-muted: #555555;
-            --text-sidebar: #e5e5e5;
-            --text-sidebar-muted: #555555;
-            --accent: #ff6b00;
-            --accent-hover: #ff8533;
-            --accent-light: rgba(255, 107, 0, 0.12);
-            --accent-glow: rgba(255, 107, 0, 0.25);
-            --green: #00d26a;
-            --green-bg: rgba(0, 210, 106, 0.12);
-            --yellow: #ffc107;
-            --yellow-bg: rgba(255, 193, 7, 0.12);
-            --red: #ff3d3d;
-            --red-bg: rgba(255, 61, 61, 0.12);
-            --purple: #b388ff;
-            --purple-bg: rgba(179, 136, 255, 0.12);
-            --orange: #ff6b00;
-            --orange-bg: rgba(255, 107, 0, 0.12);
-            --card-shadow: 0 0 20px rgba(255, 107, 0, 0.06);
-            --header-bg: #0d0d0d;
-            --header-border: #222222;
-            --nav-active-bg: rgba(255, 107, 0, 0.1);
-            --nav-active-color: #ff6b00;
-            --nav-active-border: #ff6b00;
-            --table-hover: rgba(255, 107, 0, 0.04);
-            --stat-border-radius: 8px;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: var(--bg);
-            color: var(--text);
-        }
-
-        /* ===== THEME 5: TIGER CLEAN (minimal white, twcauburn.com closest match) ===== */
-        body.tiger-clean {
-            --bg: #f8f8f6;
-            --bg-alt: #ffffff;
-            --bg-card: #ffffff;
-            --bg-sidebar: #ffffff;
-            --bg-input: #f4f4f2;
-            --border: #e5e5e0;
-            --border-hover: #d4d4cf;
-            --text: #18181b;
-            --text-secondary: #52525b;
-            --text-muted: #a1a1aa;
-            --text-sidebar: #18181b;
-            --text-sidebar-muted: #a1a1aa;
-            --accent: #ea580c;
-            --accent-hover: #dc2626;
-            --accent-light: rgba(234, 88, 12, 0.08);
-            --accent-glow: rgba(234, 88, 12, 0.12);
-            --green: #16a34a;
-            --green-bg: rgba(22, 163, 74, 0.08);
-            --yellow: #ca8a04;
-            --yellow-bg: rgba(202, 138, 4, 0.08);
-            --red: #dc2626;
-            --red-bg: rgba(220, 38, 38, 0.08);
-            --purple: #7c3aed;
-            --purple-bg: rgba(124, 58, 237, 0.08);
-            --orange: #ea580c;
-            --orange-bg: rgba(234, 88, 12, 0.08);
-            --card-shadow: 0 1px 3px rgba(0,0,0,0.06);
-            --header-bg: #ffffff;
-            --header-border: #e5e5e0;
-            --nav-active-bg: rgba(234, 88, 12, 0.06);
-            --nav-active-color: #ea580c;
-            --nav-active-border: #ea580c;
-            --table-hover: rgba(234, 88, 12, 0.03);
-            --stat-border-radius: 16px;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: var(--bg);
             color: var(--text);
         }
 
         /* ===== LAYOUT ===== */
-        .app-layout { display: flex; min-height: calc(100vh - 56px); }
+        .app-layout { display: flex; min-height: calc(100vh - 50px); }
 
         /* ===== SIDEBAR ===== */
         .sidebar {
@@ -249,7 +168,7 @@
             background: var(--bg-sidebar);
             border-right: 1px solid var(--border);
             position: fixed;
-            top: 56px; left: 0; bottom: 0;
+            top: 50px; left: 0; bottom: 0;
             z-index: 100;
             display: flex;
             flex-direction: column;
@@ -275,7 +194,7 @@
         }
 
         .sidebar-brand h1 {
-            font-size: 17px; font-weight: 800;
+            font-size: 17px; font-weight: 700;
             letter-spacing: 0.3px;
             color: var(--text-sidebar);
             line-height: 1.2;
@@ -319,20 +238,19 @@
             padding: 2px 8px; border-radius: 10px;
         }
 
-        /* Clean theme sidebar override */
-        body.tiger-clean .sidebar { border-right: 1px solid #e5e5e0; box-shadow: 2px 0 8px rgba(0,0,0,0.04); }
+        /* Light theme sidebar overrides */
         body.tiger-light .sidebar { box-shadow: 2px 0 8px rgba(0,0,0,0.1); }
-        body.tiger-light .nav-item:hover, body.tiger-clean .nav-item:hover { color: var(--text); }
+        body.tiger-light .nav-item:hover { color: var(--text-sidebar); }
 
         /* ===== MAIN CONTENT ===== */
-        .main-content { flex: 1; margin-left: 250px; min-height: calc(100vh - 56px); }
+        .main-content { flex: 1; margin-left: 250px; min-height: calc(100vh - 50px); }
 
         .page-header {
             background: var(--header-bg);
             border-bottom: 1px solid var(--header-border);
             padding: 20px 32px;
             display: flex; align-items: center; justify-content: space-between;
-            position: sticky; top: 56px; z-index: 50;
+            position: sticky; top: 50px; z-index: 50;
             transition: background 0.4s;
         }
         .page-header h2 { font-size: 22px; font-weight: 700; }
@@ -359,11 +277,11 @@
         }
         .stat-card:hover { border-color: var(--border-hover); transform: translateY(-2px); box-shadow: var(--card-shadow), 0 4px 12px rgba(0,0,0,0.1); }
         .stat-card .label {
-            font-size: 11px; font-weight: 700;
+            font-size: 11px; font-weight: 600;
             text-transform: uppercase; letter-spacing: 0.8px;
             color: var(--text-muted); margin-bottom: 10px;
         }
-        .stat-card .value { font-size: 30px; font-weight: 800; color: var(--text); }
+        .stat-card .value { font-size: 28px; font-weight: 700; color: var(--text); }
         .stat-card .value small { font-size: 16px; color: var(--text-muted); font-weight: 500; }
         .stat-card.accent { border-left: 4px solid var(--accent); }
         .stat-card.green { border-left: 4px solid var(--green); }
@@ -389,7 +307,7 @@
         table { width: 100%; border-collapse: collapse; }
         table th {
             padding: 12px 16px; text-align: left;
-            font-size: 11px; font-weight: 700;
+            font-size: 11px; font-weight: 600;
             text-transform: uppercase; letter-spacing: 0.5px;
             color: var(--text-muted);
             border-bottom: 1px solid var(--border);
@@ -405,7 +323,7 @@
         /* ===== BADGES ===== */
         .badge {
             display: inline-block; padding: 4px 12px; border-radius: 20px;
-            font-size: 11px; font-weight: 700;
+            font-size: 11px; font-weight: 600;
             text-transform: uppercase; letter-spacing: 0.5px;
         }
         .badge-new { background: var(--accent-light); color: var(--accent); }
@@ -475,7 +393,7 @@
         }
         .sidebar-overlay {
             display: none; position: fixed;
-            top: 56px; left: 0; right: 0; bottom: 0;
+            top: 50px; left: 0; right: 0; bottom: 0;
             background: rgba(0,0,0,0.6); z-index: 99;
         }
 
@@ -486,12 +404,11 @@
             .sidebar-overlay.open { display: block; }
             .main-content { margin-left: 0; }
             .content { padding: 16px; }
-            .page-header { padding: 16px; top: 56px; }
+            .page-header { padding: 16px; top: 50px; }
             .two-col { grid-template-columns: 1fr; }
             .stats-grid { grid-template-columns: repeat(2, 1fr); }
             .mobile-toggle { display: inline-block !important; }
-            .theme-bar { padding: 8px 12px; gap: 6px; }
-            .theme-btn { padding: 6px 12px; font-size: 11px; }
+            .theme-bar { padding: 8px 12px; gap: 8px; }
         }
         @media (max-width: 480px) {
             .stats-grid { grid-template-columns: 1fr; }
@@ -500,14 +417,18 @@
 </head>
 <body class="tiger-light">
 
-<!-- Theme Switcher Bar -->
+<!-- Toggle Bar -->
 <div class="theme-bar">
-    <span class="label">Theme:</span>
-    <button class="theme-btn active" data-theme="tiger-light" onclick="setTheme('tiger-light')">Tiger Light</button>
-    <button class="theme-btn" data-theme="tiger-dark" onclick="setTheme('tiger-dark')">Tiger Dark</button>
-    <button class="theme-btn" data-theme="tiger-navy" onclick="setTheme('tiger-navy')">Tiger Navy</button>
-    <button class="theme-btn" data-theme="tiger-midnight" onclick="setTheme('tiger-midnight')">Midnight</button>
-    <button class="theme-btn" data-theme="tiger-clean" onclick="setTheme('tiger-clean')">Tiger Clean</button>
+    <span class="label">Theme</span>
+    <div class="toggle-wrap">
+        <span class="toggle-icon">&#9728;&#65039;</span>
+        <label class="toggle-switch">
+            <input type="checkbox" id="theme-toggle" onchange="toggleTheme()">
+            <span class="toggle-slider"></span>
+        </label>
+        <span class="toggle-icon">&#127769;</span>
+    </div>
+    <span class="theme-name" id="theme-name">Light</span>
     <a class="back-link" href="index.html">Back to CRM</a>
 </div>
 
@@ -690,7 +611,7 @@
             <!-- Theme Info -->
             <div class="theme-label">
                 Currently viewing: <strong id="current-theme-name">Tiger Light</strong> theme
-                &mdash; Inspired by <strong>twcauburn.com</strong> Tiger branding
+                &mdash; Font: <strong>Geist</strong> (matching twcauburn.com)
             </div>
         </div>
     </main>
@@ -700,21 +621,13 @@
 <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
 
 <script>
-    const themeNames = {
-        'tiger-light': 'Tiger Light',
-        'tiger-dark': 'Tiger Dark',
-        'tiger-navy': 'Tiger Navy',
-        'tiger-midnight': 'Midnight',
-        'tiger-clean': 'Tiger Clean'
-    };
-
-    function setTheme(theme) {
+    function toggleTheme() {
+        const isDark = document.getElementById('theme-toggle').checked;
+        const theme = isDark ? 'tiger-dark' : 'tiger-light';
         document.body.className = theme;
-        document.querySelectorAll('.theme-btn').forEach(b => {
-            b.classList.toggle('active', b.dataset.theme === theme);
-        });
-        document.getElementById('current-theme-name').textContent = themeNames[theme] || theme;
-        localStorage.setItem('tm_playground_theme', theme);
+        document.getElementById('theme-name').textContent = isDark ? 'Dark' : 'Light';
+        document.getElementById('current-theme-name').textContent = isDark ? 'Tiger Dark' : 'Tiger Light';
+        localStorage.setItem('tm_theme', theme);
     }
 
     function toggleSidebar() {
@@ -723,8 +636,11 @@
     }
 
     // Restore saved theme
-    const saved = localStorage.getItem('tm_playground_theme');
-    if (saved && themeNames[saved]) setTheme(saved);
+    const saved = localStorage.getItem('tm_theme');
+    if (saved === 'tiger-dark') {
+        document.getElementById('theme-toggle').checked = true;
+        toggleTheme();
+    }
 </script>
 </body>
 </html>
