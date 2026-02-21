@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=1.01">
 </head>
 <body class="tiger-light">
 <div class="app-layout">
@@ -65,6 +65,7 @@
             <span class="toggle-icons">&#127769;</span>
             <span class="toggle-label" id="theme-label">Light</span>
         </div>
+        <div id="version-display" style="text-align:center;font-size:11px;opacity:0.5;padding:4px 0;font-family:monospace;"></div>
     </aside>
 
     <!-- Main Content -->
@@ -439,6 +440,18 @@ function toggleCRMTheme() {
     }
 })();
 </script>
-<script src="app.js"></script>
+<script>
+// Version display
+fetch('version.json?t=' + Date.now())
+    .then(r => r.json())
+    .then(data => {
+        const d = new Date(data.last_updated);
+        const dateStr = d.toISOString().slice(0,10).replace(/-/g,'');
+        const ver = data.major + '.' + String(data.minor).padStart(2,'0');
+        document.getElementById('version-display').textContent = 'v' + ver + '.' + dateStr;
+    })
+    .catch(() => {});
+</script>
+<script src="app.js?v=1.01"></script>
 </body>
 </html>

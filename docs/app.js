@@ -12,7 +12,7 @@ const DB = {
 };
 
 // Seed reference data on first load (version bumps force re-seed)
-const SEED_VERSION = '3';
+const SEED_VERSION = '4';
 function seedData() {
     if (localStorage.getItem('tm_seeded') === SEED_VERSION) return;
     // Clear old data on version bump
